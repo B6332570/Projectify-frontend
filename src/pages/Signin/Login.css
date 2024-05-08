@@ -1,0 +1,465 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:ital,wght@0,400;1,1000&display=swap');
+
+
+.bg {
+    background-color: #ffffff;
+    /* #423d3df1 */
+    background: transparent;
+    backdrop-filter: blur(13px);
+
+    border-radius: 0;
+    /* background-image: url(./img/signin.svg); */
+    background-image: url(../../img/login_business.svg);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 1920px 1080px;
+   
+}
+
+.backgound {
+    background-color: rgb(255, 255, 255); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    /* background-image: linear-gradient(225deg, #f6f1e9 10%, #e6ddcc 50%, #fb1faa 100%);        */
+    background-image: linear-gradient(225deg, #f6f1e9 10%, #0063e4 50%, #6a8fef 100%);       
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 2850px 1490px;
+  }
+
+
+.sigin-holder{
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    backdrop-filter: blur(0.25px);
+    color: #f0f5fa;
+    display: flex;
+    justify-content:left;
+    align-items:center;
+    padding-left: 210px; /*ตำแหน่งกล่องฟอร์ม*/ 
+    /* padding-right: 100px; */
+    
+
+}
+.signup-holder{
+    width: 100vw;
+    height: 500vh;
+    background: transparent;
+    backdrop-filter: blur(0.25px);
+    color: #f0f5fa;
+    display: flex;
+    justify-content:left;
+    align-items:center;
+    padding-left: 200px; /*ตำแหน่งกล่องฟอร์ม*/ 
+    /* padding-right: 100px; */
+    
+    
+    
+
+}
+
+.welcome{
+    /*ตรงนี้้เป็น text หน้า signup-signin */
+    color:#000000;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 35px;
+    
+}
+
+/*ส่วนนี้คือกล่องฟอร์มล็อกอิน*/
+.sigin-div{
+
+    background-color:#ffffff;
+    height:700px;
+    width: 500px;
+    /* border-radius: 40px; */
+    display:flex;
+    justify-content:space-evenly;
+    align-items: center;
+    flex-direction:column;
+    color: #D0D1D4;
+    box-shadow: 0 6px 24px #84848380;
+
+}
+
+.signup-div{
+
+    background-color:#ffffff;
+    height:800px;
+    width: 800px;
+    /* border-radius: 40px; */
+    display:flex;
+    justify-content:space-evenly;
+    align-items: center;
+    flex-direction:column;
+    color: #D0D1D4;
+    box-shadow: 0 6px 24px #84848380;
+
+}
+
+.loader {
+    margin-top:20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.loader .stroke{
+    display: block;
+    position: relative;
+    background-image: linear-gradient(225deg, #D5147B 0%, #dc691c 60%,#eb8d19 110%);   
+    box-shadow: 0 6px 24px #bf5f104d;
+ 
+    height: 100%;
+    width: 15px;
+    border-radius: 50px;
+    margin: 0 5px;
+    animation: animate 1.2s ease-in-out infinite;
+}
+
+@keyframes animate{
+    50%{
+        height: 20%;
+    }
+    100%{
+        height: 100%;
+    }
+}
+
+.stroke:nth-child(1){
+    animation-delay: 0s;
+}
+.stroke:nth-child(2){
+    animation-delay: 0.2s;
+}
+.stroke:nth-child(3){
+    animation-delay: 0.4s;
+}
+.stroke:nth-child(4){
+    animation-delay: 0.6s;
+}
+.stroke:nth-child(5){
+    animation-delay: 0.8s;
+}
+.stroke:nth-child(6){
+    animation-delay: 0.10s;
+}
+.stroke:nth-child(7){
+    animation-delay: 0.8s;
+}
+.stroke:nth-child(8){
+    animation-delay: 0.6s;
+}
+.stroke:nth-child(9){
+    animation-delay: 0.4s;
+}
+.stroke:nth-child(10){
+    animation-delay: 0.2s;
+}
+
+.sigininput{
+    /*ส่วนนี้คือช่่องข้างในฟอร์มล็อกอิน พวกกรอกอีเมล*/
+    font-family: 'Nunito', sans-serif;
+    width: 100%;
+    height: 100%;
+    border:none; 
+    font-size: 20px;
+    /* border-radius:20px; */
+    background-color: #d5d5d5;
+    color:#000000;
+
+    padding-left:10px;
+    outline: none;
+}
+
+.sigupinput{
+    font-family: 'Nunito', sans-serif;
+    width: 100%;
+    height: 100%;
+    border:none; 
+    font-size: 20px;
+    border-radius:20px;
+    background-color: #302f2e;
+    color:rgb(255, 255, 255);
+
+    padding-left:10px;
+    outline: none;
+}
+
+.emailinput{
+    width:80%;
+    height:55px;
+    margin-bottom:20px;
+    position:relative; 
+    border-radius:20px;
+    padding-right:30px;
+}
+
+.passwordinput{
+    width:80%;
+    height:55px;
+    font-size: 20px;
+    position:relative; 
+    padding-right:30px;
+    border-radius:20px;
+}
+
+.passwordinput small{
+    color:rgb(151, 147, 147);
+    font-size: 15px;
+}
+
+.emailtext{
+    font-size:16px;
+    position: absolute;
+    z-index:10;
+    transition: 0.15s ease-in-out;
+    top:-25px;
+    left:10px;
+    color:#000000
+}
+
+
+.passwordtext{
+    font-size:16px;
+    position: absolute;
+    z-index:10;
+    transition: 0.15s ease-in-out;
+    top:-25px;
+    left:10px;
+    color:#000000
+}
+
+.email{
+    height: 100%; 
+    top:0px;
+    left:0px;
+    width:100%;
+    position: absolute;
+    z-index:4;
+    
+}
+
+.password{
+    height: 100%; 
+    top:0px;
+    left:0px;
+    width:100%;
+    position: absolute;
+    z-index:4;
+    
+}
+
+.sigup-button{ 
+    margin-right:10px;
+    font-size:25px;
+    cursor: pointer;
+    transition:0.1s ease-in-out;
+    background-color: #1b1b1b; 
+    color: #f0f8ff; 
+    padding: 8px 40px;
+    border-radius: 40px;
+    border-color: #f0f8ff;
+}
+
+.sigup-button:hover{
+    background-color: #f8f8f8;
+    color: #dd6a0c;
+    border-radius: 15px;
+    transition: 0.3s ease-in-out;
+    border-color: #d76c14;
+    cursor: pointer;
+}
+
+.sigup2-button{ 
+    margin-top:20px;
+    margin-right:20px;
+    font-size:25px;
+    cursor: pointer;
+    transition:0.1s ease-in-out;
+    background-image: linear-gradient(225deg, #df4fd1 0%, #d755a3 60%,
+    #ec4ef4 100%);    
+    box-shadow: 0 6px 24px #49382a34;
+    color: #f0f0f0; 
+    padding: 8px 40px;
+    /* border-radius: 15px; */
+    border-color: #d1670a;
+}
+
+.sigup2-button:hover{
+    transform: scale(1.1);
+    background-color: #e85855;
+    box-shadow: 0 6px 24px #93795e4b;
+    color: #ffffff;
+    border-radius: 15px;
+    transition: 0.3s ease-in-out;
+    border-color: #edb98e;
+    cursor: pointer;
+}
+
+.back-button{ 
+    margin-top:20px;
+    margin-right:40px;
+    font-size:25px;
+    cursor: pointer;
+    transition:0.1s ease-in-out;
+    background-color: #1b1b1b; 
+    color: #f0f8ff; 
+    padding: 8px 20px;
+    border-radius: 10px;
+    border-color: #f0f8ff;
+}
+
+.back-button:hover{
+    background-color: #1b1b1b;
+    color: #dd0cac;
+    border-radius: 15px;
+    border-color: #f38831;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.sigin-button{ 
+    margin-left:10px;
+    font-size:25px;
+    cursor: pointer;
+    transition:0.1s ease-in-out;
+    background-image: linear-gradient(225deg, #df4fd1 0%, #d755a3 60%,
+    #ec4ef4 100%);    
+    box-shadow: 0 6px 24px #49382a34;
+
+    color: #fcfcfc; 
+    padding: 8px 40px;
+    /* border-radius: 40px; */
+    border-color: #f1f0f0;
+}
+
+.sigin-button:hover{
+    transform: scale(1.1);
+    background-color: #e85855;
+    box-shadow: 0 6px 24px #93795e4b;
+
+    color: #ffffff;
+    border-radius: 15px;
+    transition: 0.3s ease-in-out;
+    border-color: #e240b4;
+    cursor: pointer;
+}
+
+
+.signup{
+    color: rgb(0, 0, 0);
+}
+
+.signupspan{
+    color:#f44eba;
+    margin-left:6px
+}
+
+.signupspan:hover{
+    text-decoration: underline; 
+}
+
+.text {
+    color:#ffffff;
+    margin-top:6px;
+}
+
+
+
+
+:root {
+    --background: #ffffff;
+    --text-primary: #000;
+    --text-secondary: #8e05c2;
+    --accent: #8e05c2;
+    --border: #333;
+    --form-bg: #fff;
+}
+  
+[data-theme='dark'] {
+    --background: #000;
+    --text-primary: #fff;
+    --text-secondary: #F49B4E;
+    --accent: #F49B4E;
+    --border: #808080;
+    --form-bg: #191919;
+}
+  
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+  
+.theme-toggle i {
+    font-size: 2rem;
+    cursor: pointer;
+}
+  
+.theme-toggle {
+    text-align: center;
+}
+
+
+
+
+
+/*ชื่อจริงนามสกุล*/
+.container {
+    width: 500px; /* กำหนดความกว้างของกล่อง */
+    margin: 0 auto; /* จัดตำแหน่งกล่องให้อยู่กึ่งกลางของหน้าจอ */
+  }
+  
+.input-group {
+    margin-bottom: 20px; /* เพิ่มระยะห่างด้านล่างของ input group */
+}
+  
+.input-group label {
+    display: block; /* ทำให้ label เป็น block element เพื่อให้แสดงเป็นบรรทัดเดียวกันกับ input */
+    font-size: 16px; /* กำหนดขนาดตัวอักษรของ label */
+    margin-bottom: 5px; /* เพิ่มระยะห่างด้านล่างของ label */
+}
+  
+.input-group input {
+    width: 100%; /* กำหนดความกว้างของ input ให้เต็มกว่า parent element */
+    padding: 10px; /* เพิ่มขนาด padding ให้กับ input */
+    font-size: 16px; /* กำหนดขนาดตัวอักษรของ input */
+    border: 1px solid #ccc; /* เพิ่มเส้นขอบสีเทาอ่อนให้กับ input */
+    border-radius: 5px; /* เพิ่มขอบโค้งให้กับ input */
+}
+  
+  /* เพิ่มเอฟเฟกต์เมื่อ hover หรือ focus ใน input */
+.input-group input:hover,
+.input-group input:focus {
+    border-color: #333; /* เปลี่ยนสีเส้นขอบเป็นสีเทาเข้มเมื่อ hover หรือ focus */
+    outline: none; /* ลบเส้นโค้งที่ขึ้นเพื่อเน้นเมื่อ focus */
+}
+
+
+
+/* สไตล์สำหรับเลือกรายการใน dropdown */
+.profileinput {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    color: #333;
+    font-size: 16px;
+}
+  
+  /* สไตล์สำหรับ Form Item */
+.ant-form-item-label {
+    margin-bottom: 0.5rem; /* เพิ่มระยะห่างด้านล่างของ label */
+    font-weight: bold; /* ตั้งค่าตัวหนาให้กับ label */
+    color: #555; /* ตั้งค่าสีข้อความใน label */
+}
+  
+  

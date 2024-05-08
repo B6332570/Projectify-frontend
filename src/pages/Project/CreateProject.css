@@ -1,0 +1,78 @@
+/* CreateProject.css */
+
+.modal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    overflow: auto; /* ทำให้เนื้อหาสามารถเลื่อนได้เมื่อมีขนาดเกินขอบเขตของ popup */
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+.modal-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #7e7e7e;
+    padding-bottom: 20px;
+}
+
+.textfield-input {
+    margin-top: 20px; /* กำหนดระยะห่างด้านบนของ dropdown */
+    margin-bottom: 20px; /* ลดระยะห่างด้านล่างลง */
+}
+
+.select-input {
+    width: 100%;
+    margin-top: 60px; /* กำหนดระยะห่างด้านบนของ dropdown */
+    margin-bottom: 20px; /* ลดระยะห่างด้านล่างลง */
+}
+
+.date-inputs {
+    display: flex;
+    gap: 400px;
+    margin-top: 100px; /* กำหนดระยะห่างด้านบนของ dropdown */
+    margin-bottom: 100px;
+}
+  
+.description-container {
+    margin-bottom: 20px;
+  }
+  
+  .editor-label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .description-editor {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px;
+  }
+  
+  .description-editor .rdw-editor-toolbar {
+    border: none;
+    border-radius: 0;
+    background-color: #f5f5f5;
+    margin-bottom: 8px;
+  }
+  
+  .description-editor .rdw-editor-main {
+    border: none;
+    height: 200px;
+    font-size: 1rem;
+  }
+  
+
+.button-save {
+    margin-top: 15px;
+}
+
+
+  

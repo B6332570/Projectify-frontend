@@ -1,0 +1,137 @@
+/* Task Group */
+.task-group {
+    padding-top: 20px;
+    /* margin-bottom: 20px; */
+    cursor: pointer;
+}
+
+.task-group:hover {
+    background-color: #f0f0f0;
+}
+
+.task-group h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Task List */
+.task-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.task-list li {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.task-list li:hover {
+    background-color: #f0f0f0;
+}
+
+.task-list li div {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+/* Add Task Button */
+button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Delete Task Button */
+button.delete-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+button.delete-btn:hover {
+    background-color: #e53935;
+}
+
+/* Main Content */
+.main-content {
+    grid-column: 2 / -1;
+    padding-top: 50px;
+}
+
+/* Task Table */
+.task-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.task-table th {
+    padding: 10px;
+    text-align: left;
+    width: calc(100% / 7);
+    border-right: 1px solid #ddd;
+    font-size: px;
+    font-weight: bold;
+    color: #333;
+}
+
+.task-table th:last-child {
+    border-right: none;
+}
+
+/* Task.css */
+.table-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .table-cell {
+    flex: 1;
+    padding: 8px; /* ปรับระยะห่างตามที่ต้องการ */
+    text-align: center; /* ปรับการจัดวางตามที่ต้องการ */
+  }
+  
+
+
+  /* Task.css */
+.table-container {
+    margin-top: 20px;
+  }
+  
+  .table-header-cell {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+  
+  .table-row {
+    background-color: #f9f9f9;
+  }
+  
+  .table-cell {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  
+  .table-cell-right {
+    text-align: right;
+  }
+

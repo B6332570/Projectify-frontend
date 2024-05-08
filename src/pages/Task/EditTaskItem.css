@@ -1,0 +1,54 @@
+/* EditTaskItem.css */
+
+.dialogPaper {
+    min-width: 2000;
+    max-width: 2000;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dialogContent {
+    padding: 20px;
+   
+  }
+  
+  .dialogActions {
+    padding: 10px 20px;
+    justify-content: flex-end;
+  }
+  
+  .textField {
+    margin-bottom: 20px;
+  }
+  
+  .selectField {
+    margin-bottom: 20px;
+  }
+  
+  .inputLabel {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 20px;
+    font-weight: bold;
+  }
+  
+  .cancelButton {
+    background-color: #eee;
+    color: #333;
+  }
+  
+  .saveButton {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .saveButton:hover {
+    background-color: #0056b3;
+  }
+  
+  

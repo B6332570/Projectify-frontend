@@ -1,0 +1,44 @@
+/* ProfileCard.css */
+
+.profile-card {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .profile-header {
+    padding: 20px;
+    background-color: #f0f2f5;
+    border-bottom: 1px solid #e0e2e5;
+  }
+  
+  .profile-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .profile-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+  }
+  
+  .profile-details {
+    padding: 20px;
+  }
+  
+  .profile-details p {
+    margin-bottom: 10px;
+  }
+  
+  .profile-details p strong {
+    font-weight: bold;
+    color: #555555;
+  }
+  

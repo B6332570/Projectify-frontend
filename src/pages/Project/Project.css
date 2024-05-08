@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:ital,wght@0,400;1,1000&display=swap');
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+  }
+  
+.home_content{
+  position: absolute;
+  height: 100%;
+  width: calc(100% - 240px);
+  left: 240px;
+}
+  
+.home_content .text{
+  font-size: 25px;
+  font-weight: 500;
+  color:black;
+
+}
+
+.main-content {
+  padding-left: 260px; /* กำหนดพื้นที่ในฝั่งซ้ายของ .main-content เท่ากับความกว้างของ Sidebar */
+}
+
+
+  
+.content-wrapper {
+  padding-top: 40px; /* กำหนดระยะห่างด้านบน 50px ด้วย padding-top แทน */
+  /* เพิ่มสไตล์อื่น ๆ ตามต้องการ */
+}
