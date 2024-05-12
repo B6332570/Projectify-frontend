@@ -27,7 +27,7 @@ const ProfileCard = () => {
         console.log("userData จาก profileCard จ้า:", userData)
         setUser(userData);
 
-        const mediaResponse = await api.get(`/media-object/${userData.data.result[0].imageId}`);
+        const mediaResponse = await api.get(`/media-object/${userData.imageId}`);
         console.log("นี่คือ mediaResponse", mediaResponse)
         setUser(prevState => ({
           ...prevState,

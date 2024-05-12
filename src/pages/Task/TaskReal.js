@@ -20,6 +20,20 @@ import CreateTask from './CreateTask';
 import CreateTaskGroup from './CreateTaskGroup';
 import StatusCell from '../../components/StatusCell';
 import EditTaskItem from './EditTaskItem';
+import CreateButton from '../../components/CreateButton';
+import './Task.css';
+
+import DeleteIcon from '@mui/icons-material/Delete';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+
+
+import { AntDesignOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Divider, Tooltip } from 'antd';
+
+
+
+
 
 
 const axiosWithAuth = () => {
@@ -35,11 +49,12 @@ const axiosWithAuth = () => {
 };
 
 const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
-
   const hasTaskItems = row.length > 0;
   const [open, setOpen] = useState(hasTaskItems);
   const [openDeleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [selectedTaskToDelete, setSelectedTaskToDelete] = useState(null);
+  const [user, setUser] = useState(null);
+  const [usersData, setUsersData] = useState({});
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -61,10 +76,37 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
     setOpenDeleteConfirmation(false);
   };
 
+  useEffect(() => {
+    const fetchUserData = async (userId) => {
+      try {
+        const api = axiosWithAuth();
+        const userResponse = await api.get(`/user/profile/${userId}`);
+        const imageId = userResponse.data.result[0].imageId;
+        const mediaResponse = await api.get(`/media-object/${imageId}`);
+        const imageUrl = mediaResponse.data.result[0].url;
+
+        // อัพเดทข้อมูลผู้ใช้ของแต่ละ Task Item
+        setUsersData(prevState => ({
+          ...prevState,
+          [userId]: imageUrl
+        }));
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    // วนลูปเรียกใช้ fetchUserData สำหรับแต่ละ Task Item
+    row.forEach((taskItem) => {
+      taskItem.users.forEach((userItem) => {
+        fetchUserData(userItem.userId);
+      });
+    });
+  }, [row]);
+
   return (
     <React.Fragment>
-      <TableRow sx={{ backgroundColor: '#f0f0f0' }}>
-        <TableCell className="icon-button">
+     <TableRow sx={{ backgroundColor: '#f0f0f0', height: 'auto' }}> {/* เพิ่ม height: 'auto' เพื่อป้องกันการขยายของ .table-container */}
+        <TableCell className="icon-button" style={{ borderBottom: 'none' }}> {/* เพิ่ม style ใน TableCell เพื่อลบเส้นขอบด้านล่าง */}
           <IconButton
             aria-label="expand row"
             size="small"
@@ -73,30 +115,37 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
             {open ? <KeyboardArrowUpIcon className="icon-button-expanded" /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell className="flex" component="th" scope="row" colSpan={9}>{taskGroup && taskGroup.taskGroupName}</TableCell>
+        <TableCell className="flex" component="th" scope="row" colSpan={10}>{taskGroup && taskGroup.taskGroupName}</TableCell>
       </TableRow>
       {row.map((taskItem) => (
         <TableRow key={taskItem.id}>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
+          <TableCell  colSpan={8}>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box sx={{ display: 'flex', width: '100%' }}>
                 <TableCell align="center" style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   <Button onClick={() => handleEditTask(taskItem)}>{taskItem.taskName}</Button>
                 </TableCell>
                 <TableCell align="center" style={{ flex: 1 }}>
-                  {taskItem.users.map((userItem, index) => (
-                    <span key={userItem.user.userId}>
-                      {userItem.user.username} {userItem.user.firstName}
-                      {index !== taskItem.users.length - 1 && ', '}
-                    </span>
+                <Avatar.Group maxCount={2} size={{ xxl: 50 }}>
+                  {taskItem.users.map((userItem) => (
+                    <Tooltip title={userItem.user.username} key={userItem.userId}>
+                      <Avatar
+                        crossOrigin='anonymous'
+                        src={usersData[userItem.userId]}
+                        alt={userItem.user.username}
+                      />
+                    </Tooltip>
                   ))}
+                </Avatar.Group>
                 </TableCell>
                 <StatusCell status={taskItem.status} />
                 <TableCell align="center" style={{ flex: 1 }}>{formatDate(taskItem.startDate)}</TableCell>
                 <TableCell align="center" style={{ flex: 1 }}>{formatDate(taskItem.startDate)}</TableCell>
                 <TableCell align="center" style={{ flex: 1 }}>{taskItem.priority}</TableCell>
                 <TableCell align="center">
-                  <Button variant="outlined" color="error" onClick={() => handleDeleteClick(taskItem)}>Delete</Button>
+                  <IconButton aria-label="delete" onClick={() => handleDeleteClick(taskItem)}>
+                    <DeleteIcon />
+                  </IconButton>
                 </TableCell>
               </Box>
             </Collapse>
@@ -120,6 +169,9 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
     </React.Fragment>
   );
 };
+
+
+
 
 const Task = () => {
   const [taskGroups, setTaskGroups] = useState([]);
@@ -237,61 +289,66 @@ const Task = () => {
   
   return (
     <div className="flex">
-      <Sidebar />
-      <Navbar />
-      <div className="main-content">
-        <div className="table-container">
-          <h2>Task Page</h2>
-          {openEditTask && selectedTask && (
-            <EditTaskItem taskItem={selectedTask} open={openEditTask} onClose={handleCloseEditTask} />
-          )}
-          <div>
-            <h1>Task Page</h1>
-            <Button variant="contained" onClick={handleMenuClick}>Create</Button>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-            >
-              <MenuItem onClick={() => handleMenuItemClick('createTask')}>Create Task</MenuItem>
-              <MenuItem onClick={() => handleMenuItemClick('createTaskGroup')}>Create Task Group</MenuItem>
-            </Menu>
-            <CreateTask open={openCreateTask} onClose={handleCloseCreateTask} />
-            <CreateTaskGroup open={openCreateTaskGroup} onClose={handleCloseCreateTaskGroup} projectId={projectId} />
-          </div>
-          <TableContainer component={Paper}>
-            <Table aria-label="collapsible table">
-              <TableHead>
-                <TableRow>
-                  <TableCell />
-                  <TableCell align="left" sx={{ fontWeight: 'bold' }}>Task Group</TableCell>
-                  <TableCell align="left" sx={{ fontWeight: 'bold' }}>Owner</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold' }}>Status</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold' }}>Start Date</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold' }}>End Date</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold' }}>Priority</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold' }}>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {taskGroups.map((taskGroup) => {
-                  const filteredTaskItems = taskItems.filter(item => item.taskGroupId === taskGroup.id);
-                  return (
-                    <Row
-                      key={taskGroup.id}
-                      row={filteredTaskItems}
-                      taskGroup={taskGroup}
-                      handleEditTask={handleEditTask}
-                      handleDeleteTaskItem={handleDeleteTaskItem}
-                    />
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+    <Sidebar />
+    <Navbar />
+    <div className="main-content">
+    <Fab color="primary" aria-label="add">
+  <AddIcon handleMenuClick={handleMenuClick} handleMenuItemClick={handleMenuItemClick}/>
+</Fab>
+    <CreateButton handleMenuClick={handleMenuClick} handleMenuItemClick={handleMenuItemClick} /> {/* ย้ายมาตรงนี้ */}
+      <div className="table-container">
+      
+        {openEditTask && selectedTask && (
+          <EditTaskItem taskItem={selectedTask} open={openEditTask} onClose={handleCloseEditTask} />
+        )}
+      
+        <div>
+          <h1>Task Page</h1>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            <MenuItem onClick={() => handleMenuItemClick('createTask')}>Create Task</MenuItem>
+            <MenuItem onClick={() => handleMenuItemClick('createTaskGroup')}>Create Task Group</MenuItem>
+          </Menu>
+          <CreateTask open={openCreateTask} onClose={handleCloseCreateTask} />
+          <CreateTaskGroup open={openCreateTaskGroup} onClose={handleCloseCreateTaskGroup} projectId={projectId} />
         </div>
+        <TableContainer component={Paper}>
+          <Table aria-label="collapsible table">
+            <TableHead>
+              <TableRow>
+                <TableCell />
+                <TableCell align="left" sx={{ fontWeight: 'bold' }}>Task Group</TableCell>
+                <TableCell align="left" sx={{ fontWeight: 'bold' }}>Owner</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Status</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Start Date</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 'bold' }}>End Date</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Priority</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {taskGroups.map((taskGroup) => {
+                const filteredTaskItems = taskItems.filter(item => item.taskGroupId === taskGroup.id);
+                return (
+                  <Row
+                    key={taskGroup.id}
+                    row={filteredTaskItems}
+                    taskGroup={taskGroup}
+                    handleEditTask={handleEditTask}
+                    handleDeleteTaskItem={handleDeleteTaskItem}
+                  />
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </div>
+  </div>
+
   );
 };
 

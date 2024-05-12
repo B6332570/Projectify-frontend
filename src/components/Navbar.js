@@ -1,7 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // นำเข้า Axios
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import AdbIcon from '@mui/icons-material/Adb';
+import axios from 'axios';
+import MenuIcon from '@mui/icons-material/Menu'; // นำเข้า MenuIcon
 import './Navbar.css';
-import ProfileCard from './ProfileCard'; // นำเข้า ProfileCard component
+
+
+
+
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
@@ -15,10 +30,14 @@ const axiosWithAuth = () => {
   });
 };
 
+const pages = ['Products', 'Pricing', 'Blog'];
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
 const Navbar = () => {
-  const [showProfile, setShowProfile] = useState(false); // state เพื่อแสดง/ซ่อน Profile Card
-  const [userProfile, setUserProfile] = useState(null); // state เพื่อเก็บข้อมูลผู้ใช้
-  
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
+
   
 
   useEffect(() => {
@@ -26,51 +45,157 @@ const Navbar = () => {
       try {
         const api = axiosWithAuth();
         const response = await api.get("/user/profile");
-        const userResponse = response.data.result[0].imageId
-        console.log("นี่คือ userResponse จาก Navbar", userResponse)
-        
+        const userResponse = response.data.result[0].imageId;
+        setUserProfile(userResponse);
 
-        setUserProfile(userResponse); // เซ็ตข้อมูลผู้ใช้ใน state
-
-        // ดึงข้อมูลรูปภาพโปรไฟล์จาก media-object
         const mediaResponse = await api.get(`/media-object/${userResponse}`);
-        console.log("นี่คือ mediaResponse จาก Navbar", mediaResponse)
-
         setUserProfile(prevState => ({
           ...prevState,
-          image: mediaResponse.data.result[0].url // เพิ่ม URL ของรูปโปรไฟล์เข้าไปในข้อมูลผู้ใช้
+          image: mediaResponse.data.result[0].url
         }));
       } catch (error) {
-        console.error("Error fetching data งุ:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
   }, []);
 
-  const toggleProfile = () => {
-    setShowProfile(!showProfile);
+  const handleAccountClick = () => {
+    // Redirect to UserSetting page
+    window.location.href = "/user-setting";
+  };
+  
+
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    // Redirect to login page
+    window.location.href = "/signin";
+  };
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   return (
     <nav className="navbar">
-      <ul className="navbar-nav">
-        <li className="nav-item">
-          <a href="/" className="nav-link">Home</a>
-        </li>
-        <li className="nav-item">
-          <a href="/about" className="nav-link">About</a>
-        </li>
-        <li className="nav-item">
-          <a href="/contact" className="nav-link">Contact</a>
-        </li>
-        <li className="nav-item profile" onClick={toggleProfile}>
-          {userProfile && userProfile.image && (
-            <img src={userProfile.image} alt="Profile" className="profile-icon" />
-          )}
-          {showProfile && <ProfileCard />}
-        </li>
-      </ul>
+    <AppBar position="static">
+      <Toolbar disableGutters>
+        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1  }} />
+        <Typography
+          variant="h6"
+          noWrap
+          component="a"
+          href="#app-bar-with-responsive-menu"
+          sx={{
+            mr: 2,
+            display: { xs: 'none', md: 'flex' },
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.3rem',
+            color: 'inherit',
+            textDecoration: 'none',
+            
+          }}
+        >
+          LOGO
+        </Typography>
+
+        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavMenu}
+            color="inherit"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorElNav}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{
+              display: { xs: 'block', md: 'none' },
+            }}
+          >
+            {pages.map((page) => (
+              <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">{page}</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+
+        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          {pages.map((page) => (
+            <Button
+              key={page}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              {page}
+            </Button>
+          ))}
+        </Box>
+
+        <Box sx={{ flexGrow: 0 }}>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              {userProfile && userProfile.image && (
+                <img crossOrigin='anonymous'  alt="Profile" src={userProfile.image} className="profile-icon" />
+              )}
+            </IconButton>
+          
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                 <MenuItem key={setting} onClick={setting === 'Logout' ? handleLogout : (setting === 'Account' ? handleAccountClick : handleCloseUserMenu)}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+
+        </Box>
+      </Toolbar>
+    </AppBar>
     </nav>
   );
 }

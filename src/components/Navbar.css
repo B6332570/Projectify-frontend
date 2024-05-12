@@ -1,15 +1,22 @@
 .navbar {
-  background-color: #f924b2;
-  padding: 15px;
+  
+ 
   position: fixed;
-  top: 0;
+  top: 0px;
   left: 250px; /* ลดขอบเขตด้านซ้ายของ Navbar เพื่อให้ไม่แทบกับ Sidebar */
   right: 0;
   width: calc(100% - 250px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
-  z-index: 1; /* ตั้ง z-index เพื่อให้ Navbar อยู่ด้านบนของ Sidebar */
+  z-index: 1; 
 
   
 }
+.profile-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* กำหนดให้รูปโปรไฟล์เป็นรูปทรงกลมโดยใช้ border-radius */
+  margin-right: 20px;
+}
+
 
   
   .navbar-nav {

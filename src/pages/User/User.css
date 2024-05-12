@@ -1,0 +1,16 @@
+
+.user-box{
+
+    background-color:#ffffff;
+    height:1340px;
+    width: calc(100% - 0px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
+    /* border-radius: 40px; */
+    display:flex;
+    justify-content:space-evenly;
+    align-items: center;
+    flex-direction:column;
+    color: #D0D1D4;
+    box-shadow: 0 6px 24px #84848380;
+
+
+}

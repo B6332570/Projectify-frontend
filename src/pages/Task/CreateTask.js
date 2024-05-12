@@ -59,7 +59,7 @@ import axios from 'axios';
           // ดึงข้อมูลโครงการ
           const projectsResponse = await api.get("/project");
           const projects = projectsResponse.data.result;
-          console.log("Projects ตรงนี้:", projects); 
+          // console.log("Projects ตรงนี้:", projects); 
           
           
           // Step 1: Fetch all task groups
@@ -75,12 +75,12 @@ import axios from 'axios';
           // Step 4: Fetch all task items
           const taskItemsResponse = await api.get(`/task-item`);
           const allTaskItems = taskItemsResponse.data.result;
-          console.log("อันนี้ก่อนฟิลเต้อ allTaskItems", allTaskItems)
+          // console.log("อันนี้ก่อนฟิลเต้อ allTaskItems", allTaskItems)
   
           // Step 5: Filter task items by task group IDs
           const filteredTaskItems = allTaskItems.filter(item => sortedTaskGroups.some(group => group.id === item.taskGroupId));
 
-          console.log("อันนี้หลังฟิลเต้อ filteredTaskItems", filteredTaskItems)
+          // console.log("อันนี้หลังฟิลเต้อ filteredTaskItems", filteredTaskItems)
 
 
            // Step 6: Update state with sorted and filtered task groups and task items
@@ -127,7 +127,7 @@ import axios from 'axios';
     
         const taskItemResponse = await api.post("/task-item", formData);
     
-        console.log("Response task-item:", taskItemResponse);
+        // console.log("Response task-item:", taskItemResponse);
     
         if (taskItemResponse.data.status === "success") {
           console.log('Task data submitted successfully.');
