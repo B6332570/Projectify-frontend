@@ -41,8 +41,8 @@ const StatusCell = ({ status }) => {
   return (
     <Box
       sx={{
-        flex: 0.6,
-        width: '10px',
+        marginLeft: '40px',
+        width: '300px',
         height: '60px',
         backgroundColor: backgroundColor,
         display: 'flex',

@@ -35,7 +35,6 @@ import { Avatar, Divider, Tooltip } from 'antd';
 
 
 
-
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
 
@@ -56,6 +55,7 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
   const [user, setUser] = useState(null);
   const [usersData, setUsersData] = useState({});
 
+  
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -105,53 +105,58 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
 
   return (
     <React.Fragment>
-     <TableRow sx={{ backgroundColor: '#f0f0f0', height: 'auto' }}> {/* เพิ่ม height: 'auto' เพื่อป้องกันการขยายของ .table-container */}
-        <TableCell className="icon-button" style={{ borderBottom: 'none' }}> {/* เพิ่ม style ใน TableCell เพื่อลบเส้นขอบด้านล่าง */}
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon className="icon-button-expanded" /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell className="flex" component="th" scope="row" colSpan={10}>{taskGroup && taskGroup.taskGroupName}</TableCell>
+      
+     <TableRow sx={{ backgroundColor: '#f0f0f0', height: 'auto' }}> 
+     {/* เพิ่ม height: 'auto' เพื่อป้องกันการขยายของ .table-container */}
+     <TableCell colSpan={7} className="icon-button" style={{ borderBottom: 'none', width: '500px', paddingLeft: '20px' }}> {/* เพิ่ม style ใน TableCell เพื่อลบเส้นขอบด้านล่าง */}
+      <IconButton
+        aria-label="expand row"
+        size="small"
+        style={{ fontSize: '64px' }} // เพิ่ม style เพื่อปรับขนาดของไอคอน
+        onClick={() => setOpen(!open)}
+
+        >
+          {open ? <KeyboardArrowUpIcon className="icon-button-expanded" /> : <KeyboardArrowDownIcon />}
+        </IconButton>
+        <span style={{ marginLeft: '100px' }}>{taskGroup && taskGroup.taskGroupName}</span>
+      </TableCell>
       </TableRow>
       {row.map((taskItem) => (
-        <TableRow key={taskItem.id}>
-          <TableCell  colSpan={8}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box sx={{ display: 'flex', width: '100%' }}>
-                <TableCell align="center" style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  <Button onClick={() => handleEditTask(taskItem)}>{taskItem.taskName}</Button>
-                </TableCell>
-                <TableCell align="center" style={{ flex: 1 }}>
-                <Avatar.Group maxCount={2} size={{ xxl: 50 }}>
-                  {taskItem.users.map((userItem) => (
-                    <Tooltip title={userItem.user.username} key={userItem.userId}>
-                      <Avatar
-                        crossOrigin='anonymous'
-                        src={usersData[userItem.userId]}
-                        alt={userItem.user.username}
-                      />
-                    </Tooltip>
-                  ))}
-                </Avatar.Group>
-                </TableCell>
-                <StatusCell status={taskItem.status} />
-                <TableCell align="center" style={{ flex: 1 }}>{formatDate(taskItem.startDate)}</TableCell>
-                <TableCell align="center" style={{ flex: 1 }}>{formatDate(taskItem.startDate)}</TableCell>
-                <TableCell align="center" style={{ flex: 1 }}>{taskItem.priority}</TableCell>
-                <TableCell align="center">
-                  <IconButton aria-label="delete" onClick={() => handleDeleteClick(taskItem)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </Box>
-            </Collapse>
+  <TableRow key={taskItem.id}>
+    <TableCell colSpan={8}>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <Box sx={{ display: 'flex', width: '100%' }}>
+          <TableCell align="center" style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <Button onClick={() => handleEditTask(taskItem)}>{taskItem.taskName}</Button>
           </TableCell>
-        </TableRow>
-      ))}
+          <TableCell align="center" style={{ flex: 1 }}>
+            <Avatar.Group maxCount={2} size={{ xxl: 50 }}>
+              {taskItem.users.map((userItem) => (
+                <Tooltip title={`${userItem.user.username} ${userItem.user.firstName} `} key={userItem.userId}>
+                  <Avatar
+                    crossOrigin='anonymous'
+                    src={usersData[userItem.userId]}
+                    alt={`${userItem.user.username} ${userItem.user.firstName} `}
+                  />
+                </Tooltip>
+              ))}
+            </Avatar.Group>
+          </TableCell>
+          <StatusCell status={taskItem.status} />
+          <TableCell align="center" style={{ flex: 1 }}>{formatDate(taskItem.startDate)}</TableCell>
+          <TableCell align="center" style={{ flex: 1 }}>{formatDate(taskItem.startDate)}</TableCell>
+          <TableCell align="center" style={{ flex: 1 }}>{taskItem.priority}</TableCell>
+          <TableCell align="center">
+            <IconButton aria-label="delete" onClick={() => handleDeleteClick(taskItem)}>
+              <DeleteIcon />
+            </IconButton>
+          </TableCell>
+        </Box>
+      </Collapse>
+    </TableCell>
+  </TableRow>
+))}
+
       <Dialog open={openDeleteConfirmation} onClose={handleDeleteCancelled}>
         <DialogTitle>Delete Task-item</DialogTitle>
         <DialogContent>
@@ -183,10 +188,13 @@ const Task = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { projectId } = useParams();
   const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const [openRows, setOpenRows] = useState({});
 
+  
   const handleEditTask = (taskItem) => {
     setSelectedTask(taskItem);
     setOpenEditTask(true);
+    setSelectedTaskId(taskItem.id); // Make sure to set the selectedTaskId here
   };
 
   const handleCloseEditTask = () => {
@@ -289,20 +297,25 @@ const Task = () => {
   
   return (
     <div className="flex">
+    
     <Sidebar />
-    <Navbar />
+    <Navbar  />
     <div className="main-content">
-    <Fab color="primary" aria-label="add">
+    {/* <Fab color="primary" aria-label="add">
   <AddIcon handleMenuClick={handleMenuClick} handleMenuItemClick={handleMenuItemClick}/>
-</Fab>
-    <CreateButton handleMenuClick={handleMenuClick} handleMenuItemClick={handleMenuItemClick} /> {/* ย้ายมาตรงนี้ */}
+</Fab> */}
+    <CreateButton handleMenuClick={handleMenuClick} handleMenuItemClick={handleMenuItemClick} /> 
       <div className="table-container">
       
         {openEditTask && selectedTask && (
-          <EditTaskItem taskItem={selectedTask} open={openEditTask} onClose={handleCloseEditTask} />
-        )}
-      
-        <div>
+          <EditTaskItem 
+            taskItem={selectedTask}
+            open={openEditTask} 
+            onClose={handleCloseEditTask}
+            taskGroupId={selectedTask.taskGroupId} 
+            />
+          )}
+       
           <h1>Task Page</h1>
           <Menu
             anchorEl={anchorEl}
@@ -314,21 +327,21 @@ const Task = () => {
           </Menu>
           <CreateTask open={openCreateTask} onClose={handleCloseCreateTask} />
           <CreateTaskGroup open={openCreateTaskGroup} onClose={handleCloseCreateTaskGroup} projectId={projectId} />
-        </div>
+        
         <TableContainer component={Paper}>
           <Table aria-label="collapsible table">
-            <TableHead>
-              <TableRow>
-                <TableCell />
-                <TableCell align="left" sx={{ fontWeight: 'bold' }}>Task Group</TableCell>
-                <TableCell align="left" sx={{ fontWeight: 'bold' }}>Owner</TableCell>
-                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Status</TableCell>
-                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Start Date</TableCell>
-                <TableCell align="right" sx={{ fontWeight: 'bold' }}>End Date</TableCell>
-                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Priority</TableCell>
-                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Actions</TableCell>
-              </TableRow>
-            </TableHead>
+   <TableHead>
+  <TableRow>
+    <TableCell align="center" className="table-container-header" sx={{ fontWeight: 'bold' }} >Task Group</TableCell>
+    <TableCell align="center" className="table-container-header" sx={{ fontWeight: 'bold' }}>Owner</TableCell>
+    <TableCell align="center" className="table-container-header" sx={{ fontWeight: 'bold' }}>Status</TableCell>
+    <TableCell align="center" className="table-container-header" sx={{ fontWeight: 'bold' }}>Start Date</TableCell>
+    <TableCell align="center" className="table-container-header" sx={{ fontWeight: 'bold' }}>End Date</TableCell>
+    <TableCell align="center" className="table-container-header" sx={{ fontWeight: 'bold' }}>Priority</TableCell>
+    <TableCell align="center" className="table-container-header" sx={{ fontWeight: 'bold' }}>Actions</TableCell>
+  </TableRow>
+</TableHead>
+
             <TableBody>
               {taskGroups.map((taskGroup) => {
                 const filteredTaskItems = taskItems.filter(item => item.taskGroupId === taskGroup.id);

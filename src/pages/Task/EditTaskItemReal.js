@@ -59,7 +59,7 @@ const axiosWithAuth = () => {
   });
 };
 
-const EditTaskItem = ({ taskItem, onClose }) => {
+const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
   const [updatedTaskItem, setUpdatedTaskItem] = useState({
     taskName: taskItem ? taskItem.taskName : "",
     description: taskItem ? taskItem.description : "",
@@ -87,6 +87,9 @@ const EditTaskItem = ({ taskItem, onClose }) => {
 
   const [users, setUsers] = useState([]);
   const [selectedUserIds, setSelectedUserIds] = useState([]);
+  const [filteredTaskItems, setFilteredTaskItems] = useState([]);
+ 
+
 
   function getStyles(userId, selectedUserIds, theme) {
     return {
@@ -103,19 +106,93 @@ const EditTaskItem = ({ taskItem, onClose }) => {
         const api = axiosWithAuth();
         const usersResponse = await api.get("/user");
         setUsers(usersResponse.data.result);
-
+  
         if (taskItem && taskItem.users) {
           setSelectedUserIds(taskItem.users.map((item) => item.userId));
         }
-
-        console.log("taskItem.users:", taskItem.users);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
-  }, [taskItem]); // Add taskItem as a dependency to useEffect
+  }, [taskItem]);
+  
+  useEffect(() => {
+    if (!taskItem || !taskGroupId) return;
+
+    console.log("taskItem", taskItem); 
+    const fetchData = async () => {
+      try {
+        const api = axiosWithAuth();
+        // Fetch task items from the task group
+        const taskItemsResponse = await api.get(`/task-group/${taskItem.taskGroupId}`);
+        const taskItems = taskItemsResponse.data.result[0].taskItems;
+
+        console.log("taskItems krabb", taskItems); 
+    
+        // Fetch all task items including user data
+        const allTaskItemsResponse = await api.get(`/task-item`);
+        const allTaskItemsWithUsers = allTaskItemsResponse.data.result;
+        console.log("allTaskItemsWithUsers krabb", allTaskItemsWithUsers); 
+    
+        // Merge user data into task items from the task group
+        const taskItemsWithUsers = taskItems.map(item => ({
+          ...item,
+          users: allTaskItemsWithUsers.find(t => t.id === item.id)?.users || []
+        }));
+
+        console.log("taskItemsWithUsers krabb", taskItemsWithUsers);
+    
+        setFilteredTaskItems(taskItemsWithUsers);
+      } catch (error) {
+        console.error("Error fetching task items:", error);
+      }
+    };
+    
+  
+    fetchData();
+  }, [taskItem, taskGroupId]);
+  
+
+  const renderValue = (selected) => {
+    console.log("Selected IDs:", selected); // Log selected IDs
+    console.log("Users array:", users); // Log entire users array to verify data
+  
+    return selected.map((userId) => {
+      const user = users.find((u) => u.id === userId);
+      if (!user) {
+        console.warn("User not found for ID:", userId); // Warn if user isn't found
+        return null;
+      }
+      return `${user.username} ${user.firstName}`;
+    }).filter(Boolean).join(', '); // Filter out any nulls and join names
+  };
+
+  useEffect(() => {
+    if (taskItem) {
+      setUpdatedTaskItem({
+        taskName: taskItem.taskName || "",
+        description: taskItem.description || "",
+        os: taskItem.os || "",
+        status: taskItem.status || "",
+        startDate: taskItem.startDate ? new Date(taskItem.startDate).toISOString().split("T")[0] : "",
+        endDate: taskItem.endDate ? new Date(taskItem.endDate).toISOString().split("T")[0] : "",
+        priority: taskItem.priority || "",
+        users: taskItem.users || [],
+        id: taskItem.id || "" // เพิ่มการตั้งค่า id ของ taskItem ด้วย
+      });
+  
+      const userIds = taskItem.users?.map((user) => user.userId);
+      setSelectedUserIds(userIds || []);
+    }
+  }, [taskItem]);
+  
+  
+
+
+
+  
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -123,26 +200,80 @@ const EditTaskItem = ({ taskItem, onClose }) => {
   };
 
   const handleChangeUsers = (event) => {
-    const selectedIds = event.target.value || []; // ตรวจสอบว่า event.target.value ไม่เป็น undefined
+    const {
+        target: { value },
+    } = event;
     setSelectedUserIds(
-      typeof selectedIds === "string" ? selectedIds.split(",") : selectedIds
+        // Assuming value is an array of user IDs or a single string of user IDs
+        typeof value === 'string' ? value.split(',') : value
     );
-    console.log("Selected User IDs:", selectedIds); // บันทึกค่า selectedUserIds ไปยังคอนโซล
-  };
+};
+
 
   const handleCancel = () => {
     onClose();
   };
+
+
+  const handleTaskItemClick = (clickedTaskItem) => {
+
+    console.log("clickedTaskItem", clickedTaskItem); 
+    // Check if clickedTaskItem exists and contains valid data
+    if (clickedTaskItem && clickedTaskItem.id) {
+      // Update the state with the clicked TaskItem data
+      setUpdatedTaskItem({
+        ...clickedTaskItem,
+        startDate: clickedTaskItem.startDate ? new Date(clickedTaskItem.startDate).toISOString().split("T")[0] : "",
+        endDate: clickedTaskItem.endDate ? new Date(clickedTaskItem.endDate).toISOString().split("T")[0] : "",
+        users: clickedTaskItem.users || []
+      });
+
+      console.log("clickedTaskItem", clickedTaskItem); 
+      const userIds = clickedTaskItem.users?.map((user) => user.userId); // Use optional chaining here
+      console.log("userIds ค้าบบบ", userIds); 
+    setSelectedUserIds(userIds || []); // Provide a default value if userIds is undefined
+    } else {
+      // If clickedTaskItem is not valid, reset the state or display a message
+      setUpdatedTaskItem({
+        taskName: "",
+        description: "",
+        os: "",
+        status: "",
+        startDate: "",
+        endDate: "",
+        priority: "",
+        users: [],
+      });
+      // Optionally, you can display a message to indicate no TaskItem is selected
+      console.log("No valid TaskItem selected.");
+    }
+  };
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+// และใน return ของ EditTaskItem ให้ใช้ handleTaskNameClick ในการจัดการคลิก taskName แทน
 
   const fetchMediaObjectDetails = async (mediaObjectId) => {
     try {
       // Assuming `axiosWithAuth` is a function that returns an Axios instance with authentication
       const api = axiosWithAuth();
       const response = await api.get(`/media-object/${mediaObjectId}`);
-      console.log(
-        "Response from media object endpoint:",
-        response.data.result[0].url
-      );
+      // console.log(
+      //   "Response from media object endpoint:",
+      //   response.data.result[0].url
+      // );
 
       if (!response.data.result[0] || !response.data.result[0].url) {
         throw new Error("Invalid response from media object endpoint");
@@ -170,6 +301,13 @@ const EditTaskItem = ({ taskItem, onClose }) => {
     fetchUserAvatars();
   }, [users]);
 
+  useEffect(() => {
+    // Log หรือ update state ตามความจำเป็น
+    console.log("Users or selectedUserIds updated");
+  }, [users, selectedUserIds]); // Dependencies ที่สำคัญสำหรับการตอบสนองต่อการเปลี่ยนแปลง
+  
+
+
   const handleSave = async () => {
     try {
       if (!updatedTaskItem.users || !selectedUserIds) {
@@ -180,14 +318,12 @@ const EditTaskItem = ({ taskItem, onClose }) => {
       }
 
       const api = axiosWithAuth();
-      const formattedStartDate = new Date(updatedTaskItem.startDate)
-        .toISOString()
-        .split("T")[0];
-      const formattedEndDate = new Date(updatedTaskItem.endDate)
-        .toISOString()
-        .split("T")[0];
 
-      const updateTaskItemKrub = await api.patch(`/task-item/${taskItem.id}`, {
+      const formattedStartDate = updatedTaskItem.startDate.split("T")[0];
+      const formattedEndDate = updatedTaskItem.endDate.split("T")[0];
+
+
+      const updateTaskItemKrub = await api.patch(`/task-item/${updatedTaskItem.id}`, {
         ...updatedTaskItem,
         startDate: formattedStartDate,
         endDate: formattedEndDate,
@@ -213,7 +349,7 @@ const EditTaskItem = ({ taskItem, onClose }) => {
     <Dialog
       open={true}
       onClose={onClose}
-      fullWidth="คับผม"
+      fullWidth
       className="dialogPaper"
       maxWidth={false} // ใช้ false แทน "false"
     >
@@ -223,13 +359,20 @@ const EditTaskItem = ({ taskItem, onClose }) => {
             <Paper
               style={{ height: "1200px", padding: "16px", overflow: "auto" }}
             >
-              {/* Content for the left frame goes here */}
+             {/* Content for the left frame goes here */}
+             {filteredTaskItems.map((item) => (
+  <div
+    key={item.id}
+    onClick={() => handleTaskItemClick(item)} // Pass clicked TaskItem to handler
+    className="taskName"
+  >
+    {item.taskName}
+  </div>
+))}
+
+
             </Paper>
           </Grid>
-
-
-
-
 
           <Grid item xs={9.5}>
             <Paper
@@ -331,11 +474,7 @@ const EditTaskItem = ({ taskItem, onClose }) => {
                     {/* กำหนดความกว้างที่ต้องการ */}
                     <Grid container spacing={1} >
                       <Grid item xs={6}>
-                      
-                        {/* ให้ใช้ Grid item แบบเต็มแถว */}
                         <FormControl fullWidth>
-                        
-                          {/* ให้ FormControl รับ full width */}
                           <InputLabel id="users-label">Owner</InputLabel>
                           <Select
                             labelId="users-label"
@@ -357,26 +496,27 @@ const EditTaskItem = ({ taskItem, onClose }) => {
                                   gap: 0.5,
                                 }}
                               >
-                                {selectedUserIds.map((userId) => {
-                                  const user = users.find(
-                                    (user) => user.id === userId
-                                  );
-                                  const imageUrl = userAvatars[userId];
-                                  return (
-                                    <Chip
-                                      avatar={
-                                        <img
-                                          crossOrigin="anonymous"
-                                          alt={`${user.username} ${user.firstName}`}
-                                          src={imageUrl}
-                                          className="profile-icon"
-                                        />
-                                      }
-                                      key={userId}
-                                      label={`${user.username} ${user.firstName}`}
-                                    />
-                                  );
-                                })}
+                             {selectedUserIds.map((userId) => {
+  const user = users.find((user) => user.id === userId);
+  console.log("Rendering user with selectedUserIds:", selectedUserIds); // Debugging line
+  console.log("user เนอะ:", user)
+  const imageUrl = userAvatars[userId];
+  return (
+    <Chip
+      avatar={
+        <img
+          crossOrigin="anonymous"
+          alt={`${user?.username} ${user?.firstName}`}
+          src={imageUrl}
+          className="profile-icon"
+        />
+      }
+      key={userId}
+      label={`${user?.username} ${user?.firstName}`}
+    />
+  );
+})}
+
                               </Box>
                             )}
                             MenuProps={MenuProps}
@@ -403,7 +543,6 @@ const EditTaskItem = ({ taskItem, onClose }) => {
 
                   <Grid container spacing={1} style={{ marginBottom: "30px" }}>
                     <Grid item xs={6}>
-                      {/* OS */}
                       <TextField
                         select
                         name="os"
@@ -421,7 +560,6 @@ const EditTaskItem = ({ taskItem, onClose }) => {
 
                   <Grid container spacing={1} style={{ marginBottom: "30px" }}>
                     <Grid item xs={6}>
-                      {/* Start Date */}
                       <TextField
                         name="startDate"
                         label="Start Date"
@@ -436,7 +574,6 @@ const EditTaskItem = ({ taskItem, onClose }) => {
 
                   <Grid container spacing={1} style={{ marginBottom: "30px" }}>
                     <Grid item xs={6}>
-                      {/* End Date */}
                       <TextField
                         name="endDate"
                         label="End Date"
@@ -451,7 +588,6 @@ const EditTaskItem = ({ taskItem, onClose }) => {
 
                   <Grid container spacing={1} style={{ marginBottom: "30px" }}>
                     <Grid item xs={6}>
-                      {/* Priority */}
                       <TextField
                         select
                         name="priority"

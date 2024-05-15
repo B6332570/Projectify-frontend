@@ -16,7 +16,7 @@ function Signin() {
   const [user, setUser] = useState({
     username: "",
     password: "",
-    role: "business_analyst",
+
   });
 
   const signin = async (e) => {

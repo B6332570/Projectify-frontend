@@ -92,10 +92,10 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: '#333333' }}>
       <Toolbar disableGutters>
-        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1  }} />
-        <Typography
+        {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1  }} /> */}
+        {/* <Typography
           variant="h6"
           noWrap
           component="a"
@@ -112,7 +112,7 @@ const Navbar = () => {
           }}
         >
           LOGO
-        </Typography>
+        </Typography> */}
 
         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
           <IconButton

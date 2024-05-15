@@ -13,7 +13,6 @@ const Sidebar = () => {
         
       </div>
       <div className="tabs">
-      
         <ul>
           <li><Link to="/project">Project</Link></li>
           {/* <li><Link to="/Task">Task</Link></li> */}
@@ -56,13 +55,6 @@ const Sidebar = () => {
     <span className="shadow"></span>
   </div>
 </div>
-
-
-      
-
-      
-
-      
 
       
     </div>

@@ -5,6 +5,7 @@ import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
 import CreateProject from "./CreateProject";
 import "./Project.css";
+import CardProject from"./CardProject";
 import "../../components/Sidebar.css";
 import "../../components/Navbar.css";
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
@@ -31,36 +32,38 @@ const Project = () => {
 
   const handleCloseCreateProject = () => {
     setOpenCreateProject(false);
+    // เมื่อสร้างโปรเจคเสร็จแล้ว สามารถเรียก API ใหม่เพื่อโหลดข้อมูลโปรเจคล่าสุด
+    fetchData();
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const api = axiosWithAuth();
-        const projectsResponse = await api.get("/project");
-        const usersResponse = await api.get("/user");
-
-        const projects = projectsResponse.data.result;
-        console.log("นี่คือค่าของโปรเจค",projects)
-
-        const users = usersResponse.data.result;
-        console.log("นี่คือค่าของ user",users)
-
-        const projectsWithUsername = projects.map((project) => {
-          const owner = users.find((user) => user.id === project.userId);
-          return {
-            ...project,
-            owner: owner ? owner.username : "Unknown User",
-          };
-        });
-        setData(projectsWithUsername);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const api = axiosWithAuth();
+      const projectsResponse = await api.get("/project");
+      const usersResponse = await api.get("/user");
+
+      const projects = projectsResponse.data.result;
+      console.log("นี่คือค่าของโปรเจค", projects);
+
+      const users = usersResponse.data.result;
+      console.log("นี่คือค่าของ user", users);
+
+      const projectsWithUsername = projects.map((project) => {
+        const owner = users.find((user) => user.id === project.userId);
+        return {
+          ...project,
+          owner: owner ? owner.username : "Unknown User",
+        };
+      });
+      setData(projectsWithUsername);
+    } catch (error) {
+      console.error("Error fetching data krub:", error);
+    }
+  };
 
   const columns = [
     {
@@ -75,18 +78,16 @@ const Project = () => {
       dataIndex: "owner",
       key: "owner",
     },
-   
     {
       title: "Create On",
-      dataIndex: "created_at", // เปลี่ยน dataIndex เป็น create_at
-      key: "created_at",
+      dataIndex: "createdAt", // เปลี่ยน dataIndex เป็น create_at
+      key: "createdAt",
     },
     {
       title: "Create By",
       dataIndex: "owner",
       key: "owner",
     },
-    
   ];
 
   return (
@@ -94,11 +95,13 @@ const Project = () => {
       <Sidebar />
       <Navbar />
       <div className="main-content">
-        <div className="content-wrapper">
-          <Table columns={columns} dataSource={data} />
+        
+        
+          <Table className="custom-table" columns={columns} dataSource={data} />
         </div>
         <button onClick={handleCreateProjectClick}>Create Project</button>
-      </div>
+      
+     
       <CreateProject
         open={openCreateProject}
         onClose={handleCloseCreateProject}

@@ -22,7 +22,7 @@ const UserSetting = () => {
   const [editedUser, setEditedUser] = useState({
     firstName: "",
     lastName: "",
-    imageId: 0,
+    imageId: 0, // เพิ่ม imageId เข้าไปใน state
   });
 
   useEffect(() => {
@@ -33,11 +33,6 @@ const UserSetting = () => {
 
         const userResponse = response.data.result[0];
         setUser(userResponse);
-        setEditedUser({
-          firstName: userResponse.firstName,
-          lastName: userResponse.lastName,
-          imageId: userResponse.imageId || 0,
-        });
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -67,7 +62,7 @@ const UserSetting = () => {
         const imageId = mediaObjectResponse.data.result[0];
         setEditedUser((prevState) => ({
           ...prevState,
-          imageId: imageId,
+          imageId: imageId, // กำหนดค่า imageId ใน state editedUser
         }));
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -79,16 +74,14 @@ const UserSetting = () => {
     e.preventDefault();
     try {
       const api = axiosWithAuth();
-      const updatedUserData = {
-        firstName: editedUser.firstName || user.firstName,
-        lastName: editedUser.lastName || user.lastName,
-        imageId: editedUser.imageId || user.imageId,
-      };
-      const updateUserResponse = await api.patch(`/user`, updatedUserData);
+      const updateUserResponse = await api.patch(`/user`, editedUser);
 
       console.log("Update User Response:", updateUserResponse);
+
+      // Optional: Show a success message or perform additional actions upon successful update
     } catch (error) {
       console.error("Error updating user:", error);
+      // Optional: Handle error scenarios (e.g., display error message to user)
     }
   };
 
@@ -134,21 +127,25 @@ const UserSetting = () => {
                 fullWidth
                 sx={{ mb: 2 }}
               />
-              <div className="input-group">
-                <label htmlFor="profileImage" style={{ color: "black" }}>
-                  Profile Image
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="profileImage"
-                  onChange={(e) => {
-                    if (e.target.files.length > 0) {
-                      handleImageChange(e);
-                    }
-                  }}
-                />
-              </div>
+
+              
+                <div class="input-group">
+                  <label htmlFor="profileImage" style={{ color: "black" }}>
+                    Profile Image
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="profileImage"
+                    onChange={(e) => {
+                      if (e.target.files.length > 0) {
+                        handleImageChange(e);
+                      }
+                    }}
+                  />
+                </div>
+           
+
               <Button type="submit" variant="contained" color="primary">
                 Save
               </Button>

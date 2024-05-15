@@ -3,7 +3,7 @@
   grid-column: 2 / -1;
   
   padding-top: 60px; /* ปรับตามความสูงของ Navbar */
-  
+  max-width: 2560px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,17 +12,18 @@
 .main-content h1 {
   font-size: 24px;
   margin-bottom: 80px;
+  
   color: #ff0000; /* สีของข้อความ */
 }
 
 .table-container {
   margin-bottom: 20px;
   
-  width: calc(100.1% - 0px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
+  width: calc(100% - 250px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
  
   border-radius: 8px; /* ขอบมนเมื่อมมองจากข้างข้าง */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* เงาของ container */
-  margin-right: 20px;
+  margin-left: 250px;
   
 
  
@@ -32,52 +33,40 @@
 .table-container h1 {
   font-size: 20px;
   margin: 20px;
-  color: #c75ada; /* สีของข้อความ */
+  color: #000000; /* สีของข้อความ */
 }
 
-.table-container table {
-  
-  width: 100%;
-  border-collapse: collapse; /* ลบพื้นที่ระหว่างเซลล์ของตาราง */
-}
 
-.table-container th,
-.table-container td[colspan="8"] {
-  padding: 0px; /* ปรับตามความต้องการ */
-}
+
 .table-container th {
-  background-color: #24020280; /* สีพื้นหลังของหัวข้อตาราง */
+  background-color: #84848480; /* สีพื้นหลังของหัวข้อตาราง */
   font-weight: bold;
 }
 
-
-
-
-
-
-/* สร้างเอเลเมนต์สีหรือลวดลายเพื่อเน้นปุ่ม */
-.create-task-button {
-  background-color: #007bff;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
+.table-row-collapse {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
-.create-task-button:hover {
-  background-color: #0056b3;
+.table-cell-collapse {
+  padding: 0 !important;
 }
 
-.table-container-header {
-  font-weight: bold;
-  
-  border-left: 2px solid black; /* เส้นขอบด้านซ้าย */
-  border-right: 2px solid black; /* เส้นขอบด้านขวา */
-  /* คุณสามารถปรับสไตล์ของเส้นขอบตามต้องการ เช่นสี, ขนาด, และรูปแบบอื่น ๆ ได้ตามต้องการ */
+.table-row-group-name {
+  margin-bottom: -1px;
 }
 
-.table-container-header.task-group-header {
-  text-align: left;
-  padding-right: 40px; /* ปรับค่า paddingRight ตามต้องการ */
+.table-cell-group-name {
+  padding-bottom: 0;
+}
+
+.collapse-closed {
+  height: 0 !important;
+  overflow: hidden !important;
+  transition: height 0.2s ease-out;
+}
+
+.collapse-content {
+  padding: 0 !important;
 }

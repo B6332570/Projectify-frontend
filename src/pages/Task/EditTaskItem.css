@@ -54,4 +54,21 @@
   }
   
   
+  .profile-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* กำหนดให้รูปโปรไฟล์เป็นรูปทรงกลมโดยใช้ border-radius */
+    margin-right: 20px;
+  }
+  
+
+  .taskName {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* เพิ่มเส้นแบ่งด้านล่างของ TaskName */
+    padding-bottom: 8px; /* เพิ่มระยะห่างด้านล่างของ TaskName */
+    cursor: pointer; /* เปลี่ยนเคอร์เซอร์เป็นรูปขีดเพื่อแสดงว่าเป็นองค์ประกอบที่คลิกได้ */
+  }
+  
+  .taskName:hover {
+    background-color: rgba(0, 0, 0, 0.04); /* เพิ่มสีพื้นหลังเมื่อเมาส์ชี้ไปที่ TaskName */
+  }
   
