@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -11,27 +12,28 @@ import {
   TextField,
   Paper,
   Grid,
-} from "@mui/material";
-import "./EditTaskItem.css"; // import CSS file
-import React, { useState, useEffect } from "react";
-import {
-  Checkbox,
   FormControl,
   InputLabel,
-  ListItemText,
   Select,
+  Box,
+  Chip,
+  OutlinedInput,
+  Collapse,
+  IconButton,
 } from "@mui/material";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
+import {
+  EditorState,
+  ContentState,
+  convertToRaw,
+  convertFromRaw
+} from "draft-js";
+import { Editor } from 'react-draft-wysiwyg';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { sizing } from "@mui/system";
-import { Editor, EditorState } from "draft-js";
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import "./EditTaskItem.css"; // import CSS file
 import { useTheme } from "@mui/material/styles";
-import Chip from "@mui/material/Chip";
-import Box from "@mui/material/Box";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import Avatar from "@mui/material/Avatar";
 
 const MySwal = withReactContent(Swal);
 
@@ -75,6 +77,12 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
     users: [], // Initialize users as an empty array
   });
 
+  const [editorState, setEditorState] = useState(() => 
+    taskItem && taskItem.description
+      ? EditorState.createWithContent(ContentState.createFromText(taskItem.description))
+      : EditorState.createEmpty()
+  );
+
   const [expanded, setExpanded] = useState(false);
   const [descriptionHeight, setDescriptionHeight] = useState("auto");
 
@@ -88,8 +96,6 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
   const [users, setUsers] = useState([]);
   const [selectedUserIds, setSelectedUserIds] = useState([]);
   const [filteredTaskItems, setFilteredTaskItems] = useState([]);
- 
-
 
   function getStyles(userId, selectedUserIds, theme) {
     return {
@@ -106,7 +112,7 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
         const api = axiosWithAuth();
         const usersResponse = await api.get("/user");
         setUsers(usersResponse.data.result);
-  
+
         if (taskItem && taskItem.users) {
           setSelectedUserIds(taskItem.users.map((item) => item.userId));
         }
@@ -114,59 +120,63 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData();
   }, [taskItem]);
-  
+
   useEffect(() => {
     if (!taskItem || !taskGroupId) return;
 
-    console.log("taskItem", taskItem); 
+    console.log("taskItem", taskItem);
     const fetchData = async () => {
       try {
         const api = axiosWithAuth();
         // Fetch task items from the task group
-        const taskItemsResponse = await api.get(`/task-group/${taskItem.taskGroupId}`);
+        const taskItemsResponse = await api.get(
+          `/task-group/${taskItem.taskGroupId}`
+        );
         const taskItems = taskItemsResponse.data.result[0].taskItems;
 
-        console.log("taskItems krabb", taskItems); 
-    
+        console.log("taskItems krabb", taskItems);
+
         // Fetch all task items including user data
         const allTaskItemsResponse = await api.get(`/task-item`);
         const allTaskItemsWithUsers = allTaskItemsResponse.data.result;
-        console.log("allTaskItemsWithUsers krabb", allTaskItemsWithUsers); 
-    
+        console.log("allTaskItemsWithUsers krabb", allTaskItemsWithUsers);
+
         // Merge user data into task items from the task group
-        const taskItemsWithUsers = taskItems.map(item => ({
+        const taskItemsWithUsers = taskItems.map((item) => ({
           ...item,
-          users: allTaskItemsWithUsers.find(t => t.id === item.id)?.users || []
+          users:
+            allTaskItemsWithUsers.find((t) => t.id === item.id)?.users || [],
         }));
 
         console.log("taskItemsWithUsers krabb", taskItemsWithUsers);
-    
+
         setFilteredTaskItems(taskItemsWithUsers);
       } catch (error) {
         console.error("Error fetching task items:", error);
       }
     };
-    
-  
+
     fetchData();
   }, [taskItem, taskGroupId]);
-  
 
   const renderValue = (selected) => {
     console.log("Selected IDs:", selected); // Log selected IDs
     console.log("Users array:", users); // Log entire users array to verify data
-  
-    return selected.map((userId) => {
-      const user = users.find((u) => u.id === userId);
-      if (!user) {
-        console.warn("User not found for ID:", userId); // Warn if user isn't found
-        return null;
-      }
-      return `${user.username} ${user.firstName}`;
-    }).filter(Boolean).join(', '); // Filter out any nulls and join names
+
+    return selected
+      .map((userId) => {
+        const user = users.find((u) => u.id === userId);
+        if (!user) {
+          console.warn("User not found for ID:", userId); // Warn if user isn't found
+          return null;
+        }
+        return `${user.username} ${user.firstName}`;
+      })
+      .filter(Boolean)
+      .join(", "); // Filter out any nulls and join names
   };
 
   useEffect(() => {
@@ -176,23 +186,27 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
         description: taskItem.description || "",
         os: taskItem.os || "",
         status: taskItem.status || "",
-        startDate: taskItem.startDate ? new Date(taskItem.startDate).toISOString().split("T")[0] : "",
-        endDate: taskItem.endDate ? new Date(taskItem.endDate).toISOString().split("T")[0] : "",
+        startDate: taskItem.startDate
+          ? new Date(taskItem.startDate).toISOString().split("T")[0]
+          : "",
+        endDate: taskItem.endDate
+          ? new Date(taskItem.endDate).toISOString().split("T")[0]
+          : "",
         priority: taskItem.priority || "",
         users: taskItem.users || [],
-        id: taskItem.id || "" // เพิ่มการตั้งค่า id ของ taskItem ด้วย
+        id: taskItem.id || "", // เพิ่มการตั้งค่า id ของ taskItem ด้วย
       });
-  
+
+      setEditorState(
+        taskItem.description
+          ? EditorState.createWithContent(ContentState.createFromText(taskItem.description))
+          : EditorState.createEmpty()
+      );
+
       const userIds = taskItem.users?.map((user) => user.userId);
       setSelectedUserIds(userIds || []);
     }
   }, [taskItem]);
-  
-  
-
-
-
-  
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -201,37 +215,46 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
 
   const handleChangeUsers = (event) => {
     const {
-        target: { value },
+      target: { value },
     } = event;
     setSelectedUserIds(
-        // Assuming value is an array of user IDs or a single string of user IDs
-        typeof value === 'string' ? value.split(',') : value
+      // Assuming value is an array of user IDs or a single string of user IDs
+      typeof value === "string" ? value.split(",") : value
     );
-};
-
+  };
 
   const handleCancel = () => {
     onClose();
   };
 
-
   const handleTaskItemClick = (clickedTaskItem) => {
-
-    console.log("clickedTaskItem", clickedTaskItem); 
+    console.log("clickedTaskItem", clickedTaskItem);
     // Check if clickedTaskItem exists and contains valid data
     if (clickedTaskItem && clickedTaskItem.id) {
       // Update the state with the clicked TaskItem data
-      setUpdatedTaskItem({
-        ...clickedTaskItem,
-        startDate: clickedTaskItem.startDate ? new Date(clickedTaskItem.startDate).toISOString().split("T")[0] : "",
-        endDate: clickedTaskItem.endDate ? new Date(clickedTaskItem.endDate).toISOString().split("T")[0] : "",
-        users: clickedTaskItem.users || []
-      });
+      setTimeout(() => {
+        setUpdatedTaskItem({
+          ...clickedTaskItem,
+          startDate: clickedTaskItem.startDate
+            ? new Date(clickedTaskItem.startDate).toISOString().split("T")[0]
+            : "",
+          endDate: clickedTaskItem.endDate
+            ? new Date(clickedTaskItem.endDate).toISOString().split("T")[0]
+            : "",
+          users: clickedTaskItem.users || [],
+        });
 
-      console.log("clickedTaskItem", clickedTaskItem); 
-      const userIds = clickedTaskItem.users?.map((user) => user.userId); // Use optional chaining here
-      console.log("userIds ค้าบบบ", userIds); 
-    setSelectedUserIds(userIds || []); // Provide a default value if userIds is undefined
+        setEditorState(
+          clickedTaskItem.description
+            ? EditorState.createWithContent(ContentState.createFromText(clickedTaskItem.description))
+            : EditorState.createEmpty()
+        );
+
+        console.log("clickedTaskItem", clickedTaskItem);
+        const userIds = clickedTaskItem.users?.map((user) => user.userId); // Use optional chaining here
+        console.log("userIds ค้าบบบ", userIds);
+        setSelectedUserIds(userIds || []); // Provide a default value if userIds is undefined
+      }, 50); // ดีเลย์ 50 มิลลิวินาที
     } else {
       // If clickedTaskItem is not valid, reset the state or display a message
       setUpdatedTaskItem({
@@ -244,26 +267,12 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
         priority: "",
         users: [],
       });
+
+      setEditorState(EditorState.createEmpty());
       // Optionally, you can display a message to indicate no TaskItem is selected
       console.log("No valid TaskItem selected.");
     }
   };
-  
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-// และใน return ของ EditTaskItem ให้ใช้ handleTaskNameClick ในการจัดการคลิก taskName แทน
 
   const fetchMediaObjectDetails = async (mediaObjectId) => {
     try {
@@ -305,8 +314,62 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
     // Log หรือ update state ตามความจำเป็น
     console.log("Users or selectedUserIds updated");
   }, [users, selectedUserIds]); // Dependencies ที่สำคัญสำหรับการตอบสนองต่อการเปลี่ยนแปลง
-  
 
+  const getPriorityIcon = (priority) => {
+    let icon;
+    let text;
+    switch (priority) {
+      case "low":
+        icon = (
+          <ReportProblemIcon
+            style={{
+              color: "green",
+              marginRight: "8px",
+              verticalAlign: "middle",
+              marginTop: "4px",
+            }}
+          />
+        );
+        text = "Low";
+        break;
+      case "medium":
+        icon = (
+          <ReportProblemIcon
+            style={{
+              color: "orange",
+              marginRight: "8px",
+              verticalAlign: "middle",
+              marginTop: "4px",
+            }}
+          />
+        );
+        text = "Medium";
+        break;
+      case "high":
+        icon = (
+          <ReportProblemIcon
+            style={{
+              color: "red",
+              marginRight: "8px",
+              verticalAlign: "middle",
+              marginTop: "4px",
+            }}
+          />
+        );
+        text = "High";
+        break;
+      default:
+        return null;
+    }
+    return (
+      <div
+        style={{ display: "flex", alignItems: "center", marginLeft: "70px" }}
+      >
+        {icon}
+        <span>{text}</span>
+      </div>
+    );
+  };
 
   const handleSave = async () => {
     try {
@@ -322,13 +385,16 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
       const formattedStartDate = updatedTaskItem.startDate.split("T")[0];
       const formattedEndDate = updatedTaskItem.endDate.split("T")[0];
 
-
-      const updateTaskItemKrub = await api.patch(`/task-item/${updatedTaskItem.id}`, {
-        ...updatedTaskItem,
-        startDate: formattedStartDate,
-        endDate: formattedEndDate,
-        users: selectedUserIds, // Update users with selectedUserIds
-      });
+      const updateTaskItemKrub = await api.patch(
+        `/task-item/${updatedTaskItem.id}`,
+        {
+          ...updatedTaskItem,
+          startDate: formattedStartDate,
+          endDate: formattedEndDate,
+          description: editorState.getCurrentContent().getPlainText(), // Save the editor content as plain text
+          users: selectedUserIds, // Update users with selectedUserIds
+        }
+      );
 
       MySwal.fire({
         icon: "success",
@@ -359,18 +425,36 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
             <Paper
               style={{ height: "1200px", padding: "16px", overflow: "auto" }}
             >
-             {/* Content for the left frame goes here */}
-             {filteredTaskItems.map((item) => (
-  <div
-    key={item.id}
-    onClick={() => handleTaskItemClick(item)} // Pass clicked TaskItem to handler
-    className="taskName"
-  >
-    {item.taskName}
-  </div>
-))}
-
-
+              {/* Content for the left frame goes here */}
+              {filteredTaskItems.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => handleTaskItemClick(item)} // Pass clicked TaskItem to handler
+                  className="taskName"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "8px",
+                    padding: "8px 12px",
+                    borderRadius: "4px",
+                    border: "1px solid #ddd",
+                    cursor: "pointer",
+                    transition: "background-color 0.3s",
+                    width: '100%', // กำหนดความกว้างของช่อง TaskName
+                    height: '100px',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "#f0f0f0"; // เปลี่ยนสีพื้นหลังเมื่อเลื่อนเมาส์เข้า
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "white"; // คืนค่าสีพื้นหลังเมื่อเมาส์ออก
+                  }}
+                >
+                  <span>{item.taskName}</span>
+                  <span>{getPriorityIcon(item.priority)}</span>
+                </div>
+              ))}
             </Paper>
           </Grid>
 
@@ -416,20 +500,21 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                     <span>Description</span>
                   </div>
                   <Collapse in={expanded}>
-                    <TextField
-                      name="description"
-                      value={updatedTaskItem.description}
-                      onChange={handleChange}
-                      multiline
-                      style={{
-                        width: "100%",
-                        height: expanded ? "auto" : "0px",
+                    <Editor
+                      editorState={editorState}
+                      onEditorStateChange={setEditorState}
+                      wrapperClassName="demo-wrapper"
+                      editorClassName="demo-editor"
+                      toolbar={{
+                        inline: { inDropdown: true },
+                        list: { inDropdown: true },
+                        textAlign: { inDropdown: true },
+                        link: { inDropdown: true },
+                        history: { inDropdown: true },
                       }}
-                      margin="normal"
                     />
                   </Collapse>
                 </Paper>
-                
 
                 {/* นี่คือ กระดาษข้อมูล TaskItem */}
                 <Paper
@@ -438,11 +523,12 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                     padding: "16px",
                     overflow: "auto",
                     transition: "height 0.3s",
-                    
                   }}
                 >
-                 <div style={{ marginTop: "10px", marginBottom: "30px"}}>Task</div> 
-                
+                  <div style={{ marginTop: "10px", marginBottom: "30px" }}>
+                    Task
+                  </div>
+
                   {/* นี่คือ Status */}
                   <Grid container spacing={1} style={{ marginBottom: "30px" }}>
                     <Grid item xs={6}>
@@ -469,10 +555,9 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                   </Grid>
 
                   {/* นี่คือ Users */}
-                  <div style={{ marginTop: "15px", marginBottom: "30px"}}>
-                 
+                  <div style={{ marginTop: "15px", marginBottom: "30px" }}>
                     {/* กำหนดความกว้างที่ต้องการ */}
-                    <Grid container spacing={1} >
+                    <Grid container spacing={1}>
                       <Grid item xs={6}>
                         <FormControl fullWidth>
                           <InputLabel id="users-label">Owner</InputLabel>
@@ -496,27 +581,31 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                                   gap: 0.5,
                                 }}
                               >
-                             {selectedUserIds.map((userId) => {
-  const user = users.find((user) => user.id === userId);
-  console.log("Rendering user with selectedUserIds:", selectedUserIds); // Debugging line
-  console.log("user เนอะ:", user)
-  const imageUrl = userAvatars[userId];
-  return (
-    <Chip
-      avatar={
-        <img
-          crossOrigin="anonymous"
-          alt={`${user?.username} ${user?.firstName}`}
-          src={imageUrl}
-          className="profile-icon"
-        />
-      }
-      key={userId}
-      label={`${user?.username} ${user?.firstName}`}
-    />
-  );
-})}
-
+                                {selectedUserIds.map((userId) => {
+                                  const user = users.find(
+                                    (user) => user.id === userId
+                                  );
+                                  console.log(
+                                    "Rendering user with selectedUserIds:",
+                                    selectedUserIds
+                                  ); // Debugging line
+                                  console.log("user เนอะ:", user);
+                                  const imageUrl = userAvatars[userId];
+                                  return (
+                                    <Chip
+                                      avatar={
+                                        <img
+                                          crossOrigin="anonymous"
+                                          alt={`${user?.username} ${user?.firstName}`}
+                                          src={imageUrl}
+                                          className="profile-icon"
+                                        />
+                                      }
+                                      key={userId}
+                                      label={`${user?.username} ${user?.firstName}`}
+                                    />
+                                  );
+                                })}
                               </Box>
                             )}
                             MenuProps={MenuProps}
@@ -597,9 +686,24 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                         margin="normal"
                         fullWidth
                       >
-                        <MenuItem value="low">Low</MenuItem>
-                        <MenuItem value="medium">Medium</MenuItem>
-                        <MenuItem value="high">High</MenuItem>
+                        <MenuItem value="low">
+                          <ReportProblemIcon
+                            style={{ marginRight: "8px", color: "green", verticalAlign: 'middle' }}
+                          />
+                          Low
+                        </MenuItem>
+                        <MenuItem value="medium">
+                          <ReportProblemIcon
+                            style={{ marginRight: "8px", color: "orange", verticalAlign: 'middle' }}
+                          />
+                          Medium
+                        </MenuItem>
+                        <MenuItem value="high">
+                          <ReportProblemIcon
+                            style={{ marginRight: "8px", color: "red", verticalAlign: 'middle' }}
+                          />
+                          High
+                        </MenuItem>
                       </TextField>
                     </Grid>
                   </Grid>

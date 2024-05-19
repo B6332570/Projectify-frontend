@@ -1,0 +1,79 @@
+/* ปรับแต่งขนาดและระยะห่างของคอนเทนต์ */
+.user-manage-content {
+    width: calc(100% - 250px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
+    margin-left: 250px;
+    padding-top: 100px; /* ปรับตามความสูงของ Navbar */
+    padding: 360px;
+    background-color: #f0f2f5;
+    overflow: hidden; /* ป้องกันการทับกับ Navbar */
+  }
+  
+  /* ปรับแต่ง Card */
+  .custom-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    transition: transform 0.3s;
+  }
+  
+
+  /* ปรับแต่ง Table */
+  .custom-table {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .custom-table .ant-table-thead > tr > th {
+    background: #f7b733;
+    color: white;
+  }
+  
+  .custom-table .ant-table-tbody > tr > td {
+    background: white;
+  }
+  
+  /* ปรับแต่ง Modal */
+  .custom-modal .ant-modal-content {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #ffecd2;
+  }
+  
+  .custom-modal .ant-modal-header {
+    background: #fcb69f;
+    color: white;
+  }
+  
+  .custom-modal .ant-modal-footer {
+    background: #fcb69f;
+  }
+  
+  /* เพิ่มอนิเมชั่น */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .custom-card,
+  .custom-table,
+  .custom-modal {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* ปรับแต่งปุ่ม */
+  .ant-btn-danger {
+    background: #f7615f;
+    border-color: #f7615f;
+  }
+  
+  .ant-btn-danger:hover,
+  .ant-btn-danger:focus {
+    background: #f53b57;
+    border-color: #f53b57;
+  }
+  

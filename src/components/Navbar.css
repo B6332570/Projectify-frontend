@@ -1,6 +1,6 @@
 .navbar {
   
- 
+  background-color: #1f1f1f;
   position: fixed;
   top: 0px;
   left: 250px; /* ลดขอบเขตด้านซ้ายของ Navbar เพื่อให้ไม่แทบกับ Sidebar */
@@ -10,37 +10,38 @@
 
   
 }
+
 .profile-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%; /* กำหนดให้รูปโปรไฟล์เป็นรูปทรงกลมโดยใช้ border-radius */
-  margin-right: 20px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border: 2px solid #fff;
 }
 
+.menu-appbar .MuiPaper-root {
+  background-color: transparent;
+  box-shadow: none;
+}
 
-  
-  .navbar-nav {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: flex-end;
-    height: 100%;
-  }
-  
-  .nav-item {
-    margin-left: 10px;
-  }
-  
-  .nav-link {
-    color: #fff;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .nav-link:hover {
-    background-color: #ffc1ef;
-  }
-  
+.navbar .MuiCard-root {
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.navbar .MuiCardContent-root {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.navbar .MuiButton-root {
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.navbar .MuiButton-root:hover {
+  transform: scale(1.05);
+}

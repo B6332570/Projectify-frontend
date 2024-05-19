@@ -1,61 +1,47 @@
-/* User.css */
-
-
-
-  .user-box{
-
-    background-color:#ffffff;
-    height:1340px;
-    width: calc(100% - 0px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
-    /* border-radius: 40px; */
-    display:flex;
-    justify-content:space-evenly;
-    align-items: center;
-    flex-direction:column;
-    color: #D0D1D4;
-    box-shadow: 0 6px 24px #84848380;
-
-
+.flex {
+  display: flex;
 }
 
-  
-  .user-box h4 {
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
-  
-  .user-box form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .user-box .input-group {
-    margin-bottom: 15px;
-  }
-  
-  .user-box .input-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-  }
-  
-  .user-box .input-group input[type="file"] {
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 4px;
-  }
-  
-  .user-box button[type="submit"] {
-    align-self: flex-end;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .user-box button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
-  
+.main-content {
+  width: calc(100% - 250px);
+  margin-left: 250px;
+  margin-top: 70px;
+  height: calc(100vh - 70px);
+  padding: 20px;
+  background: linear-gradient(to right, #ffecd2, #fcb69f);
+  overflow: hidden;
+}
+
+.user-box {
+  width: calc(100% - 250px);
+  margin-left: 250px;
+  margin-top: 70px;
+  height: calc(100vh - 70px);
+  padding: 20px;
+  background: linear-gradient(to right, #ffecd2, #fcb69f);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+  margin-bottom: 16px;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-form > * {
+  margin-bottom: 16px;
+}

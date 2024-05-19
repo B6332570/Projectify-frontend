@@ -19,6 +19,13 @@
     font-size: 20px;
   }
 
+    
+  .sidebar-heading {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+
   .logo {
     display: flex;
     align-items: center;
@@ -32,34 +39,38 @@
     height: 30px;
     margin-right: 10px;
   }
-  
-  .sidebar-heading {
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  
-  .tabs {
-    flex-grow: 1;
-    padding: 20px;
-  }
-  
-  .tabs ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .tabs ul li {
-    margin-bottom: 30px; /* เพิ่มระยะห่างระหว่างรายการ */
-  }
-  
-  .tabs ul li a {
-    color: #ffffff;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  .tabs ul li a:hover {
-    color: #f924b2; /* เปลี่ยนสีเมื่อเม้าส์ไปชี้ */
-  }
-  
+
+.tabs ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.tabs ul li {
+  margin: 10px 0;
+}
+
+.tabs ul li a {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: block;
+  text-align: center;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.tabs ul li a:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: #333;
+  transform: scale(1.05);
+}
+
+.tabs ul li a.active {
+  background: rgba(255, 255, 255, 0.5);
+  color: #333;
+  font-weight: bold;
+}

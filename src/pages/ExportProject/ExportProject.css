@@ -1,0 +1,57 @@
+.flex {
+    display: flex;
+  }
+  
+  .main-content {
+    width: calc(100% - 250px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
+    margin-left: 250px;
+    margin-top: 70px; /* ดึงเนื้อหาลงมาให้ต่ำกว่า Navbar */
+    height: calc(100vh - 70px); /* ปรับตามความสูงของ Navbar */
+
+    background: linear-gradient(to right, #ffecd2, #fcb69f);
+    overflow: hidden; /* ป้องกันการทับกับ Navbar */
+  }
+  
+  .animated-text {
+    animation: fadeInDown 1s ease-in-out;
+    color: #007bff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .animated-button {
+    padding: 15px 30px;
+    font-size: 18px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .animated-button:hover {
+    background: #0056b3;
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  

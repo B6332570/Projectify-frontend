@@ -44,16 +44,25 @@ const StatusCell = ({ status }) => {
         marginLeft: '40px',
         width: '300px',
         height: '60px',
-        backgroundColor: backgroundColor,
         display: 'flex',
-        justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: '4px', // ปรับให้เป็นสี่เหลี่ยม
+        borderRadius: '4px',
         color: 'white',
-        position: 'relative'
+        position: 'relative',
+        padding: '0 16px',
+        backgroundColor: '#fff',
       }}
     >
-      <span>{displayStatus}</span>
+      <Box
+        sx={{
+          width: '12px',
+          height: '12px',
+          backgroundColor: backgroundColor,
+          borderRadius: '50%',
+          marginRight: '16px',
+        }}
+      />
+      <span style={{ color: 'black' }}>{displayStatus}</span>
     </Box>
   );
 };

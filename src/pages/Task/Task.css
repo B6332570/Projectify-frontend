@@ -1,72 +1,41 @@
-/* Task.css */
-.main-content {
-  grid-column: 2 / -1;
-  
-  padding-top: 60px; /* ปรับตามความสูงของ Navbar */
-  max-width: 2560px;
+.flex {
   display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-.main-content h1 {
-  font-size: 24px;
-  margin-bottom: 80px;
-  
-  color: #ff0000; /* สีของข้อความ */
+.main-content {
+  width: calc(100% - 250px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
+  margin-left: 250px;
+  margin-top: 70px; /* ดึงเนื้อหาลงมาให้ต่ำกว่า Navbar */
+  height: calc(100vh - 70px); /* ปรับตามความสูงของ Navbar */
+  padding: 20px;
+  background: linear-gradient(to right, #ffecd2, #fcb69f);
+  overflow: hidden; /* ป้องกันการทับกับ Navbar */
 }
 
 .table-container {
-  margin-bottom: 20px;
-  
-  width: calc(100% - 250px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
- 
-  border-radius: 8px; /* ขอบมนเมื่อมมองจากข้างข้าง */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* เงาของ container */
-  margin-left: 250px;
-  
-
- 
-
-}
-
-.table-container h1 {
-  font-size: 20px;
-  margin: 20px;
-  color: #000000; /* สีของข้อความ */
-}
-
-
-
-.table-container th {
-  background-color: #84848480; /* สีพื้นหลังของหัวข้อตาราง */
-  font-weight: bold;
-}
-
-.table-row-collapse {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: none !important;
-}
-
-.table-cell-collapse {
-  padding: 0 !important;
-}
-
-.table-row-group-name {
-  margin-bottom: -1px;
-}
-
-.table-cell-group-name {
-  padding-bottom: 0;
-}
-
-.collapse-closed {
-  height: 0 !important;
-  overflow: hidden !important;
-  transition: height 0.2s ease-out;
+  height: 100%;
+  overflow-y: auto; /* เพิ่มการเลื่อนในแนวตั้ง */
 }
 
 .collapse-content {
-  padding: 0 !important;
+  width: 100%;
+}
+
+.table-container-header {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+.table-cell-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.table-cell-center > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }

@@ -134,7 +134,7 @@ function Signup() {
               </div>
 
 
-              <div class="container"> 
+              <div class="profileinput"> 
                 <FormControl className="select-input">
                   <InputLabel id="role-label">Role</InputLabel>
                   <Select
