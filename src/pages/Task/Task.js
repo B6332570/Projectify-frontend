@@ -160,7 +160,7 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
                     ))}
                   </Avatar.Group>
                 </TableCell>
-                <TableCell align="center" style={{ width: '200px' }}>
+                <TableCell align="center" style={{ width: '250px', marginLeft:'100px' }}>
                 <StatusCell status={taskItem.status} />
                 </TableCell>
                 <TableCell align="center" className="table-cell-date" style={{ width: '450px' }}>{formatDate(taskItem.startDate)}</TableCell>
@@ -310,7 +310,7 @@ const Task = () => {
               usersData={usersData}
             />
           )}
-          <h1>Task Page</h1>
+          <h5  >Task Page</h5>
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}

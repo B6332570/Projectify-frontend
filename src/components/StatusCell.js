@@ -49,7 +49,7 @@ const StatusCell = ({ status }) => {
         color: 'white',
         padding: '8px 16px',
         fontSize: '16px',
-        fontWeight: '200',
+        fontWeight: '400',
         textAlign: 'center',
       }}
     >

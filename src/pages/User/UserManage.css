@@ -8,8 +8,7 @@
   flex-grow: 1;
   width: calc(100% - 250px);
 
-  margin-top: 70px;
-  height: calc(100vh - 70px);
+
   overflow-y: auto;
   background-color: #f4f2ee; /* Default background color */
   padding: 20px;

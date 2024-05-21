@@ -5,10 +5,15 @@
   top: 0px;
   left: 250px; /* ลดขอบเขตด้านซ้ายของ Navbar เพื่อให้ไม่แทบกับ Sidebar */
   right: 0;
-  width: calc(100% - 250px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
+
   z-index: 1; 
 
   
+}
+
+.MuiTableCell-root {
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: 18px; /* ขนาดฟ้อน */
 }
 
 .profile-icon {
