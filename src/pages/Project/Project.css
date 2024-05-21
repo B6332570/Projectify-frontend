@@ -3,30 +3,41 @@
 }
 
 /* Container for the main content */
-.main-content {
+.pmain-content {
   width: calc(100% - 250px);
-  margin-left: 250px;
+  background-color: #f4f2ee;
+
+  display: flex;
+  justify-content: center; /* จัดกึ่งกลางแนวนอน */
+  align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+
+  height: 100vh;
 }
 
 /* Container for the project content */
 .project-content {
   padding-top: 70px;
-  width: 50%;
-  height: calc(100vh - 70px);
-  background-color: #fff;
-  padding: 20px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  margin-left: 570px;
+
   
   display: flex;
   justify-content: center; /* จัดกึ่งกลางแนวนอน */
   align-items: center; /* จัดกึ่งกลางแนวตั้ง */
 }
 .project-wrapper {
+  
   max-width: 900px; /* กำหนดขนาดความกว้างสูงสุดของ content */
   width: 100%; /* ให้ content ยืดตามขนาดหน้าจอ */
 }
+
+.project-wrapper .max-w-sm {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.project-wrapper .max-w-sm:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
 
 /* Custom styling for the project cards */
 .max-w-sm {
@@ -40,22 +51,38 @@
 
 /* Custom styling for the pagination */
 .custom-pagination {
-  margin-top: 20px;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .create-project-button {
-  background-color: #333;
-  color: #fff;
-  border: none;
-  margin-top: 20px;
-  width: 100%;
-  padding: 10px 0;
-  text-align: center;
-  transition: background-color 0.3s;
+  position: absolute;
+  top: 170px;
+ 
+  right: 100px;
 }
+
 
 .create-project-button:hover {
   background-color: #000;
+}
+
+.skeleton-card {
+  height: 500px; /* ปรับความสูงตามต้องการ */
+  width: 400px;
+  
+
+
+}
+.skeleton-image {
+  width: 100%;
+  height: 200px; /* ปรับความสูงตามต้องการ */
+  margin-bottom: 20px;
+}
+
+
+.ant-skeleton {
+  width: 100%;
 }

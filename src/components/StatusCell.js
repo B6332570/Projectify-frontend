@@ -6,63 +6,54 @@ const StatusCell = ({ status }) => {
   let displayStatus;
   switch (status) {
     case 'to_do':
-      backgroundColor = '#f48fb1'; // สีแดง
+      backgroundColor = '#09AEEA'; 
       displayStatus = 'To Do';
       break;
     case 'in_progress':
-      backgroundColor = '#fbc02d'; // สีส้ม
+      backgroundColor = '#4CEAD4'; 
       displayStatus = 'In Progress';
       break;
     case 'on_hold':
-      backgroundColor = '#9e9e9e'; // สีเทา
+      backgroundColor = '#9e9e9e'; 
       displayStatus = 'On Hold';
       break;
     case 'block':
-      backgroundColor = '#9c27b0'; // สีม่วง
+      backgroundColor = '#F56B61'; 
       displayStatus = 'Block';
       break;
     case 'ready_to_deploy':
-      backgroundColor = '#1e88e5'; // สีฟ้า
+      backgroundColor = '#74CB80'; 
       displayStatus = 'Ready to Deploy';
       break;
     case 'ready_to_test':
-      backgroundColor = '#43a047'; // สีเขียว
+      backgroundColor = '#68A1FF'; 
       displayStatus = 'Ready To Test';
       break;
     case 'done':
-      backgroundColor = '#66bb6a'; // สีเขียวอ่อน
+      backgroundColor = '#66bb6a'; 
       displayStatus = 'Done';
       break;
     default:
-      backgroundColor = '#bdbdbd'; // สีเทาอ่อน
+      backgroundColor = '#bdbdbd'; 
       displayStatus = 'Unknown';
   }
 
   return (
     <Box
       sx={{
-        marginLeft: '40px',
-        width: '300px',
-        height: '60px',
         display: 'flex',
         alignItems: 'center',
-        borderRadius: '4px',
+        justifyContent: 'center',
+        borderRadius: '20px',
+        backgroundColor: backgroundColor,
         color: 'white',
-        position: 'relative',
-        padding: '0 16px',
-        backgroundColor: '#fff',
+        padding: '8px 16px',
+        fontSize: '16px',
+        fontWeight: '200',
+        textAlign: 'center',
       }}
     >
-      <Box
-        sx={{
-          width: '12px',
-          height: '12px',
-          backgroundColor: backgroundColor,
-          borderRadius: '50%',
-          marginRight: '16px',
-        }}
-      />
-      <span style={{ color: 'black' }}>{displayStatus}</span>
+      {displayStatus}
     </Box>
   );
 };

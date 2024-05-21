@@ -1,76 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:ital,wght@0,400;1,1000&display=swap');
-
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    height: 100vh; /* ความสูงเต็มหน้าจอ */
-    margin-top: 2;
-    width: 250px;
-    background-color: #333333;
-    color: #fff;
-    position: fixed;
-    
-    
-  }
-
-  .sidebar-heading {
-    margin: 21.5px 0;
-    font-family: 'Nunito', sans-serif;
-    font-size: 20px;
-  }
-
-    
-  .sidebar-heading {
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-
-
-  .logo {
-    display: flex;
-    align-items: center;
-    padding: 0px;
-    justify-content: center; /* เพิ่มบรรทัดนี้ */
-    border-bottom: 1px solid white; /* เพิ่มบรรทัดนี้ */
-  }
-  
-  .logo img {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-  }
-
-.tabs ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
+.MuiDrawer-paper {
+  width: 250px;
+  box-sizing: border-box;
+  background-color: #333333;
+  color: #ffffff;
 }
 
-.tabs ul li {
-  margin: 10px 0;
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .MuiDrawer-paper {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  .MuiListItemIcon-root {
+    color: #000000;
+  }
+
+  .MuiListItem-button:hover {
+    background-color: #e0e0e0;
+  }
 }
 
-.tabs ul li a {
-  text-decoration: none;
-  font-size: 1.2rem;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 10px 15px;
-  border-radius: 8px;
-  display: block;
-  text-align: center;
-  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+.projectify-logo {
+  width: 60px;
+  height: 60px;
+  margin-right: 8px;
 }
 
-.tabs ul li a:hover {
-  background: rgba(255, 255, 255, 0.3);
-  color: #333;
-  transform: scale(1.05);
+.projectify-title {
+  color: #ffffff;
 }
 
-.tabs ul li a.active {
-  background: rgba(255, 255, 255, 0.5);
-  color: #333;
-  font-weight: bold;
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .projectify-title {
+    color: #000000;
+  }
+
+  .divider-color {
+    border-color: #000000;
+  }
 }

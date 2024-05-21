@@ -28,6 +28,9 @@ import AddIcon from '@mui/icons-material/Add';
 import { AntDesignOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Divider, Tooltip } from 'antd';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
@@ -99,22 +102,22 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
     let text;
     switch (priority) {
       case 'low':
-        icon = <ReportProblemIcon style={{ color: '8A8E91', marginRight: '8px', verticalAlign: 'middle' }} />;
+        icon = <ReportProblemIcon style={{ color: '69B16C', marginRight: '8px', verticalAlign: 'middle', marginTop: '4px' }} />;
         text = 'Low';
         break;
       case 'medium':
-        icon = <ReportProblemIcon style={{ color: 'FFB216', marginRight: '8px', verticalAlign: 'middle' }} />;
+        icon = <ReportProblemIcon style={{ color: 'EFAD25', marginRight: '8px', verticalAlign: 'middle', marginTop: '4px' }} />;
         text = 'Medium';
         break;
       case 'high':
-        icon = <ReportProblemIcon style={{ color: 'red', marginRight: '8px', verticalAlign: 'middle' }} />;
+        icon = <ReportProblemIcon style={{ color: 'F16E70', marginRight: '8px', verticalAlign: 'middle', marginTop: '4px' }} />;
         text = 'High';
         break;
       default:
         return null;
     }
     return (
-      <div className="table-cell-content">
+      <div style={{ display: 'flex', alignItems: 'center', marginLeft:'70px' }}>
         {icon}
         <span>{text}</span>
       </div>
@@ -141,48 +144,35 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
           <TableCell colSpan={8} style={{ padding: '0.0001px' }}>
             <Collapse in={open} timeout="auto" unmountOnExit className="collapse-content">
               <Box sx={{ display: 'flex', width: '100%' }}>
-                <TableCell align="center" className="table-cell-center">
-                  <Button onClick={() => handleEditTask(taskItem)}>{taskItem.taskName}</Button>
+                <TableCell align="center" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '400px' }}>
+                  <Button  onClick={() => handleEditTask(taskItem)}>{taskItem.taskName}</Button>
                 </TableCell>
-                <TableCell align="center" className="table-cell-center">
-                  <div className="table-cell-content">
-                    <Avatar.Group maxCount={2} size={{ xxl: 50 }}>
-                      {taskItem.users.map((userItem) => (
-                        <Tooltip title={`${userItem.user.username} ${userItem.user.firstName}`} key={userItem.userId}>
-                          <Avatar
-                            crossOrigin='anonymous'
-                            src={usersData[userItem.userId]}
-                            alt={`${userItem.user.username} ${userItem.user.firstName}`}
-                          />
-                        </Tooltip>
-                      ))}
-                    </Avatar.Group>
-                  </div>
+                <TableCell align="center" style={{ width: '400px' }}>
+                  <Avatar.Group maxCount={2} size={{ xxl: 50 }}>
+                    {taskItem.users.map((userItem) => (
+                      <Tooltip title={`${userItem.user.username} ${userItem.user.firstName}`} key={userItem.userId}>
+                        <Avatar
+                          crossOrigin='anonymous'
+                          src={usersData[userItem.userId]}
+                          alt={`${userItem.user.username} ${userItem.user.firstName}`}
+                        />
+                      </Tooltip>
+                    ))}
+                  </Avatar.Group>
                 </TableCell>
-                <TableCell align="center" className="table-cell-center">
-                  <div className="table-cell-content">
-                    <StatusCell status={taskItem.status} />
-                  </div>
+                <TableCell align="center" style={{ width: '200px' }}>
+                <StatusCell status={taskItem.status} />
                 </TableCell>
-                <TableCell align="center" className="table-cell-center">
-                  <div className="table-cell-content">
-                    <span>{formatDate(taskItem.startDate)}</span>
-                  </div>
-                </TableCell>
-                <TableCell align="center" className="table-cell-center">
-                  <div className="table-cell-content">
-                    <span>{formatDate(taskItem.endDate)}</span>
-                  </div>
-                </TableCell>
-                <TableCell align="center" className="table-cell-center">
+                <TableCell align="center" className="table-cell-date" style={{ width: '450px' }}>{formatDate(taskItem.startDate)}</TableCell>
+<TableCell align="center" className="table-cell-date" style={{ width: '200px' }}>{formatDate(taskItem.endDate)}</TableCell>
+
+                <TableCell align="center" className="table-cell-date"  style={{ width: '300px' }}>
                   {getPriorityIcon(taskItem.priority)}
                 </TableCell>
-                <TableCell align="center" className="table-cell-center">
-                  <div className="table-cell-content">
-                    <IconButton aria-label="delete" onClick={() => handleDeleteClick(taskItem)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </div>
+                <TableCell align="center" style={{ width: '200px' }}>
+                  <IconButton aria-label="delete" onClick={() => handleDeleteClick(taskItem)}>
+                    <DeleteIcon />
+                  </IconButton>
                 </TableCell>
               </Box>
             </Collapse>
@@ -308,7 +298,7 @@ const Task = () => {
     <div className="flex">
       <Sidebar />
       <Navbar />
-      <div className="main-content">
+      <div className="tmain-content">
         <CreateButton handleMenuClick={handleMenuClick} handleMenuItemClick={handleMenuItemClick} />
         <div className="table-container">
           {openEditTask && selectedTask && (

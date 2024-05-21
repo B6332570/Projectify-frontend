@@ -1,0 +1,66 @@
+.flex {
+    display: flex;
+    
+  }
+  .project-manage-content {
+    width: calc(100% - 250px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
+
+    padding-top: 100px; /* ปรับตามความสูงของ Navbar */
+    padding: 380px;
+    background-color: #f4f2ee;
+    overflow: hidden; /* ป้องกันการทับกับ Navbar */
+
+  height: 100vh;
+  }
+  
+  .custom-card {
+    width: 80%; /* หรือกำหนดขนาดตามที่ต้องการ เช่น 60%, 70%, ฯลฯ */
+  }
+  
+  .custom-table {
+    overflow: auto; /* ให้ตารางสามารถเลื่อนได้หากมีขนาดใหญ่เกินไป */
+  }
+  
+  
+  
+  .custom-table .ant-table-tbody > tr > td {
+    text-align: center;
+      max-width: 1200px;
+  }
+  
+  .custom-table .ant-table-tbody > tr:hover > td {
+    background-color: #e6f7ff;
+  }
+  
+  .custom-modal .ant-modal-content {
+    border-radius: 8px;
+  }
+  
+  .custom-modal .ant-modal-header {
+    background-color: #f0f0f0;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .custom-modal .ant-modal-footer {
+    border-top: none;
+  }
+  
+  .custom-modal .ant-modal-body {
+    padding: 24px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .custom-pagination {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .custom-pagination .ant-pagination-item-active {
+    border-color: #1890ff;
+  }
+  
+  .custom-pagination .ant-pagination-item-active a {
+    color: #1890ff;
+  }
+  

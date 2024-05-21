@@ -4,8 +4,8 @@
 
 .main-content {
   width: calc(100% - 250px);
-  margin-left: 250px;
-  margin-top: 70px;
+ 
+  margin-top: 64px; /* ดึงเนื้อหาลงมาให้ต่ำกว่า Navbar */
   height: calc(100vh - 70px);
   padding: 20px;
   background: linear-gradient(to right, #ffecd2, #fcb69f);
@@ -14,9 +14,9 @@
 
 .user-box {
   width: calc(100% - 250px);
-  margin-left: 250px;
-  margin-top: 70px;
-  height: calc(100vh - 70px);
+ 
+  margin-top: 64px; /* ดึงเนื้อหาลงมาให้ต่ำกว่า Navbar */
+  height: calc(100vh - 64px);
   padding: 20px;
   background: linear-gradient(to right, #ffecd2, #fcb69f);
   overflow: hidden;

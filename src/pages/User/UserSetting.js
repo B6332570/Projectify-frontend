@@ -72,11 +72,11 @@ const UserSetting = () => {
       const api = axiosWithAuth();
 
       try {
-        const mediaObjectResponse = await api.post(
+        const mediaObjectResponse = await axios.post(
           "http://localhost:3001/api/media-object",
           formData
         );
-        const imageId = mediaObjectResponse.data.result[0];
+        const imageId = mediaObjectResponse.data.result[0].id;
         console.log("Image uploaded, imageId:", imageId);
 
         const mediaResponse = await api.get(`/media-object/${imageId}`);
@@ -130,7 +130,7 @@ const UserSetting = () => {
       <Sidebar />
       <Navbar />
       <div className="user-box">
-        
+      
         {user && (
           <Card className="user-card">
             <CardContent>

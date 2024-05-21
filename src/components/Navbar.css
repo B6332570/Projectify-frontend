@@ -16,7 +16,7 @@
   width: 40px;
   height: 40px;
   object-fit: cover;
-  border: 2px solid #fff;
+  border: 2px solid #f4f2ee;
 }
 
 .menu-appbar .MuiPaper-root {
@@ -44,4 +44,21 @@
 
 .navbar .MuiButton-root:hover {
   transform: scale(1.05);
+}
+/* Default (Light Mode) */
+.navbar {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .navbar {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  .profile-icon {
+    border: 2px solid #000000;
+  }
 }

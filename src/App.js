@@ -11,6 +11,7 @@ import ResetPasswordPage from './pages/Signin/ResetPasswordPage'
 import UserSetting from './pages/User/UserSetting'
 import ExportProject from './pages/ExportProject/ExportProject'
 import UserManage from './pages/User/UserManage'
+import ProjectManage from './pages/Project/ProjectManage'
 
 
 
@@ -21,6 +22,8 @@ function App() {
         <Routes>
           <Route path="/project" element={<Project />} />
           <Route path="/project/:projectId/task" element={<Task />} />
+          
+          <Route path="/project-manage" element={<ProjectManage />} />
           <Route path="/task" element={<Task />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />

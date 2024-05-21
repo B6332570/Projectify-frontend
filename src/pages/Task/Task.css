@@ -1,14 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+
 .flex {
   display: flex;
 }
 
-.main-content {
-  width: calc(100% - 250px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
-  margin-left: 250px;
-  margin-top: 70px; /* ดึงเนื้อหาลงมาให้ต่ำกว่า Navbar */
-  height: calc(100vh - 70px); /* ปรับตามความสูงของ Navbar */
-  padding: 20px;
-  background: linear-gradient(to right, #ffecd2, #fcb69f);
+.tmain-content {
+  width: calc(100% - 250px);
+  margin-top: 64px; /* ดึงเนื้อหาลงมาให้ต่ำกว่า Navbar */
+  padding-top: 100px;
+  background-color: #b47800;
   overflow: hidden; /* ป้องกันการทับกับ Navbar */
 }
 
@@ -18,24 +23,48 @@
 }
 
 .collapse-content {
+  font-size: 20px; /* ขนาดฟ้อน status */
   width: 100%;
 }
 
 .table-container-header {
   font-weight: bold;
-  background-color: #f0f0f0;
+  font-size: 18px;
+  background-color: #ffffff;
 }
 
 .table-cell-center {
+  font-size: 18px; /* ขนาดฟ้อน */
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
 }
 
-.table-cell-center > * {
+.table-cell-center span {
+  font-size: 18px; /* ขนาดฟ้อน */
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+.icon-button {
+  font-weight: 500; /* เพิ่มความหนาของฟ้อน */
+  font-size: 18px; /* ขนาดฟ้อน */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.table-cell-date {
+  padding-top: 30px;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 150px;
 }

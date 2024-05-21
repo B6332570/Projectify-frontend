@@ -292,7 +292,7 @@ const Task = () => {
     <div className="flex">
       <Sidebar />
       <Navbar />
-      <div className="main-content">
+      <div className="tmain-content">
         <CreateButton handleMenuClick={handleMenuClick} handleMenuItemClick={handleMenuItemClick} />
         <div className="table-container">
           {openEditTask && selectedTask && (

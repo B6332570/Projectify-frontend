@@ -13,6 +13,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Divider from '@mui/material/Divider';
+import { useTheme } from '@mui/material/styles';
 import './Navbar.css';
 
 const axiosWithAuth = () => {
@@ -28,9 +29,10 @@ const axiosWithAuth = () => {
 };
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
 
 const Navbar = () => {
+  const theme = useTheme();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
@@ -87,7 +89,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <AppBar position="static" sx={{ backgroundColor: '#333333' }}>
-        <Toolbar disableGutters>
+        <Toolbar disableGutters  >
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -124,29 +126,16 @@ const Navbar = () => {
               ))}
             </Menu>
           </Box>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+          <Box sx={{ flexGrow: 1 }}>
+         
           </Box>
-
           <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
             <Typography variant="h6" color="inherit" sx={{ mr: 2 }}>
               {userProfile && `${userProfile.firstName} ${userProfile.lastName}`}
             </Typography>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               {userProfile && userProfile.image && (
-
-                
                 <img crossOrigin='anonymous' alt="Profile" src={userProfile.image} className="profile-icon" />
-                
               )}
             </IconButton>
             <Menu
@@ -167,16 +156,13 @@ const Navbar = () => {
             >
               <Card sx={{
                 minWidth: 300,
-               
                 boxShadow: 3,
                 overflow: 'hidden',
                 position: 'relative',
-
                 border: '2px solid #fff',
-                color: '#fff',
+                color: theme.palette.mode === 'dark' ? '#000000' : '#fff',
                 textAlign: 'center',
                 padding: '20px',
-      
               }}>
                 <CardMedia
                   crossOrigin="anonymous"
@@ -184,13 +170,17 @@ const Navbar = () => {
                   height="200"
                   image={userProfile && userProfile.image}
                   alt="Profile picture"
-               
+                  sx={{
+                    objectFit: "cover",
+                    width: "250px",
+                    height: "250px"
+                  }}
                 />
                 <CardContent sx={{
                   textAlign: 'center',
-                  color: '#fff',
+                  color: theme.palette.mode === 'dark' ? '#000000' : '#fff',
                   padding: '80px 20px 20px',
-                  background: 'rgba(0, 0, 0, 0.6)',
+                  background: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
                   borderTop: '1px solid #fff'
                 }}>
                   <Typography gutterBottom variant="h5" component="div">
