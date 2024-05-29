@@ -1,12 +1,14 @@
+// UserSetting.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
 import { Divider } from "antd";
 import { Typography, TextField, Button, Box, Card, CardContent } from "@mui/material";
-import "./User.css";
+import './User.css';
 import { Avatar } from 'antd';
 import Swal from 'sweetalert2';
+import { Link } from "react-router-dom"; // import Link from react-router-dom
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
@@ -130,7 +132,6 @@ const UserSetting = () => {
       <Sidebar />
       <Navbar />
       <div className="user-box">
-      
         {user && (
           <Card className="user-card">
             <CardContent>
@@ -148,7 +149,7 @@ const UserSetting = () => {
                   {user.firstName} {user.lastName}
                 </Typography>
                 <Divider sx={{ my: 2, width: "100%" }} />
-                <Typography variant="h5" gutterBottom>
+                <Typography variant="h5" gutterBottom    sx={{ mb: 6 }}>
                   Edit User Information
                 </Typography>
                 <form onSubmit={handleSubmit} className="user-form">
@@ -159,7 +160,7 @@ const UserSetting = () => {
                     value={editedUser.username}
                     onChange={handleChange}
                     fullWidth
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 6 }}
                   />
                   <TextField
                     label="First Name"
@@ -168,7 +169,7 @@ const UserSetting = () => {
                     value={editedUser.firstName}
                     onChange={handleChange}
                     fullWidth
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 6 }}
                   />
                   <TextField
                     label="Last Name"
@@ -177,7 +178,7 @@ const UserSetting = () => {
                     value={editedUser.lastName}
                     onChange={handleChange}
                     fullWidth
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 6 }}
                   />
                   <div className="input-group">
                     <label htmlFor="profileImage" style={{ color: "black" }}>
@@ -198,6 +199,9 @@ const UserSetting = () => {
                     Save
                   </Button>
                 </form>
+                <Link to={`/reset-password/${user.id}`} style={{ marginTop: '10px' }}>
+                  Want to reset password?
+                </Link>
               </Box>
             </CardContent>
           </Card>

@@ -1,14 +1,14 @@
 .navbar {
-  
   background-color: #1f1f1f;
   position: fixed;
   top: 0px;
   left: 250px; /* ลดขอบเขตด้านซ้ายของ Navbar เพื่อให้ไม่แทบกับ Sidebar */
   right: 0;
-
   z-index: 1; 
+}
 
-  
+.navbar .MuiAppBar-root {
+  height: 70px; /* กำหนดความสูงของ AppBar */
 }
 
 .MuiTableCell-root {

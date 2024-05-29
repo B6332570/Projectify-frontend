@@ -14,7 +14,6 @@
 
 .user-box {
   width: calc(100% - 250px);
- 
   margin-top: 64px; /* ดึงเนื้อหาลงมาให้ต่ำกว่า Navbar */
   height: calc(100vh - 64px);
   padding: 20px;
@@ -27,7 +26,10 @@
 
 .user-card {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px; /* กำหนดขนาดสูงสุด */
+  min-width: 600px; /* กำหนดขนาดต่ำสุด */
+  min-height: 1000px;
+
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -40,8 +42,31 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 }
 
 .user-form > * {
-  margin-bottom: 16px;
+
+  margin-bottom: 50px; /* เพิ่มช่องว่างระหว่างองค์ประกอบ */
+}
+
+.user-page .MuiInputBase-root {
+  background-color: #d5d5d5;
+  border-radius: 8px;
+  height: 50px;
+}
+
+.user-page .MuiSelect-root {
+  font-size: 16px;
+  color: #550404;
+}
+
+.user-page .MuiInputBase-root.MuiOutlinedInput-root {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.custom-form-control {
+  margin-top: 20px;
+  width: 100%;
+
 }

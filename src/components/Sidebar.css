@@ -1,7 +1,22 @@
+.MuiDrawer-root {
+  width: 250px;
+  flex-shrink: 0;
+}
+
 .MuiDrawer-paper {
   width: 250px;
   box-sizing: border-box;
   background-color: #333333;
+  color: #ffffff;
+}
+
+.MuiDrawer-paper .projectify-logo {
+  width: 20px; /* ปรับขนาดรูปภาพ */
+  height: 20px; /* ปรับขนาดรูปภาพ */
+  margin-right: 8px;
+}
+
+.projectify-title {
   color: #ffffff;
 }
 
@@ -12,27 +27,6 @@
     color: #000000;
   }
 
-  .MuiListItemIcon-root {
-    color: #000000;
-  }
-
-  .MuiListItem-button:hover {
-    background-color: #e0e0e0;
-  }
-}
-
-.projectify-logo {
-  width: 60px;
-  height: 60px;
-  margin-right: 8px;
-}
-
-.projectify-title {
-  color: #ffffff;
-}
-
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
   .projectify-title {
     color: #000000;
   }

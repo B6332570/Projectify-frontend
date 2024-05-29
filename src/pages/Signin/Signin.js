@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import './Login.css';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 const MySwal = withReactContent(Swal);
@@ -59,7 +59,7 @@ function Signin() {
   };
 
   return (
-    <div className="backgound">
+    <div className="background">
       <div className="bg">
         <div className="sigin-holder">
           <form className="signin-form">
@@ -70,7 +70,7 @@ function Signin() {
                 </h4>
               </div>
 
-              <div className="emailinput">
+              <div className="emailinputsignin">
                 <div className="emailtext">Email</div>
                 <div className="email">
                   <input
@@ -84,7 +84,7 @@ function Signin() {
                 </div>
               </div>
 
-              <div className="passwordinput">
+              <div className="passwordinputsignin">
                 <div className="passwordtext">
                   Password <small> (must be 6-12 characters)</small>
                 </div>
@@ -105,7 +105,7 @@ function Signin() {
                 </button>
               </div>
 
-              <span className="signupspan" onClick={() => navigate("/resetpassword")}>
+              <span className="signupspan" onClick={() => navigate("/forget-password")}>
                 Forget Your Password ?
               </span>
               <span className="signup">

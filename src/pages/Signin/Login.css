@@ -16,7 +16,7 @@
    
 }
 
-.backgound {
+.background {
     background-color: rgb(255, 255, 255); 
     display: flex;
     justify-content: center;
@@ -36,7 +36,7 @@
     height: 100vh;
     background: transparent;
     backdrop-filter: blur(0.25px);
-    color: #f0f5fa;
+   
     display: flex;
     justify-content:left;
     align-items:center;
@@ -91,14 +91,14 @@
 .signup-div{
 
     background-color:#ffffff;
-    height:800px;
+    height:1000px;
     width: 800px;
     /* border-radius: 40px; */
     display:flex;
     justify-content:space-evenly;
     align-items: center;
     flex-direction:column;
-    color: #D0D1D4;
+    
     box-shadow: 0 6px 24px #84848380;
 
 }
@@ -176,20 +176,36 @@
 }
 
 .emailinput{
+    width:50%;
+    height:55px;
+    margin-bottom:20px;
+    position:relative; 
+    border-radius:20px;
+
+}
+.passwordinput{
+    width:50%;
+    height:55px;
+    margin-bottom:20px;
+    position:relative; 
+    border-radius:20px;
+
+}
+.emailinputsignin{
     width:80%;
     height:55px;
     margin-bottom:20px;
     position:relative; 
     border-radius:20px;
-    padding-right:30px;
+
 }
 
-.passwordinput{
+.passwordinputsignin{
     width:80%;
     height:55px;
-    font-size: 20px;
+  
     position:relative; 
-    padding-right:30px;
+
     border-radius:20px;
 }
 
@@ -197,6 +213,19 @@
     color:rgb(151, 147, 147);
     font-size: 15px;
 }
+
+.role-select{
+    width:50%;
+    /* height:55px; */
+    margin-bottom:20px;
+    margin-top:20px;
+    position:relative; 
+    border-radius:20px;
+
+}
+
+
+
 
 .emailtext{
     font-size:16px;
@@ -357,46 +386,13 @@
 
 
 
-:root {
-    --background: #ffffff;
-    --text-primary: #000;
-    --text-secondary: #8e05c2;
-    --accent: #8e05c2;
-    --border: #333;
-    --form-bg: #fff;
-}
-  
-[data-theme='dark'] {
-    --background: #000;
-    --text-primary: #fff;
-    --text-secondary: #F49B4E;
-    --accent: #F49B4E;
-    --border: #808080;
-    --form-bg: #191919;
-}
-  
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-  
-.theme-toggle i {
-    font-size: 2rem;
-    cursor: pointer;
-}
-  
-.theme-toggle {
-    text-align: center;
-}
-
-
 
 
 
 /*ชื่อจริงนามสกุล*/
 .container {
-    width: 500px; /* กำหนดความกว้างของกล่อง */
+    margin-bottom: 200px;
+    width: 50%; /* กำหนดความกว้างของกล่อง */
     margin: 0 auto; /* จัดตำแหน่งกล่องให้อยู่กึ่งกลางของหน้าจอ */
   }
   
@@ -426,23 +422,33 @@
 }
 
 
-
-/* สไตล์สำหรับเลือกรายการใน dropdown */
-.profileinput {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f8f8f8;
-    color: #333;
+/* Login.css หรือไฟล์ CSS ที่เกี่ยวข้อง */
+.login-page .MuiInputBase-root {
+    background-color: #d5d5d5;
+    border-radius: 8px;
+    height: 50px;
+  }
+  
+  .login-page .MuiSelect-root {
     font-size: 16px;
-}
+    color: #550404;
+  }
   
-  /* สไตล์สำหรับ Form Item */
-.ant-form-item-label {
-    margin-bottom: 0.5rem; /* เพิ่มระยะห่างด้านล่างของ label */
-    font-weight: bold; /* ตั้งค่าตัวหนาให้กับ label */
-    color: #555; /* ตั้งค่าสีข้อความใน label */
-}
+  .login-page .MuiInputBase-root.MuiOutlinedInput-root {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .custom-form-control {
+    margin-top: 20px;
+    width: 100%;
   
+  }
   
+
+
+
+  
+
+  
+
+ 

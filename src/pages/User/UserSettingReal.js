@@ -7,6 +7,7 @@ import { Typography, TextField, Button, Box, Card, CardContent } from "@mui/mate
 import "./User.css";
 import { Avatar } from 'antd';
 import Swal from 'sweetalert2';
+import { Link } from "react-router-dom"; // import Link from react-router-dom
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
@@ -130,9 +131,7 @@ const UserSetting = () => {
       <Sidebar />
       <Navbar />
       <div className="user-box">
-        <Typography variant="h4" gutterBottom>
-          User Settings
-        </Typography>
+      
         {user && (
           <Card className="user-card">
             <CardContent>
@@ -200,6 +199,9 @@ const UserSetting = () => {
                     Save
                   </Button>
                 </form>
+                <Link to="/reset-password" style={{ marginTop: '10px' }}>
+                  Want to reset password?
+                </Link>
               </Box>
             </CardContent>
           </Card>

@@ -93,13 +93,14 @@ function Signup() {
   
 
   return (
-    <div className="backgound">
+    <div className="login-page">
+    <div className="background">
       <div className="bg">
-        <div className="signup-holder">
+        <div className="sigin-holder">
           <form className="signin-form" onSubmit={signup}>
             <div className="signup-div">
               <div className="welcome">
-                <h4>Sign-Up krab  <i className="fa-solid fa-right-to-bracket" /></h4>
+                <h4>Sign-Up krab </h4>
               </div>
               
               <div className="emailinput">
@@ -116,8 +117,9 @@ function Signup() {
                   />
                 </div>
               </div>
+
               <div className="passwordinput">
-                <div className="input-group">
+                <div className="passwordtext">
                   Password <small> (must be 6-12 characters)</small>
                 </div>
                 <div className="input-group">
@@ -133,16 +135,20 @@ function Signup() {
                 </div>
               </div>
 
-
-              <div class="profileinput"> 
-                <FormControl className="select-input">
-                  <InputLabel id="role-label">Role</InputLabel>
+            
+             
+              <div className="role-select">
+                <div className="emailtext" >
+                  Role
+                </div>
+                <FormControl className="custom-form-control">
+                  <InputLabel id="role-label">Select your role</InputLabel>
                   <Select
                     labelId="role-label"
                     id="role"
                     value={user.role}
                     onChange={(e) => setUser({ ...user, role: e.target.value })}
-                    fullWidth
+                    className="role-input"
                   >
                     <MenuItem value="business_analyst">Business Analyst</MenuItem>
                     <MenuItem value="developer">Developer</MenuItem>
@@ -151,9 +157,8 @@ function Signup() {
               </div>
 
 
-       
               <div class="container">
-                <div class="input-group">
+              <div class="input-group">
                   <label htmlFor="firstName" style={{ color: 'black' }}>First Name</label>
                   <input
                     type="text" required
@@ -163,6 +168,13 @@ function Signup() {
                     onChange={(e) => setUser({ ...user, firstName: e.target.value })}
                   />
                 </div>
+                </div>
+       
+
+
+
+              <div class="container">
+               
 
                 <div class="input-group">
                   <label htmlFor="lastName" style={{ color: 'black' }}>Last Name</label>
@@ -176,8 +188,10 @@ function Signup() {
                 </div>
               </div>
 
+
+              <div className="container">
               <div className="input-group">
-              <label htmlFor="username" style={{ color: 'black' }}>User name</label>
+              <label htmlFor="username" style={{ color: 'black' }}>Username</label>
                   <input
                     type="text" 
                     required className="sigininput"
@@ -187,6 +201,7 @@ function Signup() {
                     
                     onChange={(e) => setUser({ ...user, username: e.target.value })}
                   />
+                </div>
                 </div>
               
 
@@ -220,6 +235,7 @@ function Signup() {
           </form>
         </div>
       </div>
+    </div>
     </div>
   );
 }
