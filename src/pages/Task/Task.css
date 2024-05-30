@@ -9,11 +9,12 @@ body {
 }
 
 .tmain-content {
-  width: calc(100% - 250px);
+  width: 100%;
   margin-top: 64px; /* ดึงเนื้อหาลงมาให้ต่ำกว่า Navbar */
   padding-top: 100px;
   background-color: #f4f2ee;
   overflow: hidden; /* ป้องกันการทับกับ Navbar */
+  
 }
 
 .table-container {
@@ -21,10 +22,6 @@ body {
   overflow-y: auto; /* เพิ่มการเลื่อนในแนวตั้ง */
 }
 
-.collapse-content {
-  font-size: 50px; /* ขนาดฟ้อน status */
-  width: 100%;
-}
 
 .table-container-header {
   font-family: 'Noto Sans Thai', sans-serif;
@@ -77,3 +74,9 @@ body {
   text-overflow: ellipsis;
   width: 150px;
 }
+
+/* .button-large-font {
+  font-size: 20px;
+} */
+
+
