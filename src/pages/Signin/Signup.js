@@ -94,14 +94,15 @@ function Signup() {
 
   return (
     <div className="login-page">
-    <div className="background">
+    <div className="backgroundbob">
       <div className="bg">
         <div className="sigin-holder">
           <form className="signin-form" onSubmit={signup}>
             <div className="signup-div">
               <div className="welcome">
-                <h4>Sign-Up krab </h4>
+                <h4>Sign Up </h4>
               </div>
+              <br/>
               
               <div className="emailinput">
                 <div className="emailtext">

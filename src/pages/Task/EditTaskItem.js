@@ -323,7 +323,7 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
         icon = (
           <ReportProblemIcon
             style={{
-              color: "green",
+              color: "69B16C",
               marginRight: "8px",
               verticalAlign: "middle",
               marginTop: "4px",
@@ -336,7 +336,7 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
         icon = (
           <ReportProblemIcon
             style={{
-              color: "orange",
+              color: "EFAD25",
               marginRight: "8px",
               verticalAlign: "middle",
               marginTop: "4px",
@@ -349,7 +349,7 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
         icon = (
           <ReportProblemIcon
             style={{
-              color: "red",
+              color: "F16E70",
               marginRight: "8px",
               verticalAlign: "middle",
               marginTop: "4px",
@@ -688,19 +688,19 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                       >
                         <MenuItem value="low">
                           <ReportProblemIcon
-                            style={{ marginRight: "8px", color: "green", verticalAlign: 'middle' }}
+                            style={{ marginRight: "8px", color: "69B16C", verticalAlign: 'middle' }}
                           />
                           Low
                         </MenuItem>
                         <MenuItem value="medium">
                           <ReportProblemIcon
-                            style={{ marginRight: "8px", color: "orange", verticalAlign: 'middle' }}
+                            style={{ marginRight: "8px", color: "EFAD25", verticalAlign: 'middle' }}
                           />
                           Medium
                         </MenuItem>
                         <MenuItem value="high">
                           <ReportProblemIcon
-                            style={{ marginRight: "8px", color: "red", verticalAlign: 'middle' }}
+                            style={{ marginRight: "8px", color: "F16E70", verticalAlign: 'middle' }}
                           />
                           High
                         </MenuItem>

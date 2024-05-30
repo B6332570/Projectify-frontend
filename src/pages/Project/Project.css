@@ -5,7 +5,7 @@
 /* Container for the main content */
 .pmain-content {
   width: calc(100% - 250px);
-  background-color: #f4f2ee;
+
 
   display: flex;
   justify-content: center; /* จัดกึ่งกลางแนวนอน */

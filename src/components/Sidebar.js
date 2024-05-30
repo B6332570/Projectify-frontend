@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Drawer, List, ListItem, ListItemText, ListItemIcon, Divider, Box, Typography, Collapse } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
-import projectifyLogo from '../img/icon.png';
+import projectifyLogo from '../img/logopink.png';
 import InboxIcon from '@mui/icons-material/Inbox';
 import ExportIcon from '@mui/icons-material/ExitToApp';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';

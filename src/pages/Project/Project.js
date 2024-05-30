@@ -80,6 +80,7 @@ const Project = () => {
   const currentData = data.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
+    <div className="backgroundbobweb">
     <div className="flex">
       <Sidebar handleCreateProjectClick={handleCreateProjectClick} />
       <div className="pmain-content">
@@ -153,6 +154,7 @@ const Project = () => {
         </div>
         <CreateProject open={openCreateProject} onClose={handleCloseCreateProject} />
       </div>
+    </div>
     </div>
   );
 };

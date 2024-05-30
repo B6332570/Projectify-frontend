@@ -29,17 +29,19 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className="background">
-      <div className="bg">
+    <div className="backgroundbob">
+      <div className="bgforgot">
         <div className="sigin-holder">
           <form className="signin-form" onSubmit={handleForgetPassword}>
             <div className="sigin-div" >
               <div className="welcome"  style={{ marginTop: '100ฃpx' }}>
                 <h4 className="text-3xl ml-2 p-1 font-bold drop-shadow-lg">
-                  <b className="text-primary hover:text-[#ff983d]">Forget Password?</b>
+                  <b className="text-primary">Forgot Password?</b>
                 </h4>
+                
               </div>
-              <div className="emailinput">
+              <p>Enter your email below to receive a password reset link.</p>
+              <div className="emailinputsignin">
                 <div className="emailtext">Email</div>
                 <div className="email">
                   <input

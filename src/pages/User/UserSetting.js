@@ -1,4 +1,3 @@
-// UserSetting.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../../components/Sidebar";
@@ -8,7 +7,7 @@ import { Typography, TextField, Button, Box, Card, CardContent } from "@mui/mate
 import './User.css';
 import { Avatar } from 'antd';
 import Swal from 'sweetalert2';
-import { Link } from "react-router-dom"; // import Link from react-router-dom
+import { Link } from "react-router-dom";
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
@@ -149,7 +148,7 @@ const UserSetting = () => {
                   {user.firstName} {user.lastName}
                 </Typography>
                 <Divider sx={{ my: 2, width: "100%" }} />
-                <Typography variant="h5" gutterBottom    sx={{ mb: 6 }}>
+                <Typography variant="h5" gutterBottom  sx={{ mb: 6 }}>
                   Edit User Information
                 </Typography>
                 <form onSubmit={handleSubmit} className="user-form">
@@ -160,7 +159,22 @@ const UserSetting = () => {
                     value={editedUser.username}
                     onChange={handleChange}
                     fullWidth
-                    sx={{ mb: 6 }}
+                    sx={{
+                      mb: 6,
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': { borderColor: '#C4C4C4 !important' },
+                        '&:hover fieldset': { borderColor: '#C4C4C4 !important' },
+                        '&.Mui-focused fieldset': { borderColor: '#a0a0a0 !important' },
+                        '&.Mui-focused': { outline: 'none !important' }
+                      },
+                      '& .MuiFormLabel-root': {
+                        color: '#666666 !important',
+                        '&.Mui-focused': {
+                          color: '#666666 !important',
+                        },
+                      },
+                    }}
+                    
                   />
                   <TextField
                     label="First Name"
@@ -169,7 +183,21 @@ const UserSetting = () => {
                     value={editedUser.firstName}
                     onChange={handleChange}
                     fullWidth
-                    sx={{ mb: 6 }}
+                    sx={{
+                      mb: 6,
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': { borderColor: '#C4C4C4' },
+                        '&:hover fieldset': { borderColor: '#C4C4C4' },
+                        '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
+                        '&.Mui-focused': { outline: 'none' }
+                      },
+                      '& .MuiFormLabel-root': {
+                        color: '#666666',
+                        '&.Mui-focused': {
+                          color: '#666666',
+                        },
+                      },
+                    }}
                   />
                   <TextField
                     label="Last Name"
@@ -178,7 +206,20 @@ const UserSetting = () => {
                     value={editedUser.lastName}
                     onChange={handleChange}
                     fullWidth
-                    sx={{ mb: 6 }}
+                    sx={{
+                      mb: 6,
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': { borderColor: '#C4C4C4' },
+                        '&:hover fieldset': { borderColor: '#C4C4C4' },
+                        '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
+                      },
+                      '& .MuiFormLabel-root': {
+                        color: '#666666',
+                        '&.Mui-focused': {
+                          color: '#666666',
+                        },
+                      },
+                    }}
                   />
                   <div className="input-group">
                     <label htmlFor="profileImage" style={{ color: "black" }}>
@@ -199,11 +240,11 @@ const UserSetting = () => {
                     Save
                   </Button>
                 </form>
-                <Link to={`/reset-password/${user.id}`} style={{ marginTop: '10px' }}>
-                  Want to reset password?
-                </Link>
               </Box>
             </CardContent>
+            <Link to={`/reset-password/${user.id}`} className="reset-password-link">
+              Want to reset password?
+            </Link>
           </Card>
         )}
       </div>

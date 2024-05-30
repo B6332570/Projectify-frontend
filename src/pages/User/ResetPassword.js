@@ -1,4 +1,3 @@
-// ResetPassword.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { message } from 'antd';
@@ -85,7 +84,7 @@ const ResetPassword = () => {
       <Sidebar />
       <Navbar />
       <div className="user-box">
-        <div className="reset-password-container">
+        
           {user && (
             <Card className="user-card">
               <CardContent>
@@ -101,37 +100,84 @@ const ResetPassword = () => {
                     {user.firstName} {user.lastName}
                   </Typography>
                   <Divider sx={{ my: 2, width: "100%" }} />
-                 
-                  <form className="reset-password-form" onSubmit={handleResetPassword}>
-                    <h2>Reset Password</h2>
-                    <div className="form-group">
-                      <label>Old Password</label>
-                      <input
-                        type="password"
-                        required
-                        value={oldPassword}
-                        onChange={(e) => setOldPassword(e.target.value)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>New Password</label>
-                      <input
-                        type="password"
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Confirm New Password</label>
-                      <input
-                        type="password"
-                        required
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                      />
-                    </div>
-                    <button type="submit">Reset Password</button>
+                  <form className="user-form" onSubmit={handleResetPassword}>
+                    <Typography variant="h5" gutterBottom  sx={{ mb: 6 }}>
+                      Reset Password
+                    </Typography>
+                    <TextField
+                      label="Old Password"
+                      type="password"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      value={oldPassword}
+                      onChange={(e) => setOldPassword(e.target.value)}
+                      sx={{
+                        mb: 6,
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': { borderColor: '#C4C4C4' },
+                          '&:hover fieldset': { borderColor: '#C4C4C4' },
+                          '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
+                        },
+                        '& .MuiFormLabel-root': {
+                          color: '#666666',
+                          '&.Mui-focused': {
+                            color: '#666666',
+                          },
+                        },
+                      }}
+                    />
+                    <TextField
+                      label="New Password"
+                      type="password"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      sx={{
+                        mb: 6,
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': { borderColor: '#C4C4C4' },
+                          '&:hover fieldset': { borderColor: '#C4C4C4' },
+                          '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
+                        },
+                        '& .MuiFormLabel-root': {
+                          color: '#666666',
+                          '&.Mui-focused': {
+                            color: '#666666',
+                          },
+                        },
+                      }}
+                    />
+                    <TextField
+                      label="Confirm New Password"
+                      type="password"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      sx={{
+                        mb: 6,
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': { borderColor: '#C4C4C4' },
+                          '&:hover fieldset': { borderColor: '#C4C4C4' },
+                          '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
+                        },
+                        '& .MuiFormLabel-root': {
+                          color: '#666666',
+                          '&.Mui-focused': {
+                            color: '#666666',
+                          },
+                        },
+                      }}
+                     
+                     
+                    />
+                    <Button type="submit" variant="contained" color="primary">
+                      Reset Password
+                    </Button>
                   </form>
                   <Button variant="contained" color="secondary" onClick={() => navigate(-1)} style={{ marginTop: '20px' }}>
                     Back
@@ -142,7 +188,7 @@ const ResetPassword = () => {
           )}
         </div>
       </div>
-    </div>
+   
   );
 };
 

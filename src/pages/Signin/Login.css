@@ -5,7 +5,7 @@
     background-color: #ffffff;
     /* #423d3df1 */
     background: transparent;
-    backdrop-filter: blur(13px);
+    /* backdrop-filter: blur(13px); */
 
     border-radius: 0;
   
@@ -15,8 +15,23 @@
     background-size: 1920px 1080px;
    
 }
+.bgforgot {
+    background-color: #ffffff;
+    /* #423d3df1 */
+    background: transparent;
+    /* backdrop-filter: blur(13px); */
+
+    border-radius: 0;
+  
+    background-image: url(../../img/forgot_password.svg);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 1920px 1080px;
+   
+}
 
 .background {
+    
     background-color: rgb(255, 255, 255); 
     display: flex;
     justify-content: center;
@@ -24,7 +39,58 @@
     width: 100vw;
     height: 100vh;
     /* background-image: linear-gradient(225deg, #f6f1e9 10%, #e6ddcc 50%, #fb1faa 100%);        */
-    background-image: linear-gradient(135deg, #feeac2 0%, #ecdcba 100%);       
+    background-image: linear-gradient(135deg, #eed1e9 50%, #ca4fc4 100%);       
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 2850px 1490px;
+  }
+
+  .backgroundbobforgot {
+    
+    background-color: rgb(255, 255, 255); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    /* background-image: linear-gradient(225deg, #f6f1e9 10%, #e6ddcc 50%, #fb1faa 100%);        */
+    background-image:  url(../../img/blob-forgot.svg);    
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 2850px 1490px;
+  }
+
+
+
+  .backgroundbob {
+   
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    /* background-image: linear-gradient(225deg, #f6f1e9 10%, #e6ddcc 50%, #fb1faa 100%);        */
+    background-image:  url(../../img/blob-scene-haikei.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 2850px 1490px;
+  }
+
+  
+
+
+
+  .backgroundbobweb {
+   
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    /* background-image: linear-gradient(225deg, #f6f1e9 10%, #e6ddcc 50%, #fb1faa 100%);        */
+    background-image:  url(../../img/blob-web.svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: 2850px 1490px;
@@ -83,7 +149,7 @@
     justify-content:space-evenly;
     align-items: center;
     flex-direction:column;
-    color: #D0D1D4;
+    /* color: #D0D1D4; */
     box-shadow: 0 6px 24px #84848380;
 
 }
@@ -174,6 +240,10 @@
     padding-left:10px;
     outline: none;
 }
+.sigininput:focus {
+    --tw-ring-color: rgb(159, 159, 159); /* เปลี่ยนสีขอบเป็นสีที่ต้องการ */
+    --tw-ring-offset-color: white; /* เปลี่ยนสี offset ถ้าจำเป็น */
+  }
 
 .emailinput{
     width:50%;

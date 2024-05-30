@@ -32,9 +32,13 @@
 
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 10px;
+  position: relative; /* เพิ่มตำแหน่งสัมพัทธ์ให้กับ user-card */
 }
 
 .input-group {
+  width: 400px;
   margin-bottom: 16px;
 }
 
@@ -42,6 +46,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 600px;
+  width: 400px;
   
 }
 
@@ -69,4 +75,11 @@
   margin-top: 20px;
   width: 100%;
 
+}
+.reset-password-link {
+  position: absolute;
+  bottom: 10px; /* ตำแหน่งจากขอบล่าง */
+  right: 10px; /* ตำแหน่งจากขอบขวา */
+  text-decoration: none; /* เพิ่มการตกแต่งลิงก์ */
+  color: #535659; /* สีของลิงก์ */
 }
