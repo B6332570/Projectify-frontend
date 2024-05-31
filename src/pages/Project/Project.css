@@ -86,3 +86,29 @@
 .ant-skeleton {
   width: 100%;
 }
+
+
+.dropdown-button {
+  background: none; /* เอาพื้นหลังออก */
+  border: none; /* เอาเส้นขอบออก */
+  padding: 0; /* เอา padding ออก */
+  margin: 0; /* เอา margin ออก */
+  cursor: pointer; /* ทำให้เป็นปุ่มคลิกได้ */
+}
+
+.dropdown-button svg {
+  width: 20px; /* กำหนดขนาดของไอคอน */
+  height: 20px; /* กำหนดขนาดของไอคอน */
+  color: #9ca3af; /* กำหนดสีของไอคอน */
+}
+
+.dropdown-menu {
+  z-index: 10;
+  background: white;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 10rem;
+  position: absolute;
+  top: 2rem;
+  right: 0;
+}

@@ -435,7 +435,7 @@ const Task = () => {
               usersData={usersData}
             />
           )}
-          <h5>Task Page</h5>
+        <h1 className="task-page-title">Task Page</h1>
           {/* <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}

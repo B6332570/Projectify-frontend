@@ -49,9 +49,9 @@ function Signin() {
 
       if (response.data.status === "success") {
         await MySwal.fire({
-          title: <strong>{response.data.message}</strong>,
+          title: <strong >{response.data.message}</strong>,
           showConfirmButton: false,
-          html: "GEEEETAAAA",
+          html: "Login Successfully",
           icon: "success",
           timer: 1500,
         });

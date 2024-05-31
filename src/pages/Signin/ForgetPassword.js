@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Modal, message } from 'antd';
 import './Login.css';
-import Signin from './Signin';
 import { useNavigate } from "react-router-dom";
 
 const ForgetPassword = () => {
@@ -34,11 +33,10 @@ const ForgetPassword = () => {
         <div className="sigin-holder">
           <form className="signin-form" onSubmit={handleForgetPassword}>
             <div className="sigin-div" >
-              <div className="welcome"  style={{ marginTop: '100ฃpx' }}>
+              <div className="welcome" style={{ marginTop: '100px' }}>
                 <h4 className="text-3xl ml-2 p-1 font-bold drop-shadow-lg">
                   <b className="text-primary">Forgot Password?</b>
                 </h4>
-                
               </div>
               <p>Enter your email below to receive a password reset link.</p>
               <div className="emailinputsignin">
@@ -53,19 +51,20 @@ const ForgetPassword = () => {
                     onChange={handleEmailChange}
                   />
                 </div>
-               
               </div>
               <div></div>
               <div></div>
-              
               <div>
-              <button className="back-button" onClick={() => { navigate("/signin") }}>
-                   Back
+                <button
+                  type="button"
+                  className="back-button"
+                  onClick={() => navigate("/signin")}
+                >
+                  Back
                 </button>
                 <button type="submit" className="sigin-button">
                   Submit
                 </button>
-               
               </div>
             </div>
             <br />

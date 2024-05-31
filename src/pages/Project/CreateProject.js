@@ -76,7 +76,7 @@ const CreateProject = ({ open, onClose }) => {
         await MySwal.fire({
           title: <strong>{status}</strong>,
           showConfirmButton: false,
-          html: 'สร้างโปรเจคสำเร็จ !!!',
+          html: 'Create Project Successfully',
           icon: 'success',
           timer: 1500
         });
@@ -103,18 +103,9 @@ const CreateProject = ({ open, onClose }) => {
             New Project
         </div>
         <TextField label="Project Name" value={projectName} onChange={handleProjectNameChange} className="textfield-input" fullWidth />
-        <FormControl className="select-input">
-          <InputLabel>Owner</InputLabel>
-          <Select
-            value={owner}
-            onChange={handleOwnerChange}
-          >
-            {user.map((user) => (
-              <MenuItem key={user.id} value={user.firstName}>{user.firstName}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+     
         <div className="description-editor">
+          Title
           <Editor
             editorState={editorState}
             onEditorStateChange={handleEditorChange}
@@ -127,7 +118,7 @@ const CreateProject = ({ open, onClose }) => {
           />
         </div>
         <Button variant="contained" color="primary" className="button-save" fullWidth onClick={handleSubmit}>
-          Save
+          Create
         </Button>
       </Box>
     </Modal>

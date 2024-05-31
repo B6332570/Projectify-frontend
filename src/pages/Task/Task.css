@@ -11,7 +11,7 @@ body {
 .tmain-content {
   width: 100%;
   margin-top: 64px; /* ดึงเนื้อหาลงมาให้ต่ำกว่า Navbar */
-  padding-top: 100px;
+  padding-top: 30px;
   background-color: #f4f2ee;
   overflow: hidden; /* ป้องกันการทับกับ Navbar */
   
@@ -80,3 +80,10 @@ body {
 } */
 
 
+.task-page-title {
+  text-align: center;
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 50px;
+  font-weight: 500;
+}

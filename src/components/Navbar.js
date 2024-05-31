@@ -28,21 +28,19 @@ const axiosWithAuth = () => {
   });
 };
 
-const pages = ['Products', 'Pricing', 'Blog'];
-
-
 const Navbar = () => {
   const theme = useTheme();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const api = axiosWithAuth();
-        const response = await api.get("/user/profile");
-        const userResponse = response.data.result[0];
+        const responseProfile = await api.get("/user/profile");
+        const userResponse = responseProfile.data.result[0];
         setUserProfile(userResponse);
 
         const mediaResponse = await api.get(`/media-object/${userResponse.imageId}`);
@@ -50,6 +48,14 @@ const Navbar = () => {
           ...prevState,
           image: mediaResponse.data.result[0].url
         }));
+
+        const responseUsers = await api.get("/user");
+        const userList = responseUsers.data.result;
+        const currentUser = userList.find(user => user.id === userResponse.id);
+        if (currentUser) {
+          setUserRole(currentUser.role);
+        }
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -59,14 +65,12 @@ const Navbar = () => {
   }, []);
 
   const handleAccountClick = () => {
-    // Redirect to UserSetting page
     window.location.href = "/user-setting";
   };
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userRole");
-    // Redirect to login page
     window.location.href = "/signin";
   };
 
@@ -86,13 +90,25 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  const getRoleDisplayName = (role) => {
+    switch (role) {
+      case 'developer':
+        return 'Developer';
+      case 'business_analyst':
+        return 'Business Analyst';
+      case 'admin':
+        return 'Admin';
+      default:
+        return role;
+    }
+  };
+
   return (
     <nav className="navbar">
       <AppBar position="static" sx={{ backgroundColor: '#333333' }}>
-        <Toolbar disableGutters  >
-      
+        <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1 }}>
-         
+            {/* Navbar content */}
           </Box>
           <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
             <Typography variant="h6" color="inherit" sx={{ mr: 2 }}>
@@ -118,49 +134,55 @@ const Navbar = () => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
+              MenuListProps={{ className: "navbar-menu-list" }}
             >
               <Card sx={{
                 minWidth: 300,
                 boxShadow: 3,
                 overflow: 'hidden',
                 position: 'relative',
-                border: '2px solid #fff',
-                color: theme.palette.mode === 'dark' ? '#000000' : '#fff',
+                borderRadius: '15px',
                 textAlign: 'center',
                 padding: '20px',
+                background: '#f3f4f6',
               }}>
                 <CardMedia
                   crossOrigin="anonymous"
                   component="img"
-                  height="200"
+                  height="150"
                   image={userProfile && userProfile.image}
                   alt="Profile picture"
                   sx={{
                     objectFit: "cover",
-                    width: "250px",
-                    height: "250px"
+                    width: "150px",
+                    height: "150px",
+                    borderRadius: '50%',
+                    margin: '0 auto'
                   }}
                 />
                 <CardContent sx={{
                   textAlign: 'center',
-                  color: theme.palette.mode === 'dark' ? '#000000' : '#fff',
-                  padding: '80px 20px 20px',
-                  background: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
-                  borderTop: '1px solid #fff'
+                  color: '#333',
+                  padding: '20px 20px 40px',
                 }}>
                   <Typography gutterBottom variant="h5" component="div">
                     {userProfile && `${userProfile.firstName} ${userProfile.lastName}`}
                   </Typography>
-                  <Typography variant="body2">
+                  <Typography variant="body2" color="textSecondary">
                     Username: {userProfile && userProfile.username}
                   </Typography>
-                  <Divider sx={{ my: 2, borderColor: '#fff' }} />
-                  <Button onClick={handleAccountClick} variant="contained" color="primary" fullWidth sx={{ mb: 1 }}>
-                    Edit Profile
-                  </Button>
-                  <Button onClick={handleLogout} variant="contained" color="secondary" fullWidth>
-                    Logout
-                  </Button>
+                  <Typography variant="body2" color="textSecondary">
+                    Role: <span style={{ color: userRole === 'admin' ? '#e5c100' : 'inherit' }}>{getRoleDisplayName(userRole)}</span>
+                  </Typography>
+                  <Divider sx={{ my: 2 }} />
+                  <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+                    <Button onClick={handleAccountClick} variant="contained" sx={{ backgroundColor: '#f6d2d2', color: '#464747', '&:hover': { backgroundColor: '#f4c6c6' } }}>
+                      Edit Profile
+                    </Button>
+                    <Button onClick={handleLogout} variant="contained" sx={{ backgroundColor: '#464747', color: '#f6d2d2', '&:hover': { backgroundColor: '#3f3f3f' } }}>
+                      Logout
+                    </Button>
+                  </Box>
                 </CardContent>
               </Card>
             </Menu>

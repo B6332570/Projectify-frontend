@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { message } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-
 import "./Login.css";
 
 const ResetForgetPassword = () => {
@@ -13,16 +12,27 @@ const ResetForgetPassword = () => {
 
   const handleResetPassword = async (event) => {
     event.preventDefault();
+
+    if (password.trim() === "" || confirmPassword.trim() === "") {
+      message.error("Password fields cannot be empty.");
+      return;
+    }
+
+    if (password.length < 6) {
+      message.error("Password must be at least 6 characters.");
+      return;
+    }
+
     if (password !== confirmPassword) {
       message.error("Passwords do not match.");
       return;
     }
+
     try {
       const response = await axios.post(
         `http://localhost:3001/api/auth/reset-forget-password/${token}`,
         { password }
       );
-      console.log("response:", response);
       if (response.data.status === "success") {
         message.success("Password has been reset successfully.");
         navigate("/signin");
@@ -38,7 +48,7 @@ const ResetForgetPassword = () => {
     <div className="background">
       <div className="bgforgot">
         <div className="sigin-holder">
-          <form className="signin-form">
+          <form className="signin-form" onSubmit={handleResetPassword}>
             <div className="sigin-div">
               <div className="welcome">
                 <h4 className="text-3xl ml-2 p-1 font-bold drop-shadow-lg">
@@ -48,13 +58,13 @@ const ResetForgetPassword = () => {
 
               <div className="passwordinputsignin">
                 <div className="passwordtext">
-                  New Password <small> (must be 6-12 characters)</small>
+                  New Password <small> (must be at least 6 characters)</small>
                 </div>
                 <div className="password">
                   <input
                     className="sigininput"
-                    type="text"
-                    placeholder="Enter email"
+                    type="password"
+                    placeholder="Enter new password"
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -64,13 +74,13 @@ const ResetForgetPassword = () => {
 
               <div className="passwordinputsignin">
                 <div className="passwordtext">
-                  Confirm New Password<small> (must be 6-12 characters)</small>
+                  Confirm New Password<small> (must be at least 6 characters)</small>
                 </div>
                 <div className="password">
                   <input
                     className="sigininput"
-                    type="text"
-                    placeholder="Enter email"
+                    type="password"
+                    placeholder="Enter new password"
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -84,9 +94,8 @@ const ResetForgetPassword = () => {
                 <button
                   type="submit"
                   className="sigin-button"
-                  onClick={handleResetPassword}
                 >
-                  Sign in
+                  Reset Password
                 </button>
               </div>
             </div>

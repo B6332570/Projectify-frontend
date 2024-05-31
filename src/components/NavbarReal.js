@@ -28,8 +28,7 @@ const axiosWithAuth = () => {
   });
 };
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
 
 const Navbar = () => {
   const theme = useTheme();
@@ -88,46 +87,10 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <AppBar position="static" sx={{ backgroundColor: theme.palette.mode === 'dark' ? '#ffffff' : '#333333' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#333333' }}>
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
           <Box sx={{ flexGrow: 1 }}>
-         
+            {/* Navbar content */}
           </Box>
           <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
             <Typography variant="h6" color="inherit" sx={{ mr: 2 }}>
@@ -153,49 +116,57 @@ const Navbar = () => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
+              MenuListProps={{ className: "navbar-menu-list" }}
             >
               <Card sx={{
                 minWidth: 300,
                 boxShadow: 3,
                 overflow: 'hidden',
                 position: 'relative',
-                border: '2px solid #fff',
-                color: theme.palette.mode === 'dark' ? '#000000' : '#fff',
+                
+     
                 textAlign: 'center',
                 padding: '20px',
+                background: '#f3f4f6',
+        
               }}>
                 <CardMedia
                   crossOrigin="anonymous"
                   component="img"
-                  height="200"
+                  height="150"
                   image={userProfile && userProfile.image}
                   alt="Profile picture"
                   sx={{
                     objectFit: "cover",
-                    width: "250px",
-                    height: "250px"
+                    width: "150px",
+                    height: "150px",
+                    borderRadius: '50%',
+                    margin: '0 auto'
                   }}
                 />
                 <CardContent sx={{
                   textAlign: 'center',
-                  color: theme.palette.mode === 'dark' ? '#000000' : '#fff',
-                  padding: '80px 20px 20px',
-                  background: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
-                  borderTop: '1px solid #fff'
+                  color: '#333',
+                  padding: '20px',
                 }}>
                   <Typography gutterBottom variant="h5" component="div">
                     {userProfile && `${userProfile.firstName} ${userProfile.lastName}`}
                   </Typography>
-                  <Typography variant="body2">
+                  <Typography variant="body2" color="textSecondary">
                     Username: {userProfile && userProfile.username}
                   </Typography>
-                  <Divider sx={{ my: 2, borderColor: '#fff' }} />
-                  <Button onClick={handleAccountClick} variant="contained" color="primary" fullWidth sx={{ mb: 1 }}>
-                    Edit Profile
-                  </Button>
-                  <Button onClick={handleLogout} variant="contained" color="secondary" fullWidth>
-                    Logout
-                  </Button>
+                  <Typography variant="body2" color="textSecondary">
+                    Role: {userProfile && userProfile.role}
+                  </Typography>
+                  <Divider sx={{ my: 2 }} />
+                  <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+                    <Button onClick={handleAccountClick} variant="contained" sx={{ backgroundColor: '#f6d2d2', color: '#464747', '&:hover': { backgroundColor: '#f4c6c6' } }}>
+                      Edit Profile
+                    </Button>
+                    <Button onClick={handleLogout} variant="contained" sx={{ backgroundColor: '#464747', color: '#f6d2d2', '&:hover': { backgroundColor: '#3f3f3f' } }}>
+                      Logout
+                    </Button>
+                  </Box>
                 </CardContent>
               </Card>
             </Menu>

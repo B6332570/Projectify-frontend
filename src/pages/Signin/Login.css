@@ -515,7 +515,24 @@
   }
   
 
-
+ /* เปลี่ยนสีของไอคอน success */
+ .swal2-icon.swal2-success {
+    border-color: #ec9bc4 !important; /* เปลี่ยนสีขอบ */
+    color: #ec9bc4 !important; /* เปลี่ยนสีไอคอน */
+  }
+  
+  /* เปลี่ยนสีของวงกลมในไอคอน success */
+  .swal2-icon.swal2-success [class^="swal2-success-line"] {
+    background-color: #ec9bc4 !important; /* เปลี่ยนสีเส้น */
+  }
+  
+  .swal2-icon.swal2-success .swal2-success-ring {
+    border-color: #ec9bc4 !important; /* เปลี่ยนสีวงแหวน */
+  }
+  
+  
+  
+ 
 
   
 
