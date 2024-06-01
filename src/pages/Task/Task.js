@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "../../components/Sidebar";
@@ -15,10 +15,12 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Button,
   Menu,
   MenuItem,
+  TextField,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -30,14 +32,14 @@ import StatusCell from "../../components/StatusCell";
 import EditTaskItem from "./EditTaskItem";
 import CreateButton from "../../components/CreateButton";
 import "./Task.css";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
+import MoreVertIcon from "@mui/icons-material/MoreVert"; // import more icon
+
 import { AntDesignOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Divider, Tooltip } from "antd";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import InputAdornment from "@mui/material/InputAdornment";
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
@@ -51,13 +53,28 @@ const axiosWithAuth = () => {
   });
 };
 
-const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
+const Row = ({
+  row,
+  taskGroup,
+  handleEditTask,
+  handleDeleteTaskItem,
+  handleDeleteTaskGroup,
+  handleEditTaskGroupName,
+}) => {
   const hasTaskItems = row.length > 0;
   const [open, setOpen] = useState(hasTaskItems);
   const [openDeleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [selectedTaskToDelete, setSelectedTaskToDelete] = useState(null);
   const [user, setUser] = useState(null);
   const [usersData, setUsersData] = useState({});
+  const [anchorEl, setAnchorEl] = useState(null); // state for menu anchor
+  const [menuOpen, setMenuOpen] = useState(false); // state for menu open/close
+  const [editMode, setEditMode] = useState(false); // state for edit mode
+  const [newTaskGroupName, setNewTaskGroupName] = useState(
+    taskGroup.taskGroupName
+  ); // new state for editing name
+  const [width, setWidth] = useState(0);
+  const inputRef = useRef(null);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -78,6 +95,53 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
   const handleDeleteCancelled = () => {
     setOpenDeleteConfirmation(false);
   };
+
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setMenuOpen(true);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setMenuOpen(false);
+  };
+
+  const handleEditClick = () => {
+    setEditMode(true); // set edit mode to true
+    setMenuOpen(false);
+  };
+
+  const handleTaskGroupNameChange = (event) => {
+    setNewTaskGroupName(event.target.value);
+  };
+
+  const handleSaveClick = async () => {
+    try {
+      const api = axiosWithAuth();
+      await api.patch(`/task-group/${taskGroup.id}`, {
+        taskGroupName: newTaskGroupName,
+      });
+      handleEditTaskGroupName(taskGroup.id, newTaskGroupName);
+      setEditMode(false);
+    } catch (error) {
+      console.error("Error saving task group name:", error);
+    }
+  };
+
+  const handleCancelClick = () => {
+    setEditMode(false);
+    setNewTaskGroupName(taskGroup.taskGroupName); // Reset to original name
+  };
+
+  const textFieldWidth = useMemo(() => {
+    if (inputRef.current) {
+      const context = document.createElement("canvas").getContext("2d");
+      context.font = "16px Roboto";
+      const metrics = context.measureText(newTaskGroupName);
+      return metrics.width + 20;
+    }
+    return 200; // กำหนดขนาดขั้นต่ำ
+  }, [newTaskGroupName]);
 
   useEffect(() => {
     const fetchUserData = async (userId) => {
@@ -115,7 +179,6 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
               color: "69B16C",
               marginRight: "8px",
               verticalAlign: "middle",
-             
             }}
           />
         );
@@ -128,7 +191,6 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
               color: "EFAD25",
               marginRight: "8px",
               verticalAlign: "middle",
-           
             }}
           />
         );
@@ -141,7 +203,6 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
               color: "F16E70",
               marginRight: "8px",
               verticalAlign: "middle",
-             
             }}
           />
         );
@@ -166,27 +227,82 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
         <TableCell
           colSpan={7}
           className="icon-button"
-          style={{ borderBottom: "none", width: "500px", paddingLeft: "20px" }}
+          style={{ borderBottom: "none", paddingLeft: "20px" }}
         >
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            style={{ fontSize: "64px" }}
-            onClick={() => setOpen(!open)}
-          >
-            {open ? (
-              <KeyboardArrowUpIcon className="icon-button-expanded" />
-            ) : (
-              <KeyboardArrowDownIcon />
-            )}
-          </IconButton>
-          <span style={{ marginLeft: "100px", fontSize: "18px" }}>
-            {taskGroup && taskGroup.taskGroupName}
-          </span>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              style={{ fontSize: "64px" }}
+              onClick={() => setOpen(!open)}
+            >
+              {open ? (
+                <KeyboardArrowUpIcon className="icon-button-expanded" />
+              ) : (
+                <KeyboardArrowDownIcon />
+              )}
+            </IconButton>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginLeft: "70px",
+                width: "100%",
+              }}
+            >
+              {editMode ? (
+                <>
+                  <TextField
+                    value={newTaskGroupName}
+                    onChange={handleTaskGroupNameChange}
+                    variant="outlined"
+                    size="medium"
+                    autoFocus
+                    style={{ width: `${textFieldWidth}px`, minWidth: "350px" }} // ใช้ค่า textFieldWidth
+                    inputRef={inputRef}
+                  />
+                  <Button
+                    onClick={handleSaveClick}
+                
+                    style={{ marginLeft: "10px", color: "#ec9bc4"}}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    onClick={handleCancelClick}
+                  
+                    style={{ marginLeft: "10px", color: "#ec9bc4" }}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              ) : (
+                <span style={{ fontSize: "18px" }}>
+                  {taskGroup && taskGroup.taskGroupName}
+                </span>
+              )}
+              <IconButton
+                aria-label="more"
+                onClick={handleMenuClick}
+                style={{ marginLeft: "20px" }}
+              >
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={menuOpen}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={handleEditClick}>Edit Task Group Name</MenuItem>
+                <MenuItem onClick={() => handleDeleteTaskGroup(taskGroup.id)}>
+                  Delete Task Group
+                </MenuItem>
+              </Menu>
+            </div>
+          </div>
         </TableCell>
       </TableRow>
       {row.map((taskItem) => (
-        // style={{  borderBottom: 'none',  }}
         <TableRow key={taskItem.id}>
           <TableCell colSpan={8} style={{ padding: "0.0001px" }}>
             <Collapse
@@ -252,14 +368,24 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
                 <TableCell
                   align="center"
                   className="table-cell-date"
-                  style={{ width: "450px", borderBottom: "none", marginTop: "17px", color: "#464747" }}
+                  style={{
+                    width: "450px",
+                    borderBottom: "none",
+                    marginTop: "17px",
+                    color: "#464747",
+                  }}
                 >
                   {formatDate(taskItem.startDate)}
                 </TableCell>
                 <TableCell
                   align="center"
                   className="table-cell-date"
-                  style={{ width: "200px", borderBottom: "none", marginTop: "17px", color: "#464747" }}
+                  style={{
+                    width: "200px",
+                    borderBottom: "none",
+                    marginTop: "17px",
+                    color: "#464747",
+                  }}
                 >
                   {formatDate(taskItem.endDate)}
                 </TableCell>
@@ -267,7 +393,12 @@ const Row = ({ row, taskGroup, handleEditTask, handleDeleteTaskItem }) => {
                 <TableCell
                   align="center"
                   className="table-cell-date"
-                  style={{ width: "300px", borderBottom: "none" , marginTop: "13px", color: "#464747" }}
+                  style={{
+                    width: "300px",
+                    borderBottom: "none",
+                    marginTop: "13px",
+                    color: "#464747",
+                  }}
                 >
                   {getPriorityIcon(taskItem.priority)}
                 </TableCell>
@@ -317,6 +448,10 @@ const Task = () => {
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [openRows, setOpenRows] = useState({});
   const [usersData, setUsersData] = useState({});
+  const [openDeleteTaskGroupConfirmation, setOpenDeleteTaskGroupConfirmation] =
+    useState(false);
+  const [selectedTaskGroupToDelete, setSelectedTaskGroupToDelete] =
+    useState(null);
 
   const handleEditTask = (taskItems) => {
     if (!taskItems.users.every((user) => usersData[user.userId])) {
@@ -358,6 +493,32 @@ const Task = () => {
       console.error("Error fetching updated task groups:", error);
     }
   };
+  const handleDeleteTaskGroup = (taskGroupId) => {
+    setSelectedTaskGroupToDelete(taskGroupId);
+    setOpenDeleteTaskGroupConfirmation(true);
+  };
+
+  const handleDeleteTaskGroupConfirmed = async () => {
+    try {
+      const api = axiosWithAuth();
+      await api.delete(`/task-group/${selectedTaskGroupToDelete}`);
+      const taskGroupsResponse = await api.get(`/task-group`);
+      console.log(`Deleted Task Group:`, selectedTaskGroupToDelete);
+      const allTaskGroups = taskGroupsResponse.data.result;
+      const filteredTaskGroups = allTaskGroups.filter(
+        (group) => group.projectId == projectId
+      );
+      const sortedTaskGroups = filteredTaskGroups.sort((a, b) => a.id - b.id);
+      setTaskGroups(sortedTaskGroups);
+      setOpenDeleteTaskGroupConfirmation(false);
+    } catch (error) {
+      console.error("Error deleting task group:", error);
+    }
+  };
+
+  const handleDeleteTaskGroupCancelled = () => {
+    setOpenDeleteTaskGroupConfirmation(false);
+  };
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -391,6 +552,16 @@ const Task = () => {
     }
   };
 
+  const handleEditTaskGroupName = (taskGroupId, currentName) => {
+    const updatedTaskGroups = taskGroups.map((group) => {
+      if (group.id === taskGroupId) {
+        return { ...group, taskGroupName: currentName };
+      }
+      return group;
+    });
+    setTaskGroups(updatedTaskGroups);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -420,6 +591,7 @@ const Task = () => {
     <div className="flex">
       <Sidebar />
       <Navbar />
+
       <div className="tmain-content">
         <CreateButton
           handleMenuClick={handleMenuClick}
@@ -435,19 +607,7 @@ const Task = () => {
               usersData={usersData}
             />
           )}
-        <h1 className="task-page-title">Task Page</h1>
-          {/* <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={() => handleMenuItemClick("createTask")}>
-              Create Task
-            </MenuItem>
-            <MenuItem onClick={() => handleMenuItemClick("createTaskGroup")}>
-              Create Task Group
-            </MenuItem>
-          </Menu> */}
+          <h1 className="task-page-title">Task Page</h1>
           <CreateTask open={openCreateTask} onClose={handleCloseCreateTask} />
           <CreateTaskGroup
             open={openCreateTaskGroup}
@@ -482,21 +642,21 @@ const Task = () => {
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "340px"  }}
+                    sx={{ fontWeight: "bold", width: "340px" }}
                   >
                     Start Date
                   </TableCell>
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "305px"  }}
+                    sx={{ fontWeight: "bold", width: "305px" }}
                   >
                     End Date
                   </TableCell>
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold" , width: "150px"}}
+                    sx={{ fontWeight: "bold", width: "150px" }}
                   >
                     Priority
                   </TableCell>
@@ -504,9 +664,7 @@ const Task = () => {
                     align="center"
                     className="table-container-header"
                     sx={{ fontWeight: "bold" }}
-                  >
-                    
-                  </TableCell>
+                  ></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -521,6 +679,8 @@ const Task = () => {
                       taskGroup={taskGroup}
                       handleEditTask={handleEditTask}
                       handleDeleteTaskItem={handleDeleteTaskItem}
+                      handleDeleteTaskGroup={handleDeleteTaskGroup}
+                      handleEditTaskGroupName={handleEditTaskGroupName} // pass the new function
                     />
                   );
                 })}
@@ -529,6 +689,23 @@ const Task = () => {
           </TableContainer>
         </div>
       </div>
+      <Dialog
+        open={openDeleteTaskGroupConfirmation}
+        onClose={handleDeleteTaskGroupCancelled}
+      >
+        <DialogTitle>Delete Task Group</DialogTitle>
+        <DialogContent>
+          Are you sure you want to delete this task group?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteTaskGroupCancelled} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteTaskGroupConfirmed} color="error">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

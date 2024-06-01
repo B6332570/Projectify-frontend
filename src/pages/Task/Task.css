@@ -12,7 +12,7 @@ body {
   width: 100%;
   margin-top: 64px; /* ดึงเนื้อหาลงมาให้ต่ำกว่า Navbar */
   padding-top: 30px;
-  background-color: #f4f2ee;
+  background-color: #f9efef;
   overflow: hidden; /* ป้องกันการทับกับ Navbar */
   
 }
@@ -87,3 +87,5 @@ body {
   margin-bottom: 50px;
   font-weight: 500;
 }
+
+

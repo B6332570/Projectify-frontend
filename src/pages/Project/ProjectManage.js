@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, Button, message, Row, Col, Card, Modal } from 'antd';
+import { Table, Button, message, Row, Col, Card, Modal, Input } from 'antd';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import './ProjectManage.css';
@@ -18,12 +18,15 @@ const axiosWithAuth = () => {
 
 const ProjectManage = () => {
   const [projects, setProjects] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetchProjects();
+    fetchUsers();
   }, []);
 
   const fetchProjects = async () => {
@@ -39,6 +42,21 @@ const ProjectManage = () => {
     }
   };
 
+  const fetchUsers = async () => {
+    try {
+      const api = axiosWithAuth();
+      const response = await api.get('/user');
+      setUsers(response.data.result);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
+  const getUserNameById = (userId) => {
+    const user = users.find(user => user.id === userId);
+    return user ? `${user.firstName} ${user.lastName}` : 'Unknown';
+  };
+  
   const deleteProject = async (projectId) => {
     try {
       const api = axiosWithAuth();
@@ -79,8 +97,8 @@ const ProjectManage = () => {
     },
     {
       title: 'Owner',
-      dataIndex: 'userId',
       key: 'userId',
+      render: (text, record) => getUserNameById(record.userId),
     },
     {
       title: 'Action',
@@ -93,7 +111,16 @@ const ProjectManage = () => {
     },
   ];
 
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredProjects = projects.filter((project) =>
+    project.projectsName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
+    <div className="backgroundbobweb">
     <div className="flex">
       <Sidebar />
       <Navbar />
@@ -101,9 +128,15 @@ const ProjectManage = () => {
         <Row gutter={[16, 16]}>
           <Col span={24}>
             <Card title="Project Management" bordered={false} className="custom-card">
+              <Input
+                placeholder="Search Project"
+                value={searchTerm}
+                onChange={handleSearch}
+                style={{ marginBottom: '20px' }}
+              />
               <Table
                 columns={projectColumns}
-                dataSource={projects}
+                dataSource={filteredProjects}
                 rowKey="id"
                 loading={loading}
                 pagination={{ pageSize: 5 }}
@@ -124,6 +157,7 @@ const ProjectManage = () => {
       >
         <p>Are you sure you want to delete project {selectedProject && selectedProject.projectsName}?</p>
       </Modal>
+    </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Pagination, Row, Col, Skeleton, Card } from "antd";
 import axios from "axios";
 import Sidebar from "../../components/Sidebar";
@@ -29,21 +29,17 @@ const Project = () => {
   const [loading, setLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState({});
   const [openEditProject, setOpenEditProject] = useState(false);
-const [selectedProject, setSelectedProject] = useState(null);
-const dropdownRefs = useRef([]);
+  const [selectedProject, setSelectedProject] = useState(null);
 
+  const handleEditProjectClick = (project) => {
+    setSelectedProject(project);
+    setOpenEditProject(true);
+  };
 
-const handleEditProjectClick = (project) => {
-  setSelectedProject(project);
-  setOpenEditProject(true);
-};
-
-const handleCloseEditProject = () => {
-  setOpenEditProject(false);
-  setSelectedProject(null);
-};
-
-
+  const handleCloseEditProject = () => {
+    setOpenEditProject(false);
+    setSelectedProject(null);
+  };
 
   const handleCreateProjectClick = () => {
     setOpenCreateProject(true);
@@ -57,9 +53,6 @@ const handleCloseEditProject = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-
-  
 
   const fetchData = async () => {
     try {
@@ -116,25 +109,6 @@ const handleCloseEditProject = () => {
     alert(`Action: ${action}`);
   };
 
- 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        dropdownRefs.current.every(ref => ref && !ref.contains(event.target))
-      ) {
-        setDropdownOpen({});
-      }
-    };
-  
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-  
-
-
-
   return (
     <div className="backgroundbobweb">
       <div className="flex">
@@ -164,12 +138,50 @@ const handleCloseEditProject = () => {
                     <CreateProjectButt onClick={handleCreateProjectClick} />
                   </div>
                   <Row gutter={[30, 30]}>
-                    {currentData.map((project, index) => (
+                    {currentData.map((project) => (
                       <Col
                         span={currentData.length === 1 ? 24 : 12}
                         key={project.id}
                       >
-                        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative">
+                        <div
+                          data-popover
+                          id={`popover-left${project.id}`}
+                          role="tooltip"
+                          class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                        
+                         
+                        >
+                          <div className="px-8 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                            <h3 className="font-semibold text-gray-900 dark:text-white">
+                              {project.projectsName}
+                            </h3>
+                          </div>
+                          <div className="px-3 py-2">
+                            <p>
+                             {project.title}
+                            </p>
+                          </div>
+                       
+                        </div>
+                        <div
+                          className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative"
+                          onMouseEnter={() => {
+                            document
+                              .getElementById(`popover-left${project.id}`)
+                              .classList.remove("invisible", "opacity-0");
+                            document
+                              .getElementById(`popover-left${project.id}`)
+                              .classList.add("visible", "opacity-100");
+                          }}
+                          onMouseLeave={() => {
+                            document
+                              .getElementById(`popover-left${project.id}`)
+                              .classList.remove("visible", "opacity-100");
+                            document
+                              .getElementById(`popover-left${project.id}`)
+                              .classList.add("invisible", "opacity-0");
+                          }}
+                        >
                           <div className="absolute top-2 right-2 z-20">
                             <button
                               id="dropdownMenuIconButton"
@@ -178,7 +190,6 @@ const handleCloseEditProject = () => {
                               className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600"
                               type="button"
                               onClick={() => toggleDropdown(project.id)}
-                              ref={el => dropdownRefs.current[index] = el}
                             >
                               <svg
                                 className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -194,22 +205,22 @@ const handleCloseEditProject = () => {
                               <div
                                 id="dropdownDots"
                                 className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600 absolute top-10 right-0"
-                                ref={el => dropdownRefs.current[index] = el}
                               >
                                 <ul
                                   className="py-2 text-sm text-gray-700 dark:text-gray-200"
                                   aria-labelledby="dropdownMenuIconButton"
                                 >
                                   <li>
-  <a
-    href="#"
-    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-    onClick={() => handleEditProjectClick(project)}
-  >
-    Edit
-  </a>
-</li>
-
+                                    <a
+                                      href="#"
+                                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                      onClick={() =>
+                                        handleEditProjectClick(project)
+                                      }
+                                    >
+                                      Edit
+                                    </a>
+                                  </li>
                                   <li>
                                     <a
                                       href="#"
@@ -243,7 +254,6 @@ const handleCloseEditProject = () => {
                               Created On:{" "}
                               {new Date(project.createdAt).toLocaleDateString()}
                             </p>
-
                             <Link
                               to={`/project/${project.id}/task`}
                               className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -286,13 +296,12 @@ const handleCloseEditProject = () => {
             onClose={handleCloseCreateProject}
           />
           {openEditProject && (
-  <EditProject
-    open={openEditProject}
-    onClose={handleCloseEditProject}
-    project={selectedProject}
-  />
-)}
-
+            <EditProject
+              open={openEditProject}
+              onClose={handleCloseEditProject}
+              project={selectedProject}
+            />
+          )}
         </div>
       </div>
     </div>

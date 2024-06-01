@@ -29,19 +29,17 @@ const Project = () => {
   const [loading, setLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState({});
   const [openEditProject, setOpenEditProject] = useState(false);
-const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(null);
 
-const handleEditProjectClick = (project) => {
-  setSelectedProject(project);
-  setOpenEditProject(true);
-};
+  const handleEditProjectClick = (project) => {
+    setSelectedProject(project);
+    setOpenEditProject(true);
+  };
 
-const handleCloseEditProject = () => {
-  setOpenEditProject(false);
-  setSelectedProject(null);
-};
-
-
+  const handleCloseEditProject = () => {
+    setOpenEditProject(false);
+    setSelectedProject(null);
+  };
 
   const handleCreateProjectClick = () => {
     setOpenCreateProject(true);
@@ -175,14 +173,16 @@ const handleCloseEditProject = () => {
                                   aria-labelledby="dropdownMenuIconButton"
                                 >
                                   <li>
-  <a
-    href="#"
-    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-    onClick={() => handleEditProjectClick(project)}
-  >
-    Edit
-  </a>
-</li>
+                                    <a
+                                      href="#"
+                                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                      onClick={() =>
+                                        handleEditProjectClick(project)
+                                      }
+                                    >
+                                      Edit
+                                    </a>
+                                  </li>
 
                                   <li>
                                     <a
@@ -260,13 +260,12 @@ const handleCloseEditProject = () => {
             onClose={handleCloseCreateProject}
           />
           {openEditProject && (
-  <EditProject
-    open={openEditProject}
-    onClose={handleCloseEditProject}
-    project={selectedProject}
-  />
-)}
-
+            <EditProject
+              open={openEditProject}
+              onClose={handleCloseEditProject}
+              project={selectedProject}
+            />
+          )}
         </div>
       </div>
     </div>

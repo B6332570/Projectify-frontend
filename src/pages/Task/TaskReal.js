@@ -420,7 +420,9 @@ const Task = () => {
     <div className="flex">
       <Sidebar />
       <Navbar />
+     
       <div className="tmain-content">
+     
         <CreateButton
           handleMenuClick={handleMenuClick}
           handleMenuItemClick={handleMenuItemClick}
@@ -435,7 +437,7 @@ const Task = () => {
               usersData={usersData}
             />
           )}
-          <h5>Task Page</h5>
+        <h1 className="task-page-title">Task Page</h1>
           {/* <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
