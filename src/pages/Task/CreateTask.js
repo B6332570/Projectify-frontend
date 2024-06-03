@@ -62,20 +62,29 @@ const CreateTask = ({ open, onClose }) => {
     fetchData();
   }, [projectId]);
 
+  const isFormValid = () => {
+    const { taskName, os, status, priority, taskGroupId, startDate, endDate } = taskItem;
+    return taskName && os && status && priority && taskGroupId && startDate && endDate;
+  };
+  
   const handleSubmit = async () => {
+    if (!isFormValid()) {
+      alert("Please fill out all required fields.");
+      return;
+    }
     try {
       const contentState = editorState.getCurrentContent();
       const rawContentState = JSON.stringify(convertToRaw(contentState));
-
+  
       const formData = {
         ...taskItem,
         description: rawContentState,
         users: selectedUsers,
       };
-
+  
       const api = axiosWithAuth();
       const taskItemResponse = await api.post("/task-item", formData);
-
+  
       if (taskItemResponse.data.status === "success") {
         console.log('Task data submitted successfully.');
       } else {
@@ -85,6 +94,9 @@ const CreateTask = ({ open, onClose }) => {
       console.error('Error submitting task data:', error);
     }
   };
+  
+
+
 
   const handleEditorChange = (state) => {
     setEditorState(state);
@@ -274,13 +286,14 @@ const CreateTask = ({ open, onClose }) => {
         </Box>
 
         <Button
-          variant="contained"
-          color="primary"
-          sx={{ mt: 3, width: '100%' }}
-          onClick={handleSubmit}
-        >
-          Save
-        </Button>
+  variant="contained"
+  color="primary"
+  sx={{ mt: 3, width: '100%' }}
+  onClick={handleSubmit}
+>
+  Save
+</Button>
+
       </Box>
     </Modal>
   );

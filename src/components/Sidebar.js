@@ -12,12 +12,50 @@ import FolderIcon from '@mui/icons-material/Folder';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import axios from 'axios';
+
+const axiosWithAuth = () => {
+  const token = localStorage.getItem("accessToken");
+
+  return axios.create({
+    baseURL: "http://localhost:3001/api",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+};
 
 const Sidebar = ({ handleCreateProjectClick }) => {
   const theme = useTheme();
-  const userRole = localStorage.getItem('userRole');
   const [openProject, setOpenProject] = useState(false);
   const [openManage, setOpenManage] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const fetchUserRoles = async () => {
+      try {
+        const api = axiosWithAuth();
+        const responseProfile = await api.get("/user/profile");
+        const userRoles = responseProfile.data.result[0].userRoles;
+
+        const roleResponse = await api.get("/role");
+        const rolesData = Array.isArray(roleResponse.data.result) ? roleResponse.data.result : [];
+
+        const isAdmin = userRoles.some(role => {
+          const roleName = rolesData.find(r => r.id === role.roleId)?.role;
+          return roleName === 'admin';
+        });
+
+        setIsAdmin(isAdmin);
+
+      } catch (error) {
+        console.error("Error fetching roles:", error);
+      }
+    };
+
+    fetchUserRoles();
+  }, []);
 
   useEffect(() => {
     // Load the initial state from localStorage
@@ -102,7 +140,7 @@ const Sidebar = ({ handleCreateProjectClick }) => {
           </ListItemIcon>
           <ListItemText primary="Export" />
         </StyledListItem>
-        {userRole === 'admin' && (
+        {isAdmin && (
           <>
             <StyledListItem button onClick={handleManageClick}>
               <ListItemIcon>

@@ -28,20 +28,19 @@ const axiosWithAuth = () => {
   });
 };
 
-
-
 const Navbar = () => {
   const theme = useTheme();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const api = axiosWithAuth();
-        const response = await api.get("/user/profile");
-        const userResponse = response.data.result[0];
+        const responseProfile = await api.get("/user/profile");
+        const userResponse = responseProfile.data.result[0];
         setUserProfile(userResponse);
 
         const mediaResponse = await api.get(`/media-object/${userResponse.imageId}`);
@@ -49,6 +48,11 @@ const Navbar = () => {
           ...prevState,
           image: mediaResponse.data.result[0].url
         }));
+
+        const roleResponse = await api.get("/role");
+        const rolesData = Array.isArray(roleResponse.data.result) ? roleResponse.data.result : [];
+        setRoles(rolesData);
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -58,14 +62,12 @@ const Navbar = () => {
   }, []);
 
   const handleAccountClick = () => {
-    // Redirect to UserSetting page
     window.location.href = "/user-setting";
   };
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userRole");
-    // Redirect to login page
     window.location.href = "/signin";
   };
 
@@ -83,6 +85,15 @@ const Navbar = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const getRoleDisplayName = (roleId) => {
+    const role = roles.find(r => r.id === roleId);
+    return role ? capitalizeFirstLetter(role.role) : "Unknown Role";
   };
 
   return (
@@ -123,12 +134,10 @@ const Navbar = () => {
                 boxShadow: 3,
                 overflow: 'hidden',
                 position: 'relative',
-                
-     
+                borderRadius: '15px',
                 textAlign: 'center',
                 padding: '20px',
                 background: '#f3f4f6',
-        
               }}>
                 <CardMedia
                   crossOrigin="anonymous"
@@ -147,7 +156,7 @@ const Navbar = () => {
                 <CardContent sx={{
                   textAlign: 'center',
                   color: '#333',
-                  padding: '20px',
+                  padding: '20px 20px 40px',
                 }}>
                   <Typography gutterBottom variant="h5" component="div">
                     {userProfile && `${userProfile.firstName} ${userProfile.lastName}`}
@@ -156,7 +165,15 @@ const Navbar = () => {
                     Username: {userProfile && userProfile.username}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
-                    Role: {userProfile && userProfile.role}
+                    Role: {userProfile && userProfile.userRoles.map((role, index) => (
+                      <span
+                        key={role.roleId}
+                        style={{ color: getRoleDisplayName(role.roleId) === 'Admin' ? '#e5c100' : 'inherit', marginRight: '5px' }}
+                      >
+                        {getRoleDisplayName(role.roleId)}
+                        {index < userProfile.userRoles.length - 1 ? ', ' : ''}
+                      </span>
+                    ))}
                   </Typography>
                   <Divider sx={{ my: 2 }} />
                   <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>

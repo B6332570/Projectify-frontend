@@ -60,6 +60,26 @@ const CreateProject = ({ open, onClose }) => {
   };
 
   const handleSubmit = async () => {
+    if (!projectName.trim()) {
+      MySwal.fire({
+        title: 'Error',
+        text: 'Project Name is required',
+        icon: 'error',
+        showConfirmButton: true,
+      });
+      return;
+    }
+  
+    if (editorState.getCurrentContent().hasText() === false) {
+      MySwal.fire({
+        title: 'Error',
+        text: 'Description is required',
+        icon: 'error',
+        showConfirmButton: true,
+      });
+      return;
+    }
+  
     try {
       const api = axiosWithAuth();
       const formData = {
@@ -117,9 +137,17 @@ const CreateProject = ({ open, onClose }) => {
             }}
           />
         </div>
-        <Button variant="contained" color="primary" className="button-save" fullWidth onClick={handleSubmit}>
-          Create
-        </Button>
+        <Button 
+  variant="contained" 
+  color="primary" 
+  className="button-save" 
+  fullWidth 
+  onClick={handleSubmit}
+  disabled={!projectName.trim() || editorState.getCurrentContent().hasText() === false}
+>
+  Create
+</Button>
+
       </Box>
     </Modal>
   );

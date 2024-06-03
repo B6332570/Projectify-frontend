@@ -60,11 +60,10 @@ const ProjectManage = () => {
   const deleteProject = async (projectId) => {
     try {
       const api = axiosWithAuth();
-      console.log('Deleting project:', projectId);
       await api.delete(`/project/${projectId}`);
       message.success('Project deleted successfully');
       fetchProjects();
-      setIsModalVisible(false); // Close the modal after deletion
+      setIsModalVisible(false);
     } catch (error) {
       console.error('Error deleting project:', error);
       message.error('Failed to delete project');
@@ -91,6 +90,11 @@ const ProjectManage = () => {
 
   const projectColumns = [
     {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
       title: 'Project Name',
       dataIndex: 'projectsName',
       key: 'projectsName',
@@ -115,9 +119,15 @@ const ProjectManage = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredProjects = projects.filter((project) =>
-    project.projectsName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProjects = projects
+    .filter((project) => {
+      const ownerName = getUserNameById(project.userId).toLowerCase();
+      return (
+        project.projectsName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ownerName.includes(searchTerm.toLowerCase())
+      );
+    })
+    .sort((a, b) => a.id - b.id);
 
   return (
     <div className="backgroundbobweb">
@@ -127,19 +137,20 @@ const ProjectManage = () => {
       <div className="project-manage-content">
         <Row gutter={[16, 16]}>
           <Col span={24}>
-            <Card title="Project Management" bordered={false} className="custom-card">
+            <Card title="Project Management" bordered={false} className="project-custom-card">
               <Input
-                placeholder="Search Project"
+                placeholder="Search Project or Owner"
                 value={searchTerm}
                 onChange={handleSearch}
-                style={{ marginBottom: '20px' }}
+                style={{ marginBottom: '30px', fontSize: "18px", borderRadius: "20px"}}
+                className="export-custom-placeholder"
               />
               <Table
                 columns={projectColumns}
                 dataSource={filteredProjects}
                 rowKey="id"
                 loading={loading}
-                pagination={{ pageSize: 5 }}
+                pagination={{ pageSize: 5 , className: 'custom-pagination'}}
                 className="custom-table"
               />
             </Card>

@@ -19,6 +19,7 @@ const axiosWithAuth = () => {
 const UserManage = () => {
   const [users, setUsers] = useState([]);
   const [taskItems, setTaskItems] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -26,6 +27,7 @@ const UserManage = () => {
   useEffect(() => {
     fetchUsers();
     fetchTaskItems();
+    fetchProjects();
   }, []);
 
   const fetchUsers = async () => {
@@ -34,7 +36,7 @@ const UserManage = () => {
       const api = axiosWithAuth();
       const response = await api.get('/user');
       const users = response.data.result;
-  
+
       const usersWithImage = await Promise.all(users.map(async user => {
         const mediaResponse = await api.get(`/media-object/${user.imageId}`);
         return {
@@ -42,16 +44,15 @@ const UserManage = () => {
           imageUrl: mediaResponse.data.result[0].url,
         };
       }));
-  
+
       setUsers(usersWithImage);
-      console.log('Fetched users with images:', usersWithImage); // ตรวจสอบข้อมูลผู้ใช้
+      console.log('Fetched users with images:', usersWithImage);
     } catch (error) {
       console.error('Error fetching users:', error);
     } finally {
       setLoading(false);
     }
   };
-  
 
   const fetchTaskItems = async () => {
     setLoading(true);
@@ -67,10 +68,24 @@ const UserManage = () => {
     }
   };
 
+  const fetchProjects = async () => {
+    setLoading(true);
+    try {
+      const api = axiosWithAuth();
+      const response = await api.get('/project');
+      setProjects(response.data.result);
+      console.log('Fetched projects:', response.data.result);
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const removeUserFromTaskItems = async (userId) => {
     try {
       const api = axiosWithAuth();
-      const tasksToUpdate = taskItems.filter(taskItem => 
+      const tasksToUpdate = taskItems.filter(taskItem =>
         taskItem.users.some(user => user.userId === userId)
       );
 
@@ -79,7 +94,7 @@ const UserManage = () => {
       const updatedTasks = tasksToUpdate.map(taskItem => {
         const updatedUsers = taskItem.users
           .filter(user => user.userId !== userId)
-          .map(user => user.userId); // Convert to user IDs
+          .map(user => user.userId);
         console.log('Updating taskItem:', taskItem.id, 'Original users:', taskItem.users, 'Updated users:', updatedUsers);
         return { ...taskItem, users: updatedUsers };
       });
@@ -93,7 +108,6 @@ const UserManage = () => {
 
       console.log('Tasks updated on server.');
 
-      // Fetch updated task items to verify removal
       const updatedResponse = await api.get('/task-item');
       const updatedData = updatedResponse.data.result;
       console.log('After removal, task items:', updatedData);
@@ -104,16 +118,36 @@ const UserManage = () => {
     }
   };
 
+  const deleteProjectsOfUser = async (userId) => {
+    try {
+      const api = axiosWithAuth();
+      const userProjects = projects.filter(project => project.userId === userId);
+
+      console.log('Projects to delete:', userProjects);
+
+      await Promise.all(userProjects.map(async project => {
+        await api.delete(`/project/${project.id}`);
+      }));
+
+      console.log('Projects deleted on server.');
+    } catch (error) {
+      console.error('Error deleting projects:', error);
+      message.error('Failed to delete projects');
+    }
+  };
+
   const deleteUser = async (userId) => {
     try {
       await removeUserFromTaskItems(userId);
+      await deleteProjectsOfUser(userId);
       const api = axiosWithAuth();
       console.log('Deleting user:', userId);
       await api.delete(`/user/${userId}`);
-      message.success('User and associated user references in task items deleted successfully');
+      message.success('User, associated user references in task items, and projects deleted successfully');
       fetchUsers();
-      fetchTaskItems(); // Refresh task items after deletion
-      setIsModalVisible(false); // Close modal
+      fetchTaskItems();
+      fetchProjects();
+      setIsModalVisible(false);
     } catch (error) {
       console.error('Error deleting user:', error);
       message.error('Failed to delete user');
@@ -137,16 +171,17 @@ const UserManage = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex-container">
       <Sidebar />
       <Navbar />
       <div className="user-manage-content">
         <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
           <div className="mx-auto mb-8 max-w-screen-sm lg:mb-16">
-            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Our team</h2>
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Management</h2>
             <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">
-              Explore the whole collection of open-source web components and elements built with the utility classes from Tailwind
-            </p>
+  This page is dedicated to managing users, allowing for detailed viewing and deletion of user profiles.
+</p>
+
           </div>
           <div className="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {users.map(user => (
@@ -154,7 +189,7 @@ const UserManage = () => {
                 <img
                   crossOrigin='anonymous'
                   className="mx-auto mb-4 w-36 h-36 rounded-full"
-                  src={user.imageUrl} // ดึงรูปภาพจาก media-object
+                  src={user.imageUrl}
                   alt={`${user.username} Avatar`}
                   onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/150'; }}
                 />

@@ -1,57 +1,51 @@
 .flex {
-    display: flex;
-  }
-  
-  .main-content {
-    width: calc(100% - 250px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
-    margin-left: 250px;
-    margin-top: 70px; /* ดึงเนื้อหาลงมาให้ต่ำกว่า Navbar */
-    height: calc(100vh - 70px); /* ปรับตามความสูงของ Navbar */
+  display: flex;
+}
 
-    background: linear-gradient(to right, #ffecd2, #fcb69f);
-    overflow: hidden; /* ป้องกันการทับกับ Navbar */
-  }
+.main-content {
+  width: calc(100% - 250px); /* Navbar ยืดตามขนาดของหน้าจอหลัก */
+  margin-left: 250px;
+  margin-top: 70px; /* ดึงเนื้อหาลงมาให้ต่ำกว่า Navbar */
+  height: calc(100vh - 70px); /* ปรับตามความสูงของ Navbar */
+
+
+  overflow: hidden; /* ป้องกันการทับกับ Navbar */
+}
+
+.ant-card.export-project-custom-card {
+  background-color: #353535; /* สีพื้นหลัง */
   
-  .animated-text {
-    animation: fadeInDown 1s ease-in-out;
-    color: #007bff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  }
+}
+
+.ant-card-head-title {
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: 20px;
+  color: white; /* สีของข้อความ */
+  padding: 20px;
   
-  .animated-button {
-    padding: 15px 30px;
-    font-size: 18px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-  }
-  
-  .animated-button:hover {
-    background: #0056b3;
-    transform: scale(1.1);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  }
-  
-  @keyframes fadeInDown {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
+}
+
+
+/* ExportProject.css */
+.export-custom-placeholder::placeholder {
+  font-family: 'Noto Sans Thai', sans-serif;
+  color: #5d5858; /* เปลี่ยนเป็นสีที่คุณต้องการ */
+}
+
+/* ExportProject.css */
+.ant-table-wrapper .ant-table-pagination-right {
+  justify-content: center !important; /* เปลี่ยนจาก flex-end เป็น center */
+}
+
+
+/* ExportProject.css */
+.custom-pagination .ant-pagination-item-active {
+  background-color: #ffffff !important; /* เปลี่ยนเป็นสีที่คุณต้องการ */
+  border-color: #3c3c3c !important; /* เปลี่ยนเป็นสีที่คุณต้องการ */
+  color: #ffffff !important; /* เปลี่ยนเป็นสีที่คุณต้องการ */
+}
+
+.custom-pagination .ant-pagination-item-active a{
+ 
+  color: #323232 !important; /* เปลี่ยนเป็นสีที่คุณต้องการ */
+}

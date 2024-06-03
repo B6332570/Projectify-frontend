@@ -16,39 +16,25 @@
   }
   
   .custom-table {
-  
+
     overflow: auto; /* ให้ตารางสามารถเลื่อนได้หากมีขนาดใหญ่เกินไป */
   }
   
   
   
   .custom-table .ant-table-tbody > tr > td {
+    font-family: 'Noto Sans Thai', sans-serif;
     font-size: 18px; /* เปลี่ยนขนาดฟอนต์ตามที่ต้องการ */
       max-width: 1200px;
   }
 
   .custom-table .ant-table-thead > tr > th {
+    font-family: 'Noto Sans Thai', sans-serif;
     font-size: 20px; /* เปลี่ยนขนาดฟอนต์ตามที่ต้องการ */
       max-width: 1200px;
   }
   
 
-
-
-  
-  .custom-table .ant-table-tbody > tr:hover > td {
-    background-color: #e6f7ff;
-  }
-  
-  .custom-modal .ant-modal-content {
-    border-radius: 8px;
-  }
-  
-  .custom-modal .ant-modal-header {
-    background-color: #f0f0f0;
-    border-radius: 8px 8px 0 0;
-  }
-  
   .custom-modal .ant-modal-footer {
     border-top: none;
   }
@@ -59,17 +45,18 @@
     margin-top: 20px;
   }
   
-  .custom-pagination .ant-pagination-item-active {
-    border-color: #1890ff;
-  }
-  
-  .custom-pagination .ant-pagination-item-active a {
-    color: #1890ff;
-  }
 
 
   /* ตั้งค่าสีพื้นหลังสำหรับ .ant-card.custom-card */
-.ant-card.custom-card {
+.ant-card.project-custom-card {
+  
   background-color: #6a6b6b; /* เปลี่ยนสีพื้นหลังตามที่ต้องการ */
 }
 
+
+
+/* ExportProject.css */
+.export-custom-placeholder::placeholder {
+  font-family: 'Noto Sans Thai', sans-serif;
+  color: #5d5858; /* เปลี่ยนเป็นสีที่คุณต้องการ */
+}

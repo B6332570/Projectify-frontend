@@ -33,7 +33,7 @@ const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
-  const [userRole, setUserRole] = useState(null);
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,12 +49,9 @@ const Navbar = () => {
           image: mediaResponse.data.result[0].url
         }));
 
-        const responseUsers = await api.get("/user");
-        const userList = responseUsers.data.result;
-        const currentUser = userList.find(user => user.id === userResponse.id);
-        if (currentUser) {
-          setUserRole(currentUser.role);
-        }
+        const roleResponse = await api.get("/role");
+        const rolesData = Array.isArray(roleResponse.data.result) ? roleResponse.data.result : [];
+        setRoles(rolesData);
 
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -90,17 +87,13 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  const getRoleDisplayName = (role) => {
-    switch (role) {
-      case 'developer':
-        return 'Developer';
-      case 'business_analyst':
-        return 'Business Analyst';
-      case 'admin':
-        return 'Admin';
-      default:
-        return role;
-    }
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const getRoleDisplayName = (roleId) => {
+    const role = roles.find(r => r.id === roleId);
+    return role ? capitalizeFirstLetter(role.role) : "Unknown Role";
   };
 
   return (
@@ -141,7 +134,7 @@ const Navbar = () => {
                 boxShadow: 3,
                 overflow: 'hidden',
                 position: 'relative',
-                borderRadius: '15px',
+          
                 textAlign: 'center',
                 padding: '20px',
                 background: '#f3f4f6',
@@ -172,7 +165,15 @@ const Navbar = () => {
                     Username: {userProfile && userProfile.username}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
-                    Role: <span style={{ color: userRole === 'admin' ? '#e5c100' : 'inherit' }}>{getRoleDisplayName(userRole)}</span>
+                    Role: {userProfile && userProfile.userRoles.map((role, index) => (
+                      <span
+                        key={role.roleId}
+                        style={{ color: getRoleDisplayName(role.roleId) === 'Admin' ? '#e5c100' : 'inherit', marginRight: '5px' }}
+                      >
+                        {getRoleDisplayName(role.roleId)}
+                        {index < userProfile.userRoles.length - 1 ? ', ' : ''}
+                      </span>
+                    ))}
                   </Typography>
                   <Divider sx={{ my: 2 }} />
                   <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
