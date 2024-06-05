@@ -6,7 +6,7 @@ const StatusCell = ({ status }) => {
   let displayStatus;
   switch (status) {
     case 'to_do':
-      backgroundColor = '#B0B0B0'; 
+      backgroundColor = '#86c5da'; 
       displayStatus = 'To Do';
       break;
     case 'in_progress':
@@ -14,7 +14,7 @@ const StatusCell = ({ status }) => {
       displayStatus = 'In Progress';
       break;
     case 'on_hold':
-      backgroundColor = '#FFA500'; 
+      backgroundColor = '#B0B0B0'; 
       displayStatus = 'On Hold';
       break;
     case 'block':
@@ -22,7 +22,7 @@ const StatusCell = ({ status }) => {
       displayStatus = 'Block';
       break;
     case 'ready_to_deploy':
-      backgroundColor = '#197319'; 
+      backgroundColor = '#006400'; 
       displayStatus = 'Ready to Deploy';
       break;
     case 'ready_to_test':
@@ -30,7 +30,7 @@ const StatusCell = ({ status }) => {
       displayStatus = 'Ready To Test';
       break;
     case 'done':
-      backgroundColor = '#93d893'; 
+      backgroundColor = '#3eb03e'; 
       displayStatus = 'Done';
       break;
     default:

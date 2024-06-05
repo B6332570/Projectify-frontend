@@ -476,20 +476,6 @@
     margin-bottom: 5px; /* เพิ่มระยะห่างด้านล่างของ label */
 }
   
-.input-group input {
-    width: 100%; /* กำหนดความกว้างของ input ให้เต็มกว่า parent element */
-    padding: 10px; /* เพิ่มขนาด padding ให้กับ input */
-    font-size: 16px; /* กำหนดขนาดตัวอักษรของ input */
-    border: 1px solid #ccc; /* เพิ่มเส้นขอบสีเทาอ่อนให้กับ input */
-    border-radius: 5px; /* เพิ่มขอบโค้งให้กับ input */
-}
-  
-  /* เพิ่มเอฟเฟกต์เมื่อ hover หรือ focus ใน input */
-.input-group input:hover,
-.input-group input:focus {
-    border-color: #333; /* เปลี่ยนสีเส้นขอบเป็นสีเทาเข้มเมื่อ hover หรือ focus */
-    outline: none; /* ลบเส้นโค้งที่ขึ้นเพื่อเน้นเมื่อ focus */
-}
 
 
 /* Login.css หรือไฟล์ CSS ที่เกี่ยวข้อง */

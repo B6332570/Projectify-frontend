@@ -115,4 +115,50 @@
 
 
 
+.popover {
+  position: absolute;
+  top: 0;
+  width: 200px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+}
 
+.popover.left {
+  left: -220px; /* ปรับตำแหน่งให้ popover อยู่ทางด้านซ้าย */
+}
+
+.popover.right {
+  left: 450px; /* ปรับตำแหน่งให้ popover อยู่ทางด้านขวา */
+}
+
+.popover::after {
+  content: "";
+  position: absolute;
+  top: 10px; /* ปรับตำแหน่งแนวตั้งของลูกศร */
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.popover.left::after {
+  right: -10px; /* ตำแหน่งลูกศรเมื่อ popover อยู่ทางซ้าย */
+  border-width: 10px 0 10px 10px;
+  border-color: transparent transparent transparent #F3F4F6;
+}
+
+.popover.right::after {
+  left: -10px; /* ตำแหน่งลูกศรเมื่อ popover อยู่ทางขวา */
+  border-width: 10px 10px 10px 0;
+  border-color: transparent #F3F4F6 transparent transparent;
+}
+
+.popover.visible {
+  visibility: visible;
+  opacity: 1;
+}

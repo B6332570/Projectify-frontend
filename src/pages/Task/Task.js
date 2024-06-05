@@ -621,42 +621,42 @@ const Task = () => {
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "450px" }}
+                    sx={{ fontWeight: "bold", width: "450px", fontSize: "23px"}}
                   >
                     Task Group
                   </TableCell>
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "380px" }}
+                    sx={{ fontWeight: "bold", width: "380px", fontSize: "23px" }}
                   >
                     Owner
                   </TableCell>
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "370px" }}
+                    sx={{ fontWeight: "bold", width: "370px", fontSize: "23px" }}
                   >
                     Status
                   </TableCell>
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "340px" }}
+                    sx={{ fontWeight: "bold", width: "340px", fontSize: "23px" }}
                   >
                     Start Date
                   </TableCell>
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "305px" }}
+                    sx={{ fontWeight: "bold", width: "305px", fontSize: "23px" }}
                   >
                     End Date
                   </TableCell>
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "150px" }}
+                    sx={{ fontWeight: "bold", width: "150px", fontSize: "23px" }}
                   >
                     Priority
                   </TableCell>

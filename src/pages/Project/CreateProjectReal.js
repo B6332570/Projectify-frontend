@@ -6,27 +6,46 @@ import './CreateProject.css'; // Import CSS file
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'; 
 import axios from 'axios'; // Import Axios for making API requests
 
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
+
+const axiosWithAuth = () => {
+  const token = localStorage.getItem("accessToken");
+
+  return axios.create({
+    baseURL: "http://localhost:3001/api", // ตั้งค่า baseURL ของ API
+    headers: {
+      Authorization: `Bearer ${token}`, // ส่ง AccessToken ใน header
+      "Content-Type": "application/json", // ตั้งค่า Content-Type ให้เป็น JSON
+    },
+  });
+};
+
 const CreateProject = ({ open, onClose }) => {
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
   const [projectName, setProjectName] = useState('');
   const [owner, setOwner] = useState('');
   const [user, setUsers] = useState([]); // State to store users data
+  // const [projectCreationStatus, setProjectCreationStatus] = useState(null); // State for project creation status
 
   useEffect(() => {
-    // Fetch users data from backend when the component mounts
-    fetchUsers();
-  }, []);
+    const fetchData = async () => {
+      try {
+        const api = axiosWithAuth();
+        const usersResponse = await api.get("/user");
 
-  const fetchUsers = async () => {
-    try {
-      // Fetch users data from backend
-      const response = await axios.get('http://localhost:3001/api/user');
-      // Set users data to state
-      setUsers(response.data);
-    } catch (error) {
-      console.error('Error fetching user:', error);
-    }
-  };
+        // const users = usersResponse.data.result[0].data;
+        const users = usersResponse.data.result;
+        setUsers(users);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleEditorChange = (newEditorState) => {
     setEditorState(newEditorState);
@@ -41,30 +60,56 @@ const CreateProject = ({ open, onClose }) => {
   };
 
   const handleSubmit = async () => {
+    if (!projectName.trim()) {
+      MySwal.fire({
+        title: 'Error',
+        text: 'Project Name is required',
+        icon: 'error',
+        showConfirmButton: true,
+      });
+      return;
+    }
+  
+    if (editorState.getCurrentContent().hasText() === false) {
+      MySwal.fire({
+        title: 'Error',
+        text: 'Description is required',
+        icon: 'error',
+        showConfirmButton: true,
+      });
+      return;
+    }
+  
     try {
-      // Create an object with data to send to the server
+      const api = axiosWithAuth();
       const formData = {
-        projectName: projectName,
-        owner: owner,
+        projectsName: projectName,
       };
-
-      // Send data to the server using Axios
-      const response = await axios.post('http://localhost:3001/api/project', formData);
-
-      // Check if data submission was successful
-      if (response.status === 200) {
-        // Data submission successful
+      const projectsResponse = await api.post("/project", formData);
+      
+      const status = projectsResponse.data.status;
+      console.log(status);
+  
+      if (status === "success") {
         console.log('Project data submitted successfully.');
-        // Proceed with any additional code for handling successful data submission
+        onClose(); // ปิด Modal หลังจากที่โปรเจคถูกสร้างเรียบร้อยแล้ว
+        await MySwal.fire({
+          title: <strong>{status}</strong>,
+          showConfirmButton: false,
+          html: 'Create Project Successfully',
+          icon: 'success',
+          timer: 1500
+        });
       } else {
-        // Data submission failed
-        console.error('Failed to submit project data.');
+        console.error('Failed to submit project data. Server returned status:', status);
       }
     } catch (error) {
-      // Error occurred while submitting data
-      console.error('Error submitting project data:', error);
+      console.error("Error post data:", error);
     }
   };
+  
+  
+  
 
   return (
     <Modal
@@ -72,55 +117,40 @@ const CreateProject = ({ open, onClose }) => {
       onClose={onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      
     >
-      <Box className="modal-container"> {/* Apply CSS class */}
+      <Box className="modal-container">
         <div className="modal-header">
             New Project
-        </div> {/* Header */}
-        <TextField label="Project Name" value={projectName} onChange={handleProjectNameChange} className="textfield-input" fullWidth /> {/* Project Name */}
-        <FormControl className="select-input"> {/* Owner */}
-          <InputLabel id="owner-label" className="select-input" >Owner</InputLabel>
-           
-          <Select
-           
-            className="select-input"
-            labelId="owner-label"
-            id="owner"
-            value={owner}
-            onChange={handleOwnerChange}
-            label="Owner"
-          >
-            <MenuItem value="">
-              <em>Select</em>
-            </MenuItem>
-            {/* Map through users data and render each user as a MenuItem */}
-            {user && user.result && user.result[0] && user.result[0].data.map((user) => (
-                <MenuItem key={user.id} value={user.id}>
-                    {user.firstName} {user.lastName}
-                </MenuItem>
-            ))}
-
-          </Select>
-        </FormControl>
-        <div className="description-editor"> {/* Description */}
+        </div>
+        <TextField label="Project Name" value={projectName} onChange={handleProjectNameChange} className="textfield-input" fullWidth />
+     
+        <div className="description-editor">
+          Title
           <Editor
             editorState={editorState}
             onEditorStateChange={handleEditorChange}
             toolbar={{
               options: ['inline', 'blockType', 'list', 'textAlign', 'history'],
               inline: {
-                options: ['bold', 'italic', 'underline'], // เลือกตัวเลือกที่คุณต้องการ
+                options: ['bold', 'italic', 'underline'],
               },
             }}
           />
         </div>
-        <Button variant="contained" color="primary" className="button-save" fullWidth onClick={handleSubmit}>
-          Save
-        </Button>
+        <Button 
+  variant="contained" 
+  color="primary" 
+  className="button-save" 
+  fullWidth 
+  onClick={handleSubmit}
+  disabled={!projectName.trim() || editorState.getCurrentContent().hasText() === false}
+>
+  Create
+</Button>
+
       </Box>
     </Modal>
   );
-};
+}
 
 export default CreateProject;

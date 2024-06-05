@@ -143,7 +143,45 @@ const Project = () => {
                         span={currentData.length === 1 ? 24 : 12}
                         key={project.id}
                       >
-                        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative">
+                        <div
+                          data-popover
+                          id={`popover-left${project.id}`}
+                          role="tooltip"
+                          class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                        
+                         
+                        >
+                          <div className="px-8 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                            <h3 className="font-semibold text-gray-900 dark:text-white">
+                              {project.projectsName}
+                            </h3>
+                          </div>
+                          <div className="px-3 py-2">
+                            <p>
+                             {project.title}
+                            </p>
+                          </div>
+                       
+                        </div>
+                        <div
+                          className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative"
+                          onMouseEnter={() => {
+                            document
+                              .getElementById(`popover-left${project.id}`)
+                              .classList.remove("invisible", "opacity-0");
+                            document
+                              .getElementById(`popover-left${project.id}`)
+                              .classList.add("visible", "opacity-100");
+                          }}
+                          onMouseLeave={() => {
+                            document
+                              .getElementById(`popover-left${project.id}`)
+                              .classList.remove("visible", "opacity-100");
+                            document
+                              .getElementById(`popover-left${project.id}`)
+                              .classList.add("invisible", "opacity-0");
+                          }}
+                        >
                           <div className="absolute top-2 right-2 z-20">
                             <button
                               id="dropdownMenuIconButton"
@@ -183,7 +221,6 @@ const Project = () => {
                                       Edit
                                     </a>
                                   </li>
-
                                   <li>
                                     <a
                                       href="#"
@@ -217,7 +254,6 @@ const Project = () => {
                               Created On:{" "}
                               {new Date(project.createdAt).toLocaleDateString()}
                             </p>
-
                             <Link
                               to={`/project/${project.id}/task`}
                               className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

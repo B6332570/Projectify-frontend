@@ -1,33 +1,15 @@
-.background {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-  }
+
+  .signup-input-group input {
+    width: 100%; /* กำหนดความกว้างของ input ให้เต็มกว่า parent element */
+    padding: 10px; /* เพิ่มขนาด padding ให้กับ input */
+    font-size: 16px; /* กำหนดขนาดตัวอักษรของ input */
+    border: 1px solid #ccc; /* เพิ่มเส้นขอบสีเทาอ่อนให้กับ input */
+    border-radius: 5px; /* เพิ่มขอบโค้งให้กับ input */
+}
   
-  .bg {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .signup-holder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .signup-form {
-    width: 100%;
-  }
-  
-  .signup-title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
+  /* เพิ่มเอฟเฟกต์เมื่อ hover หรือ focus ใน input */
+.signup-input-group input:hover,
+.signup-input-group input:focus {
+    border-color: #333; /* เปลี่ยนสีเส้นขอบเป็นสีเทาเข้มเมื่อ hover หรือ focus */
+    outline: none; /* ลบเส้นโค้งที่ขึ้นเพื่อเน้นเมื่อ focus */
+}

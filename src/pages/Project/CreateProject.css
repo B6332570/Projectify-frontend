@@ -1,78 +1,61 @@
-/* CreateProject.css */
-
 .modal-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    height: 80%;
-    overflow: auto; /* ทำให้เนื้อหาสามารถเลื่อนได้เมื่อมีขนาดเกินขอบเขตของ popup */
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-  
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: auto;
+  position: absolute;
+  top: 30%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+}
+
 .modal-header {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #7e7e7e;
-    padding-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-.textfield-input {
-    margin-top: 20px; /* กำหนดระยะห่างด้านบนของ dropdown */
-    margin-bottom: 20px; /* ลดระยะห่างด้านล่างลง */
-}
 
-.select-input {
-    width: 100%;
-    margin-top: 60px; /* กำหนดระยะห่างด้านบนของ dropdown */
-    margin-bottom: 20px; /* ลดระยะห่างด้านล่างลง */
-}
 
-.date-inputs {
-    display: flex;
-    gap: 400px;
-    margin-top: 100px; /* กำหนดระยะห่างด้านบนของ dropdown */
-    margin-bottom: 100px;
+.description-editor {
+  margin-bottom: 20px;
 }
-  
-.description-container {
-    margin-bottom: 20px;
-  }
-  
-  .editor-label {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-bottom: 8px;
-  }
-  
-  .description-editor {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 8px;
-  }
-  
-  .description-editor .rdw-editor-toolbar {
-    border: none;
-    border-radius: 0;
-    background-color: #f5f5f5;
-    margin-bottom: 8px;
-  }
-  
-  .description-editor .rdw-editor-main {
-    border: none;
-    height: 200px;
-    font-size: 1rem;
-  }
-  
 
 .button-save {
-    margin-top: 15px;
+  width: fit-content;
+  background-color: #007bff;
+  color: white;
+  &:hover {
+    background-color: #0056b3;
+  }
 }
 
-
-  
+/* เพิ่มคลาสเฉพาะสำหรับระบบ CreateProject */
+.create-project-focus [type='text']:focus,
+.create-project-focus [type='email']:focus,
+.create-project-focus [type='url']:focus,
+.create-project-focus [type='password']:focus,
+.create-project-focus [type='number']:focus,
+.create-project-focus [type='date']:focus,
+.create-project-focus [type='datetime-local']:focus,
+.create-project-focus [type='month']:focus,
+.create-project-focus [type='search']:focus,
+.create-project-focus [type='tel']:focus,
+.create-project-focus [type='time']:focus,
+.create-project-focus [type='week']:focus,
+.create-project-focus [multiple]:focus,
+.create-project-focus textarea:focus,
+.create-project-focus select:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: none; /* เปลี่ยนเป็นสีเขียว */
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 0 var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  border-color: #afb2ae; /* เปลี่ยนเป็นสีเขียว */
+}

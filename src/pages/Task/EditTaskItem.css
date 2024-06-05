@@ -72,3 +72,14 @@
     background-color: rgba(0, 0, 0, 0.04); /* เพิ่มสีพื้นหลังเมื่อเมาส์ชี้ไปที่ TaskName */
   }
   
+  .customTextField .MuiInput-underline:before {
+    border-bottom-color: rgba(0, 0, 0, 0.42); /* สีปกติ */
+  }
+  
+  .customTextField .MuiInput-underline:after {
+    border-bottom-color: green; /* สีเมื่อโฟกัส */
+  }
+  
+  .customTextField .MuiInput-underline:hover:not(.Mui-disabled):before {
+    border-bottom-color: rgba(0, 0, 0, 0.87); /* สีเมื่อ hover */
+  }

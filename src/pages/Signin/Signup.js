@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './Login.css';
+import './Signup.css';
 import { Form, message } from "antd";
 import { Modal, Box, TextField, Button, FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
 import axios from "axios";
@@ -117,7 +118,7 @@ function Signup() {
                 <br />
                 <div className="emailinput">
                   <div className="emailtext">E-mail</div>
-                  <div className="input-group">
+                  <div className="signup-input-group">
                     <input
                       type="text"
                       required
@@ -132,7 +133,7 @@ function Signup() {
                   <div className="passwordtext">
                     Password <small>(must be 6-12 characters)</small>
                   </div>
-                  <div className="input-group">
+                  <div className="signup-input-group">
                     <input
                       type="password"
                       required
@@ -172,7 +173,7 @@ function Signup() {
                   </FormControl>
                 </div>
                 <div className="container">
-                  <div className="input-group">
+                  <div className="signup-input-group">
                     <label htmlFor="firstName" style={{ color: 'black' }}>
                       First Name
                     </label>
@@ -187,7 +188,7 @@ function Signup() {
                   </div>
                 </div>
                 <div className="container">
-                  <div className="input-group">
+                  <div className="signup-input-group">
                     <label htmlFor="lastName" style={{ color: 'black' }}>
                       Last Name
                     </label>
@@ -202,7 +203,7 @@ function Signup() {
                   </div>
                 </div>
                 <div className="container">
-                  <div className="input-group">
+                  <div className="signup-input-group">
                     <label htmlFor="username" style={{ color: 'black' }}>
                       Username
                     </label>
@@ -217,7 +218,7 @@ function Signup() {
                   </div>
                 </div>
                 <div className="container">
-                  <div className="input-group">
+                  <div className="signup-input-group">
                     <label htmlFor="profileImage" style={{ color: 'black' }}>
                       Profile Image
                     </label>

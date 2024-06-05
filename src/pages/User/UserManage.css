@@ -41,3 +41,78 @@
     color: #fff;
   }
 }
+
+.delete-button {
+  background-color: #ff4d4f; /* สีแดง */
+  border-color: #ff4d4f; /* สีแดง */
+  color: white;
+  margin-top: 20px;
+}
+
+.delete-button:hover {
+  background-color: #ff7875 !important;;
+  border-color: #ff7875 !important;;
+  color: white !important;
+  
+}
+
+
+.custom-delete-button {
+  background-color: #ff4d4f !important; /* สีแดง */
+  border-color: #ff4d4f !important; /* สีแดง */
+  color: white !important;
+}
+
+.custom-delete-button:hover {
+  background-color: #ff7875 !important;
+  border-color: #ff7875 !important;
+  color: white !important;
+}
+
+.search-container {
+  margin-bottom: 20px;
+  margin-top: -50px;
+  text-align: center;
+  
+}
+
+.search-input {
+  padding: 10px;
+  width: 50%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-input:focus {
+  border-color: #6acf51 ; /* สีของ border เมื่อช่องค้นหาอยู่ในโฟกัส */
+  
+}
+
+/* เพิ่มคลาสเฉพาะสำหรับระบบของคุณเอง */
+.user-manage-focus [type='text']:focus,
+.user-manage-focus [type='email']:focus,
+.user-manage-focus [type='url']:focus,
+.user-manage-focus [type='password']:focus,
+.user-manage-focus [type='number']:focus,
+.user-manage-focus [type='date']:focus,
+.user-manage-focus [type='datetime-local']:focus,
+.user-manage-focus [type='month']:focus,
+.user-manage-focus [type='search']:focus,
+.user-manage-focus [type='tel']:focus,
+.user-manage-focus [type='time']:focus,
+.user-manage-focus [type='week']:focus,
+.user-manage-focus [multiple]:focus,
+.user-manage-focus textarea:focus,
+.user-manage-focus select:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: #afb2ae; /* เปลี่ยนเป็นสีเขียว */
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 0 var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  border-color: #afb2ae; /* เปลี่ยนเป็นสีเขียว */
+}

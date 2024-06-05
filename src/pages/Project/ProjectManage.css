@@ -50,12 +50,11 @@
   /* ตั้งค่าสีพื้นหลังสำหรับ .ant-card.custom-card */
 .ant-card.project-custom-card {
   
-  background-color: #6a6b6b; /* เปลี่ยนสีพื้นหลังตามที่ต้องการ */
+  background-color: #817c80; /* เปลี่ยนสีพื้นหลังตามที่ต้องการ */
 }
 
 
 
-/* ExportProject.css */
 .export-custom-placeholder::placeholder {
   font-family: 'Noto Sans Thai', sans-serif;
   color: #5d5858; /* เปลี่ยนเป็นสีที่คุณต้องการ */

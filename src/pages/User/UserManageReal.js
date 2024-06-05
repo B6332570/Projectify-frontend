@@ -23,12 +23,25 @@ const UserManage = () => {
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     fetchUsers();
     fetchTaskItems();
     fetchProjects();
+    fetchRoles();
   }, []);
+
+  const fetchRoles = async () => {
+    try {
+      const api = axiosWithAuth();
+      const response = await api.get('/role');
+      const rolesData = Array.isArray(response.data.result) ? response.data.result : [];
+      setRoles(rolesData);
+    } catch (error) {
+      console.error('Error fetching roles:', error);
+    }
+  };
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -170,6 +183,15 @@ const UserManage = () => {
     setSelectedUser(null);
   };
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const getRoleDisplayName = (roleId) => {
+    const role = roles.find(r => r.id === roleId);
+    return role ? capitalizeFirstLetter(role.role) : "Unknown Role";
+  };
+
   return (
     <div className="flex-container">
       <Sidebar />
@@ -177,11 +199,10 @@ const UserManage = () => {
       <div className="user-manage-content">
         <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
           <div className="mx-auto mb-8 max-w-screen-sm lg:mb-16">
-            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Management</h2>
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"> User Management</h2>
             <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">
-  This page is dedicated to managing users, allowing for detailed viewing and deletion of user profiles.
-</p>
-
+              This page is dedicated to managing users, allowing for detailed viewing and deletion of user profiles.
+            </p>
           </div>
           <div className="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {users.map(user => (
@@ -194,8 +215,9 @@ const UserManage = () => {
                   onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/150'; }}
                 />
                 <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  <a href="#">{user.username}</a>
+                  <a href="#">{`${user.username} ${user.firstName}`}</a>
                 </h3>
+                <p>{user.userRoles.map(role => getRoleDisplayName(role.roleId)).join(', ')}</p> {/* Updated Role display */}
                 <p>{user.email}</p>
                 <Button type="danger" onClick={() => showDeleteConfirm(user)}>
                   Delete

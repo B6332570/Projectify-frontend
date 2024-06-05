@@ -478,12 +478,19 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                 <TextField
                   name="taskName"
                   fullWidth={false} // ไม่ใช้ fullWidth
-                  style={{ width: "1200px" }} // กำหนดความกว้างด้วย CSS inline style
+                  style={{ width: "1220px" }} // กำหนดความกว้างด้วย CSS inline style
                   id="standard-basic"
                   value={updatedTaskItem.taskName}
                   onChange={handleChange}
                   variant="standard"
                   margin="normal"
+                  InputProps={{
+                    style: {
+                      fontSize: "20px", // ปรับขนาดฟอนต์ของ input
+                    },
+                  
+                  }}
+                  className="customTextField" // เพิ่ม className
                 />
                 <Paper
                   style={{
