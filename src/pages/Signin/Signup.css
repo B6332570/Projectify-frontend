@@ -7,9 +7,3 @@
     border-radius: 5px; /* เพิ่มขอบโค้งให้กับ input */
 }
   
-  /* เพิ่มเอฟเฟกต์เมื่อ hover หรือ focus ใน input */
-.signup-input-group input:hover,
-.signup-input-group input:focus {
-    border-color: #333; /* เปลี่ยนสีเส้นขอบเป็นสีเทาเข้มเมื่อ hover หรือ focus */
-    outline: none; /* ลบเส้นโค้งที่ขึ้นเพื่อเน้นเมื่อ focus */
-}

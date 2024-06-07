@@ -1,0 +1,22 @@
+.status-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    padding: 4px 8px;
+  }
+  
+  .status-small {
+    font-size: 12px;
+  }
+  
+  .status-medium {
+    font-size: 16px;
+  }
+  
+  .status-large {
+    font-size: 20px;
+  }
+  

@@ -1,51 +1,38 @@
 import React from 'react';
 import './CreateButton.css';
+import { Button, Menu, MenuItem } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
-function Wrapper({ children }) {
+const CreateButton = ({ handleMenuClick, handleMenuItemClick, anchorEl, menuOpen, handleMenuClose }) => {
   return (
-    <div className="wrapper">
-      {children}
+    <div className="create-button-wrapper">
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<AddIcon />}
+        onClick={handleMenuClick}
+        style={{
+          backgroundColor: "#464747",
+          color: "#fff",
+          padding: "10px 20px",
+          fontSize: "16px",
+          fontWeight: "bold",
+          textTransform: "none",
+          borderRadius: "8px"
+        }}
+      >
+        New Task
+      </Button>
+      <Menu
+        anchorEl={anchorEl}
+        open={menuOpen}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={() => handleMenuItemClick("createTask")}>Create new task</MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick("createTaskGroup")}>Create new task group</MenuItem>
+      </Menu>
     </div>
   );
-}
-
-function HiddenTrigger({ id }) {
-  return (
-    <input className="hidden-trigger" id={id} type="checkbox" />
-  );
-}
-
-function CircleLabel({ forId }) {
-  return (
-    <label className="circle" htmlFor={forId}>
-      +
-    </label>
-  );
-}
-
-function Subs({ handleMenuItemClick }) {
-  return (
-    <div className="subs">
-      <button className="sub-circle" onClick={() => handleMenuItemClick('createTask')}>
-        <input className="hidden-sub-trigger" id="sub1" type="radio" name="sub-circle" value="1" />
-        <label htmlFor="sub1">Task</label>
-      </button>
-      <button className="sub-circle" onClick={() => handleMenuItemClick('createTaskGroup')}>
-        <input className="hidden-sub-trigger" id="sub2" type="radio" name="sub-circle" value="2" />
-        <label htmlFor="sub2">Task Group</label>
-      </button>
-    </div>
-  );
-}
-
-function CreateButton({ handleMenuClick, handleMenuItemClick }) {
-  return (
-    <Wrapper>
-      <HiddenTrigger id="toggle" />
-      <CircleLabel forId="toggle" />
-      <Subs handleMenuItemClick={handleMenuItemClick} />
-    </Wrapper>
-  );
-}
+};
 
 export default CreateButton;

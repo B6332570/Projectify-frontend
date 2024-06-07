@@ -47,6 +47,10 @@ const Project = () => {
 
   const handleCloseCreateProject = () => {
     setOpenCreateProject(false);
+  };
+
+  const handleCreateProject = () => {
+    setOpenCreateProject(false);
     fetchData();
   };
 
@@ -109,6 +113,10 @@ const Project = () => {
     alert(`Action: ${action}`);
   };
 
+  const getPopoverPosition = (index) => {
+    return index % 2 === 0 ? "left" : "right";
+  };
+
   return (
     <div className="backgroundbobweb">
       <div className="flex">
@@ -138,143 +146,135 @@ const Project = () => {
                     <CreateProjectButt onClick={handleCreateProjectClick} />
                   </div>
                   <Row gutter={[30, 30]}>
-                    {currentData.map((project) => (
+                    {currentData.map((project, index) => (
                       <Col
                         span={currentData.length === 1 ? 24 : 12}
                         key={project.id}
                       >
-                        <div
-                          data-popover
-                          id={`popover-left${project.id}`}
-                          role="tooltip"
-                          class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
-                        
-                         
-                        >
-                          <div className="px-8 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-                            <h3 className="font-semibold text-gray-900 dark:text-white">
-                              {project.projectsName}
-                            </h3>
-                          </div>
-                          <div className="px-3 py-2">
-                            <p>
-                             {project.title}
-                            </p>
-                          </div>
-                       
-                        </div>
-                        <div
-                          className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative"
-                          onMouseEnter={() => {
-                            document
-                              .getElementById(`popover-left${project.id}`)
-                              .classList.remove("invisible", "opacity-0");
-                            document
-                              .getElementById(`popover-left${project.id}`)
-                              .classList.add("visible", "opacity-100");
-                          }}
-                          onMouseLeave={() => {
-                            document
-                              .getElementById(`popover-left${project.id}`)
-                              .classList.remove("visible", "opacity-100");
-                            document
-                              .getElementById(`popover-left${project.id}`)
-                              .classList.add("invisible", "opacity-0");
-                          }}
-                        >
-                          <div className="absolute top-2 right-2 z-20">
-                            <button
-                              id="dropdownMenuIconButton"
-                              data-dropdown-toggle="dropdownDots"
-                              data-dropdown-placement="bottom-start"
-                              className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600"
-                              type="button"
-                              onClick={() => toggleDropdown(project.id)}
-                            >
-                              <svg
-                                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                viewBox="0 0 4 15"
-                              >
-                                <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                              </svg>
-                            </button>
-                            {dropdownOpen[project.id] && (
-                              <div
-                                id="dropdownDots"
-                                className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600 absolute top-10 right-0"
-                              >
-                                <ul
-                                  className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                  aria-labelledby="dropdownMenuIconButton"
-                                >
-                                  <li>
-                                    <a
-                                      href="#"
-                                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                      onClick={() =>
-                                        handleEditProjectClick(project)
-                                      }
-                                    >
-                                      Edit
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      href="#"
-                                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                      onClick={() => handleAction("Forward")}
-                                    >
-                                      Delete
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            )}
-                          </div>
-                          <a href="#">
-                            <img
-                              className="rounded-t-lg"
-                              src={project.imageUrl}
-                              alt="project"
-                            />
-                          </a>
-                          <div className="p-5">
-                            <a href="#">
-                              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        <div className="relative">
+                          <div
+                            className={`popover ${getPopoverPosition(index)} ${dropdownOpen[project.id] ? "visible" : ""}`}
+                            id={`popover-left${project.id}`}
+                            role="tooltip"
+                          >
+                            <div className="px-8 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                              <h3 className="font-semibold text-gray-900 dark:text-white">
                                 {project.projectsName}
-                              </h5>
+                              </h3>
+                            </div>
+                            <div className="px-3 py-2">
+                              <p>{project.title}</p>
+                            </div>
+                          </div>
+                          <div
+                            className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative"
+                            onMouseEnter={() => {
+                              document
+                                .getElementById(`popover-left${project.id}`)
+                                .classList.add("visible");
+                            }}
+                            onMouseLeave={() => {
+                              document
+                                .getElementById(`popover-left${project.id}`)
+                                .classList.remove("visible");
+                            }}
+                          >
+                            <div className="absolute top-2 right-2 z-20">
+                              <div className="kebab-button">
+                                <button
+                                  id="dropdownMenuIconButton"
+                                  data-dropdown-toggle="dropdownDots"
+                                  data-dropdown-placement="bottom-start"
+                                  className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600"
+                                  type="button"
+                                  onClick={() => toggleDropdown(project.id)}
+                                >
+                                  <svg
+                                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor"
+                                    viewBox="0 0 4 15"
+                                  >
+                                    <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                                  </svg>
+                                </button>
+                                {dropdownOpen[project.id] && (
+                                  <div
+                                    id="dropdownDots"
+                                    className="kebab-menu z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600 absolute top-10 right-0"
+                                  >
+                                    <ul
+                                      className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                      aria-labelledby="dropdownMenuIconButton"
+                                    >
+                                      <li>
+                                        <a
+                                          href="#"
+                                          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                          onClick={() =>
+                                            handleEditProjectClick(project)
+                                          }
+                                        >
+                                          Edit
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a
+                                          href="#"
+                                          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                          onClick={() => handleAction("Forward")}
+                                        >
+                                          Delete
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            <a href="#">
+                              <img
+                                className="rounded-t-lg"
+                                src={project.imageUrl}
+                                alt="project"
+                              />
                             </a>
-                            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                              Owner: {project.owner}
-                            </p>
-                            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                              Created On:{" "}
-                              {new Date(project.createdAt).toLocaleDateString()}
-                            </p>
-                            <Link
-                              to={`/project/${project.id}/task`}
-                              className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
-                              View Tasks
-                              <svg
-                                className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 14 10"
+                            <div className="p-5">
+                              <a href="#">
+                                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                  {project.projectsName}
+                                </h5>
+                              </a>
+                              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                Owner: {project.owner}
+                              </p>
+                              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                Created On:{" "}
+                                {new Date(project.createdAt).toLocaleDateString()}
+                              </p>
+                              <Link
+                                to={`/project/${project.id}/task`}
+                                className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                               >
-                                <path
-                                  stroke="currentColor"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M1 5h12m0 0L9 1m4 4L9 9"
-                                />
-                              </svg>
-                            </Link>
+                                View Tasks
+                                <svg
+                                  className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 14 10"
+                                >
+                                  <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                                  />
+                                </svg>
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </Col>
@@ -294,6 +294,7 @@ const Project = () => {
           <CreateProject
             open={openCreateProject}
             onClose={handleCloseCreateProject}
+            onCreate={handleCreateProject} // เพิ่มฟังก์ชัน onCreate
           />
           {openEditProject && (
             <EditProject

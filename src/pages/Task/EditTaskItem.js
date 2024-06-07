@@ -478,19 +478,34 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                 <TextField
                   name="taskName"
                   fullWidth={false} // ไม่ใช้ fullWidth
-                  style={{ width: "1220px" }} // กำหนดความกว้างด้วย CSS inline style
+                  style={{ width: "1500px" }} // กำหนดความกว้างด้วย CSS inline style
                   id="standard-basic"
                   value={updatedTaskItem.taskName}
                   onChange={handleChange}
                   variant="standard"
                   margin="normal"
+                  className="edit-task-focus" // เพิ่ม className
                   InputProps={{
                     style: {
-                      fontSize: "20px", // ปรับขนาดฟอนต์ของ input
+                      fontSize: "25px", // ปรับขนาดฟอนต์ของ input
                     },
                   
                   }}
-                  className="customTextField" // เพิ่ม className
+                  sx={{
+                    '& .MuiInput-underline:before': {
+                      borderBottomColor: 'rgba(0, 0, 0, 0.42)', // สีปกติ
+                      borderBottomWidth: '1px', // ความหนาของเส้นปกติ
+                    },
+                    '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+                      borderBottomColor: 'rgba(0, 0, 0, 0.42)', // สีเหมือนเดิมเมื่อ hover
+                      borderBottomWidth: '1px', // ความหนาเหมือนเดิมเมื่อ hover
+                    },
+                    '& .MuiInput-underline:after': {
+                      borderBottomColor: 'rgba(0, 0, 0, 0.42)', // สีเมื่อ focus
+                      borderBottomWidth: '1px', // ความหนาเมื่อ focus
+                    },
+                  }}
+          
                 />
                 <Paper
                   style={{

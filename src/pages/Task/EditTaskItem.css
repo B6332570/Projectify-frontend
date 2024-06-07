@@ -71,15 +71,32 @@
   .taskName:hover {
     background-color: rgba(0, 0, 0, 0.04); /* เพิ่มสีพื้นหลังเมื่อเมาส์ชี้ไปที่ TaskName */
   }
-  
-  .customTextField .MuiInput-underline:before {
-    border-bottom-color: rgba(0, 0, 0, 0.42); /* สีปกติ */
-  }
-  
-  .customTextField .MuiInput-underline:after {
-    border-bottom-color: green; /* สีเมื่อโฟกัส */
-  }
-  
-  .customTextField .MuiInput-underline:hover:not(.Mui-disabled):before {
-    border-bottom-color: rgba(0, 0, 0, 0.87); /* สีเมื่อ hover */
-  }
+
+
+.edit-task-focus [type='text']:focus,
+.edit-task-focus [type='email']:focus,
+.edit-task-focus [type='url']:focus,
+.edit-task-focus [type='password']:focus,
+.edit-task-focus [type='number']:focus,
+.edit-task-focus [type='date']:focus,
+.edit-task-focus [type='datetime-local']:focus,
+.edit-task-focus [type='month']:focus,
+.edit-task-focus [type='search']:focus,
+.edit-task-focus [type='tel']:focus,
+.edit-task-focus [type='time']:focus,
+.edit-task-focus [type='week']:focus,
+.edit-task-focus [multiple]:focus,
+.edit-task-focus textarea:focus,
+.edit-task-focus select:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: none; 
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 0 var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  border-color: #afb2ae;
+}
+

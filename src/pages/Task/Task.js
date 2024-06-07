@@ -37,9 +37,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert"; // import more icon
 import { AntDesignOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Divider, Tooltip } from "antd";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import InputAdornment from "@mui/material/InputAdornment";
+
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
@@ -204,366 +202,282 @@ const Row = ({
               marginRight: "8px",
               verticalAlign: "middle",
             }}
-          />
-        );
-        text = "High";
-        break;
-      default:
-        return null;
-    }
-    return (
-      <div
-        style={{ display: "flex", alignItems: "center", marginLeft: "70px" }}
-      >
-        {icon}
-        <span>{text}</span>
-      </div>
-    );
-  };
-
-  return (
-    <React.Fragment>
-      <TableRow sx={{ backgroundColor: "#F8F8F8", height: "auto" }}>
-        <TableCell
-          colSpan={7}
-          className="icon-button"
-          style={{ borderBottom: "none", paddingLeft: "20px" }}
+            />
+          );
+          text = "High";
+          break;
+        default:
+          return null;
+      }
+      return (
+        <div
+          style={{ display: "flex", alignItems: "center", marginLeft: "70px" }}
         >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              style={{ fontSize: "64px" }}
-              onClick={() => setOpen(!open)}
-            >
-              {open ? (
-                <KeyboardArrowUpIcon className="icon-button-expanded" />
-              ) : (
-                <KeyboardArrowDownIcon />
-              )}
-            </IconButton>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginLeft: "70px",
-                width: "100%",
-              }}
-            >
-              {editMode ? (
-                <>
-                  <TextField
-                    value={newTaskGroupName}
-                    onChange={handleTaskGroupNameChange}
-                    variant="outlined"
-                    size="medium"
-                    autoFocus
-                    style={{ width: `${textFieldWidth}px`, minWidth: "350px" }} // ใช้ค่า textFieldWidth
-                    inputRef={inputRef}
-                  />
-                  <Button
-                    onClick={handleSaveClick}
-                
-                    style={{ marginLeft: "10px", color: "#ec9bc4"}}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    onClick={handleCancelClick}
-                  
-                    style={{ marginLeft: "10px", color: "#ec9bc4" }}
-                  >
-                    Cancel
-                  </Button>
-                </>
-              ) : (
-                <span style={{ fontSize: "18px" }}>
-                  {taskGroup && taskGroup.taskGroupName}
-                </span>
-              )}
+          {icon}
+          <span>{text}</span>
+        </div>
+      );
+    };
+  
+    return (
+      <React.Fragment>
+        <TableRow sx={{ backgroundColor: "#F8F8F8", height: "auto" }}>
+          <TableCell
+            colSpan={7}
+            className="icon-button"
+            style={{ borderBottom: "none", paddingLeft: "20px" }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
               <IconButton
-                aria-label="more"
-                onClick={handleMenuClick}
-                style={{ marginLeft: "20px" }}
+                aria-label="expand row"
+                size="small"
+                style={{ fontSize: "64px" }}
+                onClick={() => setOpen(!open)}
               >
-                <MoreVertIcon />
+                {open ? (
+                  <KeyboardArrowUpIcon className="icon-button-expanded" />
+                ) : (
+                  <KeyboardArrowDownIcon />
+                )}
               </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={menuOpen}
-                onClose={handleMenuClose}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginLeft: "70px",
+                  width: "100%",
+                }}
               >
-                <MenuItem onClick={handleEditClick}>Edit Task Group Name</MenuItem>
-                <MenuItem onClick={() => handleDeleteTaskGroup(taskGroup.id)}>
-                  Delete Task Group
-                </MenuItem>
-              </Menu>
+                {editMode ? (
+                  <>
+                    <TextField
+                      value={newTaskGroupName}
+                      onChange={handleTaskGroupNameChange}
+                      variant="outlined"
+                      size="medium"
+                      autoFocus
+                      style={{ width: `${textFieldWidth}px`, minWidth: "350px" }} // ใช้ค่า textFieldWidth
+                      inputRef={inputRef}
+                    />
+                    <Button
+                      onClick={handleSaveClick}
+                  
+                      style={{ marginLeft: "10px", color: "#ec9bc4"}}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      onClick={handleCancelClick}
+                    
+                      style={{ marginLeft: "10px", color: "#ec9bc4" }}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <span style={{ fontSize: "18px" }}>
+                    {taskGroup && taskGroup.taskGroupName}
+                  </span>
+                )}
+                <IconButton
+                  aria-label="more"
+                  onClick={handleMenuClick}
+                  style={{ marginLeft: "20px" }}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={menuOpen}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem onClick={handleEditClick}>Edit Task Group Name</MenuItem>
+                  <MenuItem onClick={() => handleDeleteTaskGroup(taskGroup.id)}>
+                    Delete Task Group
+                  </MenuItem>
+                </Menu>
+              </div>
             </div>
-          </div>
-        </TableCell>
-      </TableRow>
-      {row.map((taskItem) => (
-        <TableRow key={taskItem.id}>
-          <TableCell colSpan={8} style={{ padding: "0.0001px" }}>
-            <Collapse
-              in={open}
-              timeout="auto"
-              unmountOnExit
-              className="collapse-content"
-            >
-              <Box sx={{ display: "flex", width: "100%" }}>
-                <TableCell
-                  align="center"
-                  style={{
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    width: "500px",
-                    borderBottom: "none",
-                  }}
-                >
-                  <Button
-                    className="buttontask-no-hover"
-                    style={{
-                      fontSize: "16px",
-                      color: "#575858",
-                      backgroundColor: "white",
-                      marginTop: "8px",
-                    }}
-                    onClick={() => handleEditTask(taskItem)}
-                  >
-                    {taskItem.taskName}
-                  </Button>
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ width: "290px", borderBottom: "none" }}
-                >
-                  <Avatar.Group maxCount={2} size={{ xxl: 50 }}>
-                    {taskItem.users.map((userItem) => (
-                      <Tooltip
-                        title={`${userItem.user.username} ${userItem.user.firstName}`}
-                        key={userItem.userId}
-                      >
-                        <Avatar
-                          crossOrigin="anonymous"
-                          src={usersData[userItem.userId]}
-                          alt={`${userItem.user.username} ${userItem.user.firstName}`}
-                        />
-                      </Tooltip>
-                    ))}
-                  </Avatar.Group>
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    width: "250px",
-                    marginLeft: "100px",
-                    borderBottom: "none",
-                    marginTop: "8px",
-                  }}
-                >
-                  <StatusCell status={taskItem.status} />
-                </TableCell>
-                <TableCell
-                  align="center"
-                  className="table-cell-date"
-                  style={{
-                    width: "450px",
-                    borderBottom: "none",
-                    marginTop: "17px",
-                    color: "#464747",
-                  }}
-                >
-                  {formatDate(taskItem.startDate)}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  className="table-cell-date"
-                  style={{
-                    width: "200px",
-                    borderBottom: "none",
-                    marginTop: "17px",
-                    color: "#464747",
-                  }}
-                >
-                  {formatDate(taskItem.endDate)}
-                </TableCell>
-
-                <TableCell
-                  align="center"
-                  className="table-cell-date"
-                  style={{
-                    width: "300px",
-                    borderBottom: "none",
-                    marginTop: "13px",
-                    color: "#464747",
-                  }}
-                >
-                  {getPriorityIcon(taskItem.priority)}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ width: "200px", borderBottom: "none" }}
-                >
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => handleDeleteClick(taskItem)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </Box>
-            </Collapse>
           </TableCell>
         </TableRow>
-      ))}
-      <Dialog open={openDeleteConfirmation} onClose={handleDeleteCancelled}>
-        <DialogTitle>Delete Task-item</DialogTitle>
-        <DialogContent>
-          Are you sure you want to delete this task-item?
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteCancelled} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleDeleteConfirmed} color="error">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </React.Fragment>
-  );
-};
-
-const Task = () => {
-  const [taskGroups, setTaskGroups] = useState([]);
-  const [taskItems, setTaskItems] = useState([]);
-  const [openCreateTask, setOpenCreateTask] = useState(false);
-  const [openCreateTaskGroup, setOpenCreateTaskGroup] = useState(false);
-  const [openEditTask, setOpenEditTask] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { projectId } = useParams();
-  const [selectedTaskId, setSelectedTaskId] = useState(null);
-  const [openRows, setOpenRows] = useState({});
-  const [usersData, setUsersData] = useState({});
-  const [openDeleteTaskGroupConfirmation, setOpenDeleteTaskGroupConfirmation] =
-    useState(false);
-  const [selectedTaskGroupToDelete, setSelectedTaskGroupToDelete] =
-    useState(null);
-
-  const handleEditTask = (taskItems) => {
-    if (!taskItems.users.every((user) => usersData[user.userId])) {
-      console.log("User data missing, fetching data");
-    }
-    setSelectedTask(taskItems);
-    setOpenEditTask(true);
-    setSelectedTaskId(taskItems.id);
+        {row.map((taskItem) => (
+          <TableRow key={taskItem.id}>
+            <TableCell colSpan={8} style={{ padding: "0.0001px" }}>
+              <Collapse
+                in={open}
+                timeout="auto"
+                unmountOnExit
+                className="collapse-content"
+              >
+                <Box sx={{ display: "flex", width: "100%" }}>
+                  <TableCell
+                    align="center"
+                    style={{
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      width: "500px",
+                      borderBottom: "none",
+                    }}
+                  >
+                    <Button
+                      className="buttontask-no-hover"
+                      style={{
+                        fontSize: "16px",
+                        color: "#575858",
+                        backgroundColor: "white",
+                        marginTop: "8px",
+                      }}
+                      onClick={() => handleEditTask(taskItem)}
+                    >
+                      {taskItem.taskName}
+                    </Button>
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    style={{ width: "290px", borderBottom: "none" }}
+                  >
+                    <Avatar.Group maxCount={2} size={{ xxl: 50 }}>
+                      {taskItem.users.map((userItem) => (
+                        <Tooltip
+                          title={`${userItem.user.username} ${userItem.user.firstName}`}
+                          key={userItem.userId}
+                        >
+                          <Avatar
+                            crossOrigin="anonymous"
+                            src={usersData[userItem.userId]}
+                            alt={`${userItem.user.username} ${userItem.user.firstName}`}
+                          />
+                        </Tooltip>
+                      ))}
+                    </Avatar.Group>
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    style={{
+                      width: "250px",
+                      marginLeft: "100px",
+                      borderBottom: "none",
+                      marginTop: "8px",
+                    }}
+                  >
+                    <StatusCell status={taskItem.status} />
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className="table-cell-date"
+                    style={{
+                      width: "450px",
+                      borderBottom: "none",
+                      marginTop: "17px",
+                      color: "#464747",
+                    }}
+                  >
+                    {formatDate(taskItem.startDate)}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className="table-cell-date"
+                    style={{
+                      width: "200px",
+                      borderBottom: "none",
+                      marginTop: "17px",
+                      color: "#464747",
+                    }}
+                  >
+                    {formatDate(taskItem.endDate)}
+                  </TableCell>
+  
+                  <TableCell
+                    align="center"
+                    className="table-cell-date"
+                    style={{
+                      width: "300px",
+                      borderBottom: "none",
+                      marginTop: "13px",
+                      color: "#464747",
+                    }}
+                  >
+                    {getPriorityIcon(taskItem.priority)}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    style={{ width: "200px", borderBottom: "none" }}
+                  >
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => handleDeleteClick(taskItem)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </Box>
+              </Collapse>
+            </TableCell>
+          </TableRow>
+        ))}
+        <Dialog open={openDeleteConfirmation} onClose={handleDeleteCancelled}>
+          <DialogTitle>Delete Task-item</DialogTitle>
+          <DialogContent>
+            Are you sure you want to delete this task-item?
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDeleteCancelled} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleDeleteConfirmed} color="error">
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </React.Fragment>
+    );
   };
-
-  const handleCloseEditTask = () => {
-    setOpenEditTask(false);
-  };
-
-  const handleOpenCreateTask = () => {
-    setOpenCreateTask(true);
-  };
-
-  const handleCloseCreateTask = () => {
-    setOpenCreateTask(false);
-  };
-
-  const handleOpenCreateTaskGroup = () => {
-    setOpenCreateTaskGroup(true);
-  };
-
-  const handleCloseCreateTaskGroup = async () => {
-    setOpenCreateTaskGroup(false);
-    try {
-      const api = axiosWithAuth();
-      const taskGroupsResponse = await api.get(`/task-group`);
-      const allTaskGroups = taskGroupsResponse.data.result;
-      const filteredTaskGroups = allTaskGroups.filter(
-        (group) => group.projectId == projectId
-      );
-      const sortedTaskGroups = filteredTaskGroups.sort((a, b) => a.id - b.id);
-      setTaskGroups(sortedTaskGroups);
-    } catch (error) {
-      console.error("Error fetching updated task groups:", error);
-    }
-  };
-  const handleDeleteTaskGroup = (taskGroupId) => {
-    setSelectedTaskGroupToDelete(taskGroupId);
-    setOpenDeleteTaskGroupConfirmation(true);
-  };
-
-  const handleDeleteTaskGroupConfirmed = async () => {
-    try {
-      const api = axiosWithAuth();
-      await api.delete(`/task-group/${selectedTaskGroupToDelete}`);
-      const taskGroupsResponse = await api.get(`/task-group`);
-      console.log(`Deleted Task Group:`, selectedTaskGroupToDelete);
-      const allTaskGroups = taskGroupsResponse.data.result;
-      const filteredTaskGroups = allTaskGroups.filter(
-        (group) => group.projectId == projectId
-      );
-      const sortedTaskGroups = filteredTaskGroups.sort((a, b) => a.id - b.id);
-      setTaskGroups(sortedTaskGroups);
-      setOpenDeleteTaskGroupConfirmation(false);
-    } catch (error) {
-      console.error("Error deleting task group:", error);
-    }
-  };
-
-  const handleDeleteTaskGroupCancelled = () => {
-    setOpenDeleteTaskGroupConfirmation(false);
-  };
-
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleMenuItemClick = (action) => {
-    if (action === "createTask") {
-      handleOpenCreateTask();
-    } else if (action === "createTaskGroup") {
-      handleOpenCreateTaskGroup();
-    }
-    handleMenuClose();
-  };
-
-  const handleDeleteTaskItem = async (taskId) => {
-    try {
-      const api = axiosWithAuth();
-      await api.delete(`/task-item/${taskId}`);
-      const taskItemsResponse = await api.get(`/task-item`);
-      const allTaskItems = taskItemsResponse.data.result;
-      const filteredTaskItems = allTaskItems.filter((item) =>
-        taskGroups.some((group) => group.id === item.taskGroupId)
-      );
-      setTaskItems(filteredTaskItems);
-    } catch (error) {
-      console.error("Error deleting task item:", error);
-    }
-  };
-
-  const handleEditTaskGroupName = (taskGroupId, currentName) => {
-    const updatedTaskGroups = taskGroups.map((group) => {
-      if (group.id === taskGroupId) {
-        return { ...group, taskGroupName: currentName };
+  
+  const Task = () => {
+    const [taskGroups, setTaskGroups] = useState([]);
+    const [taskItems, setTaskItems] = useState([]);
+    const [openCreateTask, setOpenCreateTask] = useState(false);
+    const [openCreateTaskGroup, setOpenCreateTaskGroup] = useState(false);
+    const [openEditTask, setOpenEditTask] = useState(false);
+    const [selectedTask, setSelectedTask] = useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const { projectId } = useParams();
+    const [selectedTaskId, setSelectedTaskId] = useState(null);
+    const [openRows, setOpenRows] = useState({});
+    const [usersData, setUsersData] = useState({});
+    const [openDeleteTaskGroupConfirmation, setOpenDeleteTaskGroupConfirmation] =
+      useState(false);
+    const [selectedTaskGroupToDelete, setSelectedTaskGroupToDelete] =
+      useState(null);
+  
+    const handleEditTask = (taskItems) => {
+      if (!taskItems.users.every((user) => usersData[user.userId])) {
+        console.log("User data missing, fetching data");
       }
-      return group;
-    });
-    setTaskGroups(updatedTaskGroups);
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
+      setSelectedTask(taskItems);
+      setOpenEditTask(true);
+      setSelectedTaskId(taskItems.id);
+    };
+  
+    const handleCloseEditTask = () => {
+      setOpenEditTask(false);
+    };
+  
+    const handleOpenCreateTask = () => {
+      setOpenCreateTask(true);
+    };
+  
+    const handleCloseCreateTask = () => {
+      setOpenCreateTask(false);
+    };
+  
+    const handleOpenCreateTaskGroup = () => {
+      setOpenCreateTaskGroup(true);
+    };
+  
+    const handleCloseCreateTaskGroup = async () => {
+      setOpenCreateTaskGroup(false);
       try {
         const api = axiosWithAuth();
         const taskGroupsResponse = await api.get(`/task-group`);
@@ -572,142 +486,234 @@ const Task = () => {
           (group) => group.projectId == projectId
         );
         const sortedTaskGroups = filteredTaskGroups.sort((a, b) => a.id - b.id);
+        setTaskGroups(sortedTaskGroups);
+      } catch (error) {
+        console.error("Error fetching updated task groups:", error);
+      }
+    };
+    const handleDeleteTaskGroup = (taskGroupId) => {
+      setSelectedTaskGroupToDelete(taskGroupId);
+      setOpenDeleteTaskGroupConfirmation(true);
+    };
+  
+    const handleDeleteTaskGroupConfirmed = async () => {
+      try {
+        const api = axiosWithAuth();
+        await api.delete(`/task-group/${selectedTaskGroupToDelete}`);
+        const taskGroupsResponse = await api.get(`/task-group`);
+        console.log(`Deleted Task Group:`, selectedTaskGroupToDelete);
+        const allTaskGroups = taskGroupsResponse.data.result;
+        const filteredTaskGroups = allTaskGroups.filter(
+          (group) => group.projectId == projectId
+        );
+        const sortedTaskGroups = filteredTaskGroups.sort((a, b) => a.id - b.id);
+        setTaskGroups(sortedTaskGroups);
+        setOpenDeleteTaskGroupConfirmation(false);
+      } catch (error) {
+        console.error("Error deleting task group:", error);
+      }
+    };
+  
+    const handleDeleteTaskGroupCancelled = () => {
+      setOpenDeleteTaskGroupConfirmation(false);
+    };
+  
+    const handleMenuClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleMenuClose = () => {
+      setAnchorEl(null);
+    };
+  
+    const handleMenuItemClick = (action) => {
+      if (action === "createTask") {
+        handleOpenCreateTask();
+      } else if (action === "createTaskGroup") {
+        handleOpenCreateTaskGroup();
+      }
+      handleMenuClose();
+    };
+  
+    const handleDeleteTaskItem = async (taskId) => {
+      try {
+        const api = axiosWithAuth();
+        await api.delete(`/task-item/${taskId}`);
         const taskItemsResponse = await api.get(`/task-item`);
         const allTaskItems = taskItemsResponse.data.result;
         const filteredTaskItems = allTaskItems.filter((item) =>
-          sortedTaskGroups.some((group) => group.id === item.taskGroupId)
+          taskGroups.some((group) => group.id === item.taskGroupId)
         );
-        setTaskGroups(sortedTaskGroups);
         setTaskItems(filteredTaskItems);
-        setOpenEditTask(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error deleting task item:", error);
       }
     };
-    fetchData();
-  }, [projectId]);
-
-  return (
-    <div className="flex">
-      <Sidebar />
-      <Navbar />
-
-      <div className="tmain-content">
-        <CreateButton
-          handleMenuClick={handleMenuClick}
-          handleMenuItemClick={handleMenuItemClick}
-        />
-        <div className="table-container">
-          {openEditTask && selectedTask && (
-            <EditTaskItem
-              taskItem={selectedTask}
-              open={openEditTask}
-              onClose={handleCloseEditTask}
-              taskGroupId={selectedTask.taskGroupId}
-              usersData={usersData}
-            />
-          )}
-          <h1 className="task-page-title">Task Page</h1>
-          <CreateTask open={openCreateTask} onClose={handleCloseCreateTask} />
-          <CreateTaskGroup
-            open={openCreateTaskGroup}
-            onClose={handleCloseCreateTaskGroup}
-            projectId={projectId}
+  
+    const handleEditTaskGroupName = (taskGroupId, currentName) => {
+      const updatedTaskGroups = taskGroups.map((group) => {
+        if (group.id === taskGroupId) {
+          return { ...group, taskGroupName: currentName };
+        }
+        return group;
+      });
+      setTaskGroups(updatedTaskGroups);
+    };
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const api = axiosWithAuth();
+          const taskGroupsResponse = await api.get(`/task-group`);
+          const allTaskGroups = taskGroupsResponse.data.result;
+          const filteredTaskGroups = allTaskGroups.filter(
+            (group) => group.projectId == projectId
+          );
+          const sortedTaskGroups = filteredTaskGroups.sort((a, b) => a.id - b.id);
+          const taskItemsResponse = await api.get(`/task-item`);
+          const allTaskItems = taskItemsResponse.data.result;
+          const filteredTaskItems = allTaskItems.filter((item) =>
+            sortedTaskGroups.some((group) => group.id === item.taskGroupId)
+          );
+          setTaskGroups(sortedTaskGroups);
+          setTaskItems(filteredTaskItems);
+          setOpenEditTask(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
+    }, [projectId]);
+  
+    return (
+      <div className="flex">
+        <Sidebar />
+        <Navbar />
+  
+        <div className="tmain-content">
+        <h1 className="task-page-title" style={{ textAlign: "center" }}>Task Page</h1>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "20px", marginRight: "50px" }}>
+          <CreateButton
+            handleMenuClick={handleMenuClick}
+            handleMenuItemClick={handleMenuItemClick}
+            anchorEl={anchorEl}
+            menuOpen={Boolean(anchorEl)}
+            handleMenuClose={handleMenuClose}
           />
-          <TableContainer component={Paper}>
-            <Table aria-label="collapsible table">
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    align="center"
-                    className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "450px", fontSize: "23px"}}
-                  >
-                    Task Group
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "380px", fontSize: "23px" }}
-                  >
-                    Owner
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "370px", fontSize: "23px" }}
-                  >
-                    Status
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "340px", fontSize: "23px" }}
-                  >
-                    Start Date
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "305px", fontSize: "23px" }}
-                  >
-                    End Date
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "150px", fontSize: "23px" }}
-                  >
-                    Priority
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    className="table-container-header"
-                    sx={{ fontWeight: "bold" }}
-                  ></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {taskGroups.map((taskGroup) => {
-                  const filteredTaskItems = taskItems.filter(
-                    (item) => item.taskGroupId === taskGroup.id
-                  );
-                  return (
-                    <Row
-                      key={taskGroup.id}
-                      row={filteredTaskItems}
-                      taskGroup={taskGroup}
-                      handleEditTask={handleEditTask}
-                      handleDeleteTaskItem={handleDeleteTaskItem}
-                      handleDeleteTaskGroup={handleDeleteTaskGroup}
-                      handleEditTaskGroupName={handleEditTaskGroupName} // pass the new function
-                    />
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          </div>
+          <div className="table-container">
+            {openEditTask && selectedTask && (
+              <EditTaskItem
+                taskItem={selectedTask}
+                open={openEditTask}
+                onClose={handleCloseEditTask}
+                taskGroupId={selectedTask.taskGroupId}
+                usersData={usersData}
+              />
+            )}
+         
+            <CreateTask open={openCreateTask} onClose={handleCloseCreateTask} />
+            <CreateTaskGroup
+              open={openCreateTaskGroup}
+              onClose={handleCloseCreateTaskGroup}
+              projectId={projectId}
+            />
+            <TableContainer component={Paper}>
+              <Table aria-label="collapsible table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell
+                      align="center"
+                      className="table-container-header"
+                      sx={{ fontWeight: "bold", width: "450px", fontSize: "23px"}}
+                    >
+                      Task Group
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      className="table-container-header"
+                      sx={{ fontWeight: "bold", width: "380px", fontSize: "23px" }}
+                    >
+                      Owner
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      className="table-container-header"
+                      sx={{ fontWeight: "bold", width: "370px", fontSize: "23px" }}
+                    >
+                      Status
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      className="table-container-header"
+                      sx={{ fontWeight: "bold", width: "340px", fontSize: "23px" }}
+                    >
+                      Start Date
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      className="table-container-header"
+                      sx={{ fontWeight: "bold", width: "305px", fontSize: "23px" }}
+                    >
+                      End Date
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      className="table-container-header"
+                      sx={{ fontWeight: "bold", width: "150px", fontSize: "23px" }}
+                    >
+                      Priority
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      className="table-container-header"
+                      sx={{ fontWeight: "bold" }}
+                    ></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {taskGroups.map((taskGroup) => {
+                    const filteredTaskItems = taskItems.filter(
+                      (item) => item.taskGroupId === taskGroup.id
+                    );
+                    return (
+                      <Row
+                        key={taskGroup.id}
+                        row={filteredTaskItems}
+                        taskGroup={taskGroup}
+                        handleEditTask={handleEditTask}
+                        handleDeleteTaskItem={handleDeleteTaskItem}
+                        handleDeleteTaskGroup={handleDeleteTaskGroup}
+                        handleEditTaskGroupName={handleEditTaskGroupName} // pass the new function
+                      />
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
         </div>
+        <Dialog
+          open={openDeleteTaskGroupConfirmation}
+          onClose={handleDeleteTaskGroupCancelled}
+        >
+          <DialogTitle>Delete Task Group</DialogTitle>
+          <DialogContent>
+            Are you sure you want to delete this task group?
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDeleteTaskGroupCancelled} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleDeleteTaskGroupConfirmed} color="error">
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
-      <Dialog
-        open={openDeleteTaskGroupConfirmation}
-        onClose={handleDeleteTaskGroupCancelled}
-      >
-        <DialogTitle>Delete Task Group</DialogTitle>
-        <DialogContent>
-          Are you sure you want to delete this task group?
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteTaskGroupCancelled} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleDeleteTaskGroupConfirmed} color="error">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-};
-
-export default Task;
+    );
+  };
+  
+  export default Task;
+  
+           

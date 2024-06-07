@@ -23,6 +23,18 @@ const theme = createTheme({
     fontFamily: '"Noto Sans Thai", "Roboto", "Helvetica", "Arial", sans-serif',
   },
   components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'gray', // เปลี่ยนสีขอบที่นี่
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'pink', // เปลี่ยนสีขอบเมื่อมีการโฟกัส
+          },
+        },
+      },
+    },
     MuiTableCell: {
       styleOverrides: {
         root: {
@@ -30,6 +42,37 @@ const theme = createTheme({
         },
       },
     },
+
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'gray', // สีขอบปกติ
+            },
+            '&:hover fieldset': {
+              borderColor: 'gray', // สีขอบเมื่อเอาเมาส์ไปชี้
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: 'pink', // สีขอบเมื่อช่องมีการโฟกัส
+            },
+            
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused': {
+            color: 'gray', // เปลี่ยนสีที่นี่
+          },
+        },
+      },
+    },
+
+
+
   },
 });
 

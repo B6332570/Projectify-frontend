@@ -124,7 +124,9 @@ const Project = () => {
         <div className="pmain-content">
           <Navbar />
           <div className="project-content">
+       
             <div className="project-wrapper">
+            <h1 className="project-page-title">Project Page</h1>
               {loading ? (
                 <Row gutter={[30, 30]}>
                   {Array.from({ length: pageSize }).map((_, index) => (

@@ -40,6 +40,7 @@ const StatusCell = ({ status, className }) => {
 
   return (
     <Box
+      className={className}
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -48,11 +49,9 @@ const StatusCell = ({ status, className }) => {
         backgroundColor: backgroundColor,
         color: 'white',
         padding: '8px 16px',
-        fontSize: '16px',
         fontWeight: '400',
         textAlign: 'center',
       }}
-      className={className}
     >
       {displayStatus}
     </Box>

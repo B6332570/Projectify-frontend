@@ -24,7 +24,7 @@
   align-items: center; /* จัดกึ่งกลางแนวตั้ง */
 }
 .project-wrapper {
-  
+  height: 90vh;
   max-width: 900px; /* กำหนดขนาดความกว้างสูงสุดของ content */
   width: 100%; /* ให้ content ยืดตามขนาดหน้าจอ */
 }
@@ -161,4 +161,12 @@
 .popover.visible {
   visibility: visible;
   opacity: 1;
+}
+
+.project-page-title {
+  text-align: center;
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 50px;
+  font-weight: 500;
 }
