@@ -1,4 +1,3 @@
-// UserSetting.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../../components/Sidebar";
@@ -8,7 +7,7 @@ import { Typography, TextField, Button, Box, Card, CardContent } from "@mui/mate
 import './User.css';
 import { Avatar } from 'antd';
 import Swal from 'sweetalert2';
-import { Link } from "react-router-dom"; // import Link from react-router-dom
+import { Link } from "react-router-dom";
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
@@ -103,6 +102,7 @@ const UserSetting = () => {
         firstName: editedUser.firstName || user.firstName,
         lastName: editedUser.lastName || user.lastName,
         username: editedUser.username || user.username,
+        userRoles:  user.userRoles,
         imageId: editedUser.imageId || user.imageId,
       };
       console.log("Updated user data to be sent:", updatedUserData);
@@ -128,10 +128,11 @@ const UserSetting = () => {
   };
 
   return (
+    <div className="backgroundbobweb">
     <div className="flex">
       <Sidebar />
       <Navbar />
-      <div className="user-box">
+  
         {user && (
           <Card className="user-card">
             <CardContent>
@@ -149,7 +150,7 @@ const UserSetting = () => {
                   {user.firstName} {user.lastName}
                 </Typography>
                 <Divider sx={{ my: 2, width: "100%" }} />
-                <Typography variant="h5" gutterBottom    sx={{ mb: 6 }}>
+                <Typography variant="h5" gutterBottom  sx={{ mb: 6 }}>
                   Edit User Information
                 </Typography>
                 <form onSubmit={handleSubmit} className="user-form">
@@ -160,7 +161,22 @@ const UserSetting = () => {
                     value={editedUser.username}
                     onChange={handleChange}
                     fullWidth
-                    sx={{ mb: 6 }}
+                    sx={{
+                      mb: 6,
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': { borderColor: '#C4C4C4 !important' },
+                        '&:hover fieldset': { borderColor: '#C4C4C4 !important' },
+                        '&.Mui-focused fieldset': { borderColor: '#a0a0a0 !important' },
+                        '&.Mui-focused': { outline: 'none !important' }
+                      },
+                      '& .MuiFormLabel-root': {
+                        color: '#666666 !important',
+                        '&.Mui-focused': {
+                          color: '#666666 !important',
+                        },
+                      },
+                    }}
+                    
                   />
                   <TextField
                     label="First Name"
@@ -169,7 +185,21 @@ const UserSetting = () => {
                     value={editedUser.firstName}
                     onChange={handleChange}
                     fullWidth
-                    sx={{ mb: 6 }}
+                    sx={{
+                      mb: 6,
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': { borderColor: '#C4C4C4' },
+                        '&:hover fieldset': { borderColor: '#C4C4C4' },
+                        '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
+                        '&.Mui-focused': { outline: 'none' }
+                      },
+                      '& .MuiFormLabel-root': {
+                        color: '#666666',
+                        '&.Mui-focused': {
+                          color: '#666666',
+                        },
+                      },
+                    }}
                   />
                   <TextField
                     label="Last Name"
@@ -178,9 +208,23 @@ const UserSetting = () => {
                     value={editedUser.lastName}
                     onChange={handleChange}
                     fullWidth
-                    sx={{ mb: 6 }}
+                    sx={{
+                      mb: 6,
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': { borderColor: '#C4C4C4' },
+                        '&:hover fieldset': { borderColor: '#C4C4C4' },
+                        '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
+                      },
+                      '& .MuiFormLabel-root': {
+                        color: '#666666',
+                        '&.Mui-focused': {
+                          color: '#666666',
+                        },
+                      },
+                    }}
                   />
-                  <div className="input-group">
+                  
+                  <div className="user-input-group">
                     <label htmlFor="profileImage" style={{ color: "black" }}>
                       Profile Image
                     </label>
@@ -188,6 +232,7 @@ const UserSetting = () => {
                       type="file"
                       accept="image/*"
                       id="profileImage"
+                  
                       onChange={(e) => {
                         if (e.target.files.length > 0) {
                           handleImageChange(e);
@@ -195,21 +240,22 @@ const UserSetting = () => {
                       }}
                     />
                   </div>
-                  <Button type="submit" variant="contained" color="primary">
-                    Save
+
+              
+                  <Button type="submit" variant="contained"  sx={{ backgroundColor: 'black', color: '#f6d2d2', '&:hover': { backgroundColor: '#3f3f3f' } }}>
+                    Edit User Information
                   </Button>
-                 
                 </form>
-                <Link to={`/reset-password/${user.id}`}  style={{ marginTop: '10px' }}>
-                  Want to reset password?
-                </Link>
-                
               </Box>
             </CardContent>
+            <Link to={`/reset-password/${user.id}`} className="reset-password-link">
+              Want to reset password?
+            </Link>
           </Card>
         )}
       </div>
     </div>
+   
   );
 };
 

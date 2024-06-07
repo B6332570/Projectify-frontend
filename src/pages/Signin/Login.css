@@ -287,8 +287,8 @@
 .role-select{
     width:50%;
     /* height:55px; */
-    margin-bottom:20px;
-    margin-top:20px;
+    margin-bottom:10px;
+    /* margin-top:20px; */
     position:relative; 
     border-radius:20px;
 
@@ -365,8 +365,8 @@
     font-size:25px;
     cursor: pointer;
     transition:0.1s ease-in-out;
-    background-image: linear-gradient(225deg, #df4fd1 0%, #d755a3 60%,
-    #ec4ef4 100%);    
+    background-image: linear-gradient(225deg, #e78080 0%, #e78080 60%,
+    #e78080 100%);    
     box-shadow: 0 6px 24px #49382a34;
     color: #f0f0f0; 
     padding: 8px 40px;
@@ -375,11 +375,11 @@
 }
 
 .sigup2-button:hover{
-    transform: scale(1.1);
-    background-color: #e85855;
+    transform: scale(1.05);
+    background-color: #e78080;
     box-shadow: 0 6px 24px #93795e4b;
     color: #ffffff;
-    border-radius: 15px;
+
     transition: 0.3s ease-in-out;
     border-color: #edb98e;
     cursor: pointer;
@@ -394,14 +394,15 @@
     background-color: #1b1b1b; 
     color: #f0f8ff; 
     padding: 8px 20px;
-    border-radius: 10px;
+
     border-color: #f0f8ff;
 }
 
 .back-button:hover{
+    transform: scale(1.05);
     background-color: #1b1b1b;
-    color: #dd0cac;
-    border-radius: 15px;
+    color: #e78080;
+ 
     border-color: #f38831;
     transition: 0.3s ease-in-out;
     cursor: pointer;
@@ -412,8 +413,8 @@
     font-size:25px;
     cursor: pointer;
     transition:0.1s ease-in-out;
-    background-image: linear-gradient(225deg, #df4fd1 0%, #d755a3 60%,
-    #ec4ef4 100%);    
+    background-image: linear-gradient(225deg, #e78080 0%, #e78080 60%,
+    #e78080 100%);    
     box-shadow: 0 6px 24px #49382a34;
 
     color: #fcfcfc; 
@@ -423,12 +424,12 @@
 }
 
 .sigin-button:hover{
-    transform: scale(1.1);
+    transform: scale(1.05);
     background-color: #e85855;
     box-shadow: 0 6px 24px #93795e4b;
 
     color: #ffffff;
-    border-radius: 15px;
+   
     transition: 0.3s ease-in-out;
     border-color: #e240b4;
     cursor: pointer;
@@ -440,7 +441,7 @@
 }
 
 .signupspan{
-    color:#f44eba;
+    color:#e26666;
     margin-left:6px
 }
 
@@ -461,9 +462,9 @@
 
 /*ชื่อจริงนามสกุล*/
 .container {
-    margin-bottom: 200px;
+    margin-bottom: 10px;
     width: 50%; /* กำหนดความกว้างของกล่อง */
-    margin: 0 auto; /* จัดตำแหน่งกล่องให้อยู่กึ่งกลางของหน้าจอ */
+ 
   }
   
 .input-group {
@@ -515,6 +516,18 @@
   .swal2-icon.swal2-success .swal2-success-ring {
     border-color: #ec9bc4 !important; /* เปลี่ยนสีวงแหวน */
   }
+
+
+  .signup-page-title {
+    text-align: center;
+    font-size: 40px;
+    color: #333;
+  
+    font-weight: 800;
+  }
+  
+  
+  
   
   
   

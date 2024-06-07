@@ -20,18 +20,19 @@ import {
   OutlinedInput,
   Collapse,
   IconButton,
+  Typography,
 } from "@mui/material";
 import {
   EditorState,
   ContentState,
   convertToRaw,
-  convertFromRaw
+  convertFromRaw,
 } from "draft-js";
-import { Editor } from 'react-draft-wysiwyg';
+import { Editor } from "react-draft-wysiwyg";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ReportProblemIcon from '@mui/icons-material/ReportProblem';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./EditTaskItem.css"; // import CSS file
 import { useTheme } from "@mui/material/styles";
 
@@ -77,9 +78,11 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
     users: [], // Initialize users as an empty array
   });
 
-  const [editorState, setEditorState] = useState(() => 
+  const [editorState, setEditorState] = useState(() =>
     taskItem && taskItem.description
-      ? EditorState.createWithContent(ContentState.createFromText(taskItem.description))
+      ? EditorState.createWithContent(
+          ContentState.createFromText(taskItem.description)
+        )
       : EditorState.createEmpty()
   );
 
@@ -199,7 +202,9 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
 
       setEditorState(
         taskItem.description
-          ? EditorState.createWithContent(ContentState.createFromText(taskItem.description))
+          ? EditorState.createWithContent(
+              ContentState.createFromText(taskItem.description)
+            )
           : EditorState.createEmpty()
       );
 
@@ -246,7 +251,9 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
 
         setEditorState(
           clickedTaskItem.description
-            ? EditorState.createWithContent(ContentState.createFromText(clickedTaskItem.description))
+            ? EditorState.createWithContent(
+                ContentState.createFromText(clickedTaskItem.description)
+              )
             : EditorState.createEmpty()
         );
 
@@ -418,53 +425,85 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
       fullWidth
       className="dialogPaper"
       maxWidth={false} // ใช้ false แทน "false"
+      
     >
-      <DialogContent className="dialogContent">
+      <DialogContent className="dialogContent" >
         <Grid container spacing={2}>
-          <Grid item xs={2.5}>
-            <Paper
-              style={{ height: "1200px", padding: "16px", overflow: "auto" }}
-            >
-              {/* Content for the left frame goes here */}
-              {filteredTaskItems.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => handleTaskItemClick(item)} // Pass clicked TaskItem to handler
-                  className="taskName"
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "8px",
-                    padding: "8px 12px",
-                    borderRadius: "4px",
-                    border: "1px solid #ddd",
-                    cursor: "pointer",
-                    transition: "background-color 0.3s",
-                    width: '100%', // กำหนดความกว้างของช่อง TaskName
-                    height: '100px',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "#f0f0f0"; // เปลี่ยนสีพื้นหลังเมื่อเลื่อนเมาส์เข้า
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "white"; // คืนค่าสีพื้นหลังเมื่อเมาส์ออก
-                  }}
-                >
-                  <span>{item.taskName}</span>
-                  <span>{getPriorityIcon(item.priority)}</span>
-                </div>
-              ))}
-            </Paper>
-          </Grid>
+        <Grid item xs={2.5}>
+  <Paper
+    style={{ 
+      height: "calc(100vh - 200px)", // กำหนดความสูงให้คงที่ตามขนาดหน้าจอ
+      padding: "16px", 
+      backgroundColor: "#ffe6e9", 
+      overflowY: "auto", // เพิ่ม overflowY เป็น auto เพื่อให้สามารถเลื่อนขึ้นลงได้
+      paddingTop: "0px", // เพิ่ม paddingTop เป็น 0 เพื่อลดช่องว่างด้านบน
+    }}
+  >
+    <Typography 
+      variant="h6" 
+      style={{ 
+        marginBottom: "16px",
+        position: "sticky",
+        top: "0",
+        fontSize: "25px",
+        backgroundColor: "#ffe6e9", // ให้สีพื้นหลังเหมือนกับ Paper
+        zIndex: 1,
+        padding: "20px 0px 1px 16px", // ให้มี padding ด้านบนและล่างเล็กน้อย
+        height: "70px", // กำหนดความสูงที่แน่นอน
+        display: "flex",
+        alignItems: "center", // จัดให้ข้อความอยู่ตรงกลางในแนวตั้ง
+        borderBottom: "1px solid #ddd", // เพิ่ม border ขอบล่าง
+      }}
+    >
+      Task List
+    </Typography>
+    {filteredTaskItems.map((item) => (
+      <div
+        key={item.id}
+        onClick={() => handleTaskItemClick(item)}
+        className="taskName"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "8px",
+          padding: "8px 12px",
+          borderRadius: "4px",
+          border: "1px solid #ddd",
+          backgroundColor: "#ffffff",
+          width: "100%",
+          height: "100px",
+          wordWrap: "break-word", // ทำให้คำยาวถูกตัดลงบรรทัดใหม่
+          overflow: "hidden", // ซ่อนข้อความที่เกินขอบเขต
+          textOverflow: "ellipsis", // แสดงเครื่องหมายจุดๆที่ท้ายข้อความยาว
+          wordBreak: "break-all", // ทำให้คำที่ยาวมากๆ ถูกตัดลงบรรทัดใหม่
+        }}
+      >
+         <span
+          style={{
+            wordWrap: "break-word", // ทำให้คำยาวถูกตัดลงบรรทัดใหม่
+            overflow: "hidden", // ซ่อนข้อความที่เกินขอบเขต
+            textOverflow: "ellipsis", // แสดงเครื่องหมายจุดๆที่ท้ายข้อความยาว
+            wordBreak: "break-all", // ทำให้คำที่ยาวมากๆ ถูกตัดลงบรรทัดใหม่
+            flex: 1, // ให้ span ใช้พื้นที่ที่เหลืออยู่
+          }}
+        >
+          {item.taskName}
+        </span>
+        <span>{getPriorityIcon(item.priority)}</span>
+      </div>
+    ))}
+  </Paper>
+</Grid>
+
 
           <Grid item xs={9.5}>
             <Paper
               style={{
-                height: "1200px",
+                height: "calc(100vh - 200px)", // กำหนดความสูงให้คงที่ตามขนาดหน้าจอ
                 padding: "16px",
                 overflow: "auto",
-                backgroundColor: "rgba(250, 250, 255, 0.5)", // เปลี่ยนสีพื้นหลังให้โปร่งแสงลง
+                backgroundColor: "#ffe6e9", // เปลี่ยนสีพื้นหลังให้โปร่งแสงลง
               }}
             >
               {/* Content for the right frame goes here */}
@@ -478,12 +517,32 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                 <TextField
                   name="taskName"
                   fullWidth={false} // ไม่ใช้ fullWidth
-                  style={{ width: "1200px" }} // กำหนดความกว้างด้วย CSS inline style
+                  style={{ width: "1500px" }} // กำหนดความกว้างด้วย CSS inline style
                   id="standard-basic"
                   value={updatedTaskItem.taskName}
                   onChange={handleChange}
                   variant="standard"
                   margin="normal"
+                  className="edit-task-focus" // เพิ่ม className
+                  InputProps={{
+                    style: {
+                      fontSize: "25px", // ปรับขนาดฟอนต์ของ input
+                    },
+                  }}
+                  sx={{
+                    "& .MuiInput-underline:before": {
+                      borderBottomColor: "rgba(0, 0, 0, 0.42)", // สีปกติ
+                      borderBottomWidth: "1px", // ความหนาของเส้นปกติ
+                    },
+                    "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+                      borderBottomColor: "rgba(0, 0, 0, 0.42)", // สีเหมือนเดิมเมื่อ hover
+                      borderBottomWidth: "1px", // ความหนาเหมือนเดิมเมื่อ hover
+                    },
+                    "& .MuiInput-underline:after": {
+                      borderBottomColor: "rgba(0, 0, 0, 0.42)", // สีเมื่อ focus
+                      borderBottomWidth: "1px", // ความหนาเมื่อ focus
+                    },
+                  }}
                 />
                 <Paper
                   style={{
@@ -491,6 +550,7 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                     padding: "16px",
                     overflow: "auto",
                     transition: "height 0.3s",
+                    
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center" }}>
@@ -525,8 +585,8 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                     transition: "height 0.3s",
                   }}
                 >
-                  <div style={{ marginTop: "10px", marginBottom: "30px" }}>
-                    Task
+                  <div style={{ marginTop: "10px", marginBottom: "30px", fontSize: "20px"}}>
+                    Task Information
                   </div>
 
                   {/* นี่คือ Status */}
@@ -559,8 +619,22 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                     {/* กำหนดความกว้างที่ต้องการ */}
                     <Grid container spacing={1}>
                       <Grid item xs={6}>
-                        <FormControl fullWidth>
-                          <InputLabel id="users-label">Owner</InputLabel>
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          sx={{ marginTop: 2 }}
+                        >
+                          <InputLabel
+                            id="users-label"
+                            sx={{
+                              transform: "translate(14px, -9px) scale(0.75)",
+                              "&.Mui-focused": {
+                                transform: "translate(14px, -9px) scale(0.75)",
+                              },
+                            }}
+                          >
+                            Owner
+                          </InputLabel>
                           <Select
                             labelId="users-label"
                             id="users"
@@ -570,7 +644,28 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                             input={
                               <OutlinedInput
                                 id="select-multiple-chip"
-                                label="Chip"
+                                label="Owner"
+                                sx={{
+                                  "& .MuiOutlinedInput-notchedOutline": {
+                                    borderColor: "rgba(0, 0, 0, 0.6)",
+                                    borderWidth: "1px", // Adjust border width to match other fields
+                                  },
+                                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                                    borderColor: "rgba(0, 0, 0, 0.6)",
+                                    borderWidth: "1px", // Adjust border width on hover
+                                  },
+                                  "&.Mui-focused .MuiOutlinedInput-notchedOutline":
+                                    {
+                                      borderColor: "rgba(0, 0, 0, 0.6)",
+                                      borderWidth: "1px", // Adjust border width when focused
+                                    },
+                                  "& fieldset": {
+                                    borderColor: "rgba(0, 0, 0, 0.6)", // Border color for fieldset
+                                    borderWidth: "1px", // Adjust border width for fieldset
+                                    padding: "4 16px", // Adjust padding for fieldset to make it wider
+                                    right: 0, // Ensure the right edge of the fieldset aligns with other inputs
+                                  },
+                                }}
                               />
                             }
                             renderValue={() => (
@@ -585,11 +680,6 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                                   const user = users.find(
                                     (user) => user.id === userId
                                   );
-                                  console.log(
-                                    "Rendering user with selectedUserIds:",
-                                    selectedUserIds
-                                  ); // Debugging line
-                                  console.log("user เนอะ:", user);
                                   const imageUrl = userAvatars[userId];
                                   return (
                                     <Chip
@@ -688,19 +778,31 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                       >
                         <MenuItem value="low">
                           <ReportProblemIcon
-                            style={{ marginRight: "8px", color: "69B16C", verticalAlign: 'middle' }}
+                            style={{
+                              marginRight: "8px",
+                              color: "69B16C",
+                              verticalAlign: "middle",
+                            }}
                           />
                           Low
                         </MenuItem>
                         <MenuItem value="medium">
                           <ReportProblemIcon
-                            style={{ marginRight: "8px", color: "EFAD25", verticalAlign: 'middle' }}
+                            style={{
+                              marginRight: "8px",
+                              color: "EFAD25",
+                              verticalAlign: "middle",
+                            }}
                           />
                           Medium
                         </MenuItem>
                         <MenuItem value="high">
                           <ReportProblemIcon
-                            style={{ marginRight: "8px", color: "F16E70", verticalAlign: 'middle' }}
+                            style={{
+                              marginRight: "8px",
+                              color: "F16E70",
+                              verticalAlign: "middle",
+                            }}
                           />
                           High
                         </MenuItem>
@@ -713,14 +815,16 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
           </Grid>
         </Grid>
         <DialogActions className="dialogActions">
-          <Button onClick={handleCancel} className="button cancelButton">
+          <Button onClick={handleCancel} 
+
+         sx={{ backgroundColor: '#f6d2d2', color: '#464747', '&:hover': { backgroundColor: '#f4c6c6' } }}>
             Cancel
           </Button>
           <Button
             onClick={handleSave}
             variant="contained"
             color="primary"
-            className="button saveButton"
+            sx={{ backgroundColor: '#464747', color: '#f6d2d2', '&:hover': { backgroundColor: '#3f3f3f' } }}
           >
             Save
           </Button>

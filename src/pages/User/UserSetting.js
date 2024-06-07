@@ -102,6 +102,7 @@ const UserSetting = () => {
         firstName: editedUser.firstName || user.firstName,
         lastName: editedUser.lastName || user.lastName,
         username: editedUser.username || user.username,
+        userRoles:  user.userRoles,
         imageId: editedUser.imageId || user.imageId,
       };
       console.log("Updated user data to be sent:", updatedUserData);
@@ -127,10 +128,11 @@ const UserSetting = () => {
   };
 
   return (
+    <div className="backgroundbobweb">
     <div className="flex">
       <Sidebar />
       <Navbar />
-      <div className="user-box">
+  
         {user && (
           <Card className="user-card">
             <CardContent>
@@ -221,7 +223,8 @@ const UserSetting = () => {
                       },
                     }}
                   />
-                  <div className="input-group">
+                  
+                  <div className="user-input-group">
                     <label htmlFor="profileImage" style={{ color: "black" }}>
                       Profile Image
                     </label>
@@ -229,6 +232,7 @@ const UserSetting = () => {
                       type="file"
                       accept="image/*"
                       id="profileImage"
+                  
                       onChange={(e) => {
                         if (e.target.files.length > 0) {
                           handleImageChange(e);
@@ -236,8 +240,10 @@ const UserSetting = () => {
                       }}
                     />
                   </div>
-                  <Button type="submit" variant="contained" color="primary">
-                    Save
+
+              
+                  <Button type="submit" variant="contained"  sx={{ backgroundColor: 'black', color: '#f6d2d2', '&:hover': { backgroundColor: '#3f3f3f' } }}>
+                    Edit User Information
                   </Button>
                 </form>
               </Box>
@@ -249,6 +255,7 @@ const UserSetting = () => {
         )}
       </div>
     </div>
+   
   );
 };
 

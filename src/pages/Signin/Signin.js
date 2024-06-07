@@ -46,6 +46,7 @@ function Signin() {
         "http://localhost:3001/api/auth/login",
         user
       );
+      console.log(response)
 
       if (response.data.status === "success") {
         await MySwal.fire({
@@ -56,7 +57,7 @@ function Signin() {
           timer: 1500,
         });
         const accessToken = response.data.result[0].accessToken;
-        const role = response.data.result[0].role;
+        const role = response.data.result[0].roles;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("userRole", role);
 

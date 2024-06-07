@@ -33,12 +33,12 @@ const ForgetPassword = () => {
         <div className="sigin-holder">
           <form className="signin-form" onSubmit={handleForgetPassword}>
             <div className="sigin-div" >
-              <div className="welcome" style={{ marginTop: '100px' }}>
+              <div className="welcome" style={{ marginTop: '80px' }}>
                 <h4 className="text-3xl ml-2 p-1 font-bold drop-shadow-lg">
-                  <b className="text-primary">Forgot Password?</b>
+                  <b className="text-primary">Forgot Password ?</b>
                 </h4>
               </div>
-              <p>Enter your email below to receive a password reset link.</p>
+              <p>Enter your email below to receive a reset password link.</p>
               <div className="emailinputsignin">
                 <div className="emailtext">Email</div>
                 <div className="email">

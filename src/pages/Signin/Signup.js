@@ -113,7 +113,10 @@ function Signup() {
             <form className="signin-form" onSubmit={signup}>
               <div className="signup-div">
                 <div className="welcome">
-                  <h4>Sign Up</h4>
+                <h5 className="text-3xl ml-2 p-1 font-bold drop-shadow-lg" style={{ display: 'flex', alignItems: 'center' }}>
+  
+  <b className="text-primary">Sign Up</b>
+</h5>
                 </div>
                 <br />
                 <div className="emailinput">
@@ -226,6 +229,8 @@ function Signup() {
                       type="file"
                       accept="image/*"
                       id="profileImage"
+
+                      className="sigininput"
                       onChange={(e) => {
                         if (e.target.files.length > 0) {
                           handleImageChange(e);

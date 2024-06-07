@@ -13,7 +13,7 @@
 }
 
 .ant-card.export-project-custom-card {
-  background-color: #353535; /* สีพื้นหลัง */
+  background-color: #999292; /* สีพื้นหลัง */
   
 }
 
@@ -41,7 +41,7 @@
 /* ExportProject.css */
 .custom-pagination .ant-pagination-item-active {
   background-color: #ffffff !important; /* เปลี่ยนเป็นสีที่คุณต้องการ */
-  border-color: #3c3c3c !important; /* เปลี่ยนเป็นสีที่คุณต้องการ */
+  border-color: #333 !important; /* เปลี่ยนเป็นสีที่คุณต้องการ */
   color: #ffffff !important; /* เปลี่ยนเป็นสีที่คุณต้องการ */
 }
 

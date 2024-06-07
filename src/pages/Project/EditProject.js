@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Form, Input, Button } from 'antd';
+import { Modal, Form, Input, Button, Row, Col } from 'antd';
 import axios from 'axios';
 
 const EditProject = ({ open, onClose, project }) => {
@@ -48,9 +48,13 @@ const EditProject = ({ open, onClose, project }) => {
           <Input />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Save
-          </Button>
+        <Row justify="end">
+            <Col>
+              <Button type="primary" htmlType="submit" style={{ backgroundColor: '#464747', borderColor: '#4CAF50' }}>
+                Save
+              </Button>
+            </Col>
+          </Row>
         </Form.Item>
       </Form>
     </Modal>

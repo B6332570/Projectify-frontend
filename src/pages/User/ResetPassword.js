@@ -80,10 +80,11 @@ const ResetPassword = () => {
   }, []);
 
   return (
+    <div className="backgroundbobweb">
     <div className="flex">
       <Sidebar />
       <Navbar />
-      <div className="user-box">
+     
         
           {user && (
             <Card className="user-card">
@@ -175,15 +176,16 @@ const ResetPassword = () => {
                      
                      
                     />
-                    <Button type="submit" variant="contained" color="primary">
+                    <Button type="submit" variant="contained"  sx={{ backgroundColor: '#333333', color: '#ffffff', '&:hover': { backgroundColor: '#3f3f3f' } }} >
                       Reset Password
                     </Button>
                   </form>
-                  <Button variant="contained" color="secondary" onClick={() => navigate(-1)} style={{ marginTop: '20px' }}>
+                  <Button variant="contained"  onClick={() => navigate(-1)} style={{ marginTop: '20px' }} sx={{ backgroundColor: '#333333', color: '#ffffff', '&:hover': { backgroundColor: '#3f3f3f' } }}>
                     Back
                   </Button>
                 </Box>
               </CardContent>
+              
             </Card>
           )}
         </div>
