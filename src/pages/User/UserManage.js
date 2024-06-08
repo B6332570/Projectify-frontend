@@ -195,11 +195,14 @@ const UserManage = () => {
     return role ? capitalizeFirstLetter(role.role) : "Unknown Role";
   };
 
-  const filteredUsers = users.filter(user =>
-    user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.lastName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredUsers = users.filter(user => {
+    const userRoles = user.userRoles.map(role => getRoleDisplayName(role.roleId).toLowerCase());
+    return user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+           user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+           user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+           userRoles.some(role => role.includes(searchTerm.toLowerCase()));
+  });
+  
   
   // Calculate the users to display based on current page
   const indexOfLastUser = currentPage * usersPerPage;

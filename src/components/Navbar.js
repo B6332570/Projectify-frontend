@@ -177,7 +177,7 @@ const Navbar = () => {
                   </Typography>
                   <Divider sx={{ my: 2 }} />
                   <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-                    <Button onClick={handleAccountClick} variant="contained" sx={{ backgroundColor: '#f6d2d2', color: '#464747', '&:hover': { backgroundColor: '#f4c6c6' } }}>
+                    <Button onClick={handleAccountClick} variant="contained" sx={{ backgroundColor: '#f2bdbd', color: '#464747', '&:hover': { backgroundColor: '#f4c6c6' } }}>
                       Edit Profile
                     </Button>
                     <Button onClick={handleLogout} variant="contained" sx={{ backgroundColor: '#464747', color: '#f6d2d2', '&:hover': { backgroundColor: '#3f3f3f' } }}>

@@ -25,6 +25,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Typography,
 } from "@mui/material";
 import CreateTask from "./CreateTask";
 import CreateTaskGroup from "./CreateTaskGroup";
@@ -32,14 +33,11 @@ import StatusCell from "../../components/StatusCell";
 import EditTaskItem from "./EditTaskItem";
 import CreateButton from "../../components/CreateButton";
 import "./Task.css";
-import MoreVertIcon from "@mui/icons-material/MoreVert"; // import more icon
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { AntDesignOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Divider, Tooltip } from "antd";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import InputAdornment from "@mui/material/InputAdornment";
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
@@ -51,6 +49,13 @@ const axiosWithAuth = () => {
       "Content-Type": "application/json",
     },
   });
+};
+
+const statusOrder = ["to_do", "in_progress", "on_hold", "block", "ready_to_deploy", "ready_to_test", "done"];
+
+const sortTaskItemsByStatus = (taskItems) => {
+  console.log("นี่คือ taskItems",taskItems)
+  return taskItems.sort((a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status));
 };
 
 const Row = ({
@@ -67,12 +72,12 @@ const Row = ({
   const [selectedTaskToDelete, setSelectedTaskToDelete] = useState(null);
   const [user, setUser] = useState(null);
   const [usersData, setUsersData] = useState({});
-  const [anchorEl, setAnchorEl] = useState(null); // state for menu anchor
-  const [menuOpen, setMenuOpen] = useState(false); // state for menu open/close
-  const [editMode, setEditMode] = useState(false); // state for edit mode
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const [newTaskGroupName, setNewTaskGroupName] = useState(
     taskGroup.taskGroupName
-  ); // new state for editing name
+  );
   const [width, setWidth] = useState(0);
   const inputRef = useRef(null);
 
@@ -107,7 +112,7 @@ const Row = ({
   };
 
   const handleEditClick = () => {
-    setEditMode(true); // set edit mode to true
+    setEditMode(true);
     setMenuOpen(false);
   };
 
@@ -130,7 +135,7 @@ const Row = ({
 
   const handleCancelClick = () => {
     setEditMode(false);
-    setNewTaskGroupName(taskGroup.taskGroupName); // Reset to original name
+    setNewTaskGroupName(taskGroup.taskGroupName);
   };
 
   const textFieldWidth = useMemo(() => {
@@ -140,7 +145,7 @@ const Row = ({
       const metrics = context.measureText(newTaskGroupName);
       return metrics.width + 20;
     }
-    return 200; // กำหนดขนาดขั้นต่ำ
+    return 200;
   }, [newTaskGroupName]);
 
   useEffect(() => {
@@ -221,6 +226,9 @@ const Row = ({
     );
   };
 
+  // Sorting task items by status
+  const sortedTaskItems = sortTaskItemsByStatus(row);
+
   return (
     <React.Fragment>
       <TableRow sx={{ backgroundColor: "#F8F8F8", height: "auto" }}>
@@ -258,19 +266,17 @@ const Row = ({
                     variant="outlined"
                     size="medium"
                     autoFocus
-                    style={{ width: `${textFieldWidth}px`, minWidth: "350px" }} // ใช้ค่า textFieldWidth
+                    style={{ width: `${textFieldWidth}px`, minWidth: "350px" }}
                     inputRef={inputRef}
                   />
                   <Button
                     onClick={handleSaveClick}
-                
                     style={{ marginLeft: "10px", color: "#ec9bc4"}}
                   >
                     Save
                   </Button>
                   <Button
                     onClick={handleCancelClick}
-                  
                     style={{ marginLeft: "10px", color: "#ec9bc4" }}
                   >
                     Cancel
@@ -302,7 +308,7 @@ const Row = ({
           </div>
         </TableCell>
       </TableRow>
-      {row.map((taskItem) => (
+      {sortedTaskItems.map((taskItem) => (
         <TableRow key={taskItem.id}>
           <TableCell colSpan={8} style={{ padding: "0.0001px" }}>
             <Collapse
@@ -593,10 +599,16 @@ const Task = () => {
       <Navbar />
 
       <div className="tmain-content">
+      <h1 className="task-page-title" style={{ textAlign: "center" }}>Task Page</h1>
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "20px", marginRight: "50px" }}>
         <CreateButton
           handleMenuClick={handleMenuClick}
           handleMenuItemClick={handleMenuItemClick}
+          anchorEl={anchorEl}
+          menuOpen={Boolean(anchorEl)}
+          handleMenuClose={handleMenuClose}
         />
+        </div>
         <div className="table-container">
           {openEditTask && selectedTask && (
             <EditTaskItem
@@ -607,7 +619,7 @@ const Task = () => {
               usersData={usersData}
             />
           )}
-          <h1 className="task-page-title">Task Page</h1>
+       
           <CreateTask open={openCreateTask} onClose={handleCloseCreateTask} />
           <CreateTaskGroup
             open={openCreateTaskGroup}
@@ -680,7 +692,7 @@ const Task = () => {
                       handleEditTask={handleEditTask}
                       handleDeleteTaskItem={handleDeleteTaskItem}
                       handleDeleteTaskGroup={handleDeleteTaskGroup}
-                      handleEditTaskGroupName={handleEditTaskGroupName} // pass the new function
+                      handleEditTaskGroupName={handleEditTaskGroupName}
                     />
                   );
                 })}

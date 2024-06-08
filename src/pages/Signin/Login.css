@@ -394,16 +394,18 @@
     background-color: #1b1b1b; 
     color: #f0f8ff; 
     padding: 8px 20px;
-
+    border-radius: 5px;
     border-color: #f0f8ff;
 }
 
 .back-button:hover{
     transform: scale(1.05);
     background-color: #1b1b1b;
-    color: #e78080;
+    /* color: #e78080;
+    
  
-    border-color: #f38831;
+    border-color: #f38831; */
+    border-radius: 5px;
     transition: 0.3s ease-in-out;
     cursor: pointer;
 }
@@ -416,6 +418,7 @@
     background-image: linear-gradient(225deg, #e78080 0%, #e78080 60%,
     #e78080 100%);    
     box-shadow: 0 6px 24px #49382a34;
+    border-radius: 5px;
 
     color: #fcfcfc; 
     padding: 8px 40px;
@@ -428,6 +431,7 @@
     background-color: #e85855;
     box-shadow: 0 6px 24px #93795e4b;
 
+    border-radius: 5px;
     color: #ffffff;
    
     transition: 0.3s ease-in-out;

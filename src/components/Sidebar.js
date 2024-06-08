@@ -111,29 +111,23 @@ const Sidebar = ({ handleCreateProjectClick }) => {
       </Box>
       <Divider sx={{ borderColor: theme.palette.mode === 'dark' ? '#000000' : '#ffffff' }} />
       <List>
-        <StyledListItem button onClick={handleProjectClick}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Project" />
-          {openProject ? <ExpandLess /> : <ExpandMore />}
-        </StyledListItem>
-        <Collapse in={openProject} timeout="auto" unmountOnExit>
+       
+       
           <List component="div" disablePadding>
-            <StyledListItem button component={Link} to="/project" sx={{ pl: 4 }}>
+            <StyledListItem button component={Link} to="/project">
               <ListItemIcon>
                 <AssignmentIcon />
               </ListItemIcon>
               <ListItemText primary="Projects" />
             </StyledListItem>
-            <StyledListItem button onClick={handleCreateProjectClick} sx={{ pl: 4 }}>
+            <StyledListItem button onClick={handleCreateProjectClick} >
               <ListItemIcon>
                 <AddIcon />
               </ListItemIcon>
               <ListItemText primary="Create Project" />
             </StyledListItem>
           </List>
-        </Collapse>
+       
         <StyledListItem button component={Link} to="/export-project">
           <ListItemIcon>
             <ExportIcon />
