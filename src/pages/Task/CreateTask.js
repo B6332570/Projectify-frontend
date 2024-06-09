@@ -25,9 +25,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useTheme } from "@mui/material/styles";
-import StatusCell from "../../components/StatusCell";
 import './CreateTask.css'; // import CSS file
-import '../../components/StatusCell.css'; // import CSS file
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
@@ -296,25 +294,25 @@ const CreateTask = ({ open, onClose }) => {
                 renderValue={(selected) => getStatusDisplay(selected)}
               >
                 <MenuItem value="to_do">
-                  <StatusCell status="to_do" className="status-small"/>
+                  To Do
                 </MenuItem>
                 <MenuItem value="in_progress">
-                  <StatusCell status="in_progress" className="status-small" />
+                  In Progress
                 </MenuItem>
                 <MenuItem value="on_hold">
-                  <StatusCell status="on_hold" className="status-small"/>
+                  On Hold
                 </MenuItem>
                 <MenuItem value="block">
-                  <StatusCell status="block" className="status-small"/>
+                  Block
                 </MenuItem>
                 <MenuItem value="ready_to_deploy">
-                  <StatusCell status="ready_to_deploy" className="status-small" />
+                  Ready to Deploy
                 </MenuItem>
                 <MenuItem value="ready_to_test">
-                  <StatusCell status="ready_to_test" className="status-small" />
+                  Ready To Test
                 </MenuItem>
                 <MenuItem value="done">
-                  <StatusCell status="done" className="status-small"/>
+                  Done
                 </MenuItem>
               </Select>
             </FormControl>

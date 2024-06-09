@@ -142,7 +142,7 @@ const ExportProject = () => {
                   placeholder="Search Project"
                   value={searchTerm}
                   onChange={handleSearch}
-                  style={{ marginBottom: '30px', fontSize: "18px", borderRadius: "20px"}}
+                  style={{ marginBottom: '30px', fontSize: "18px", borderRadius: "5px"}}
                   className="export-custom-placeholder"
                 />
                 <Table

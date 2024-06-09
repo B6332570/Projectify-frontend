@@ -38,6 +38,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { AntDesignOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Divider, Tooltip } from "antd";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import TaskFilter from "../../components/TaskFilter";
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
@@ -51,11 +52,21 @@ const axiosWithAuth = () => {
   });
 };
 
-const statusOrder = ["to_do", "in_progress", "on_hold", "block", "ready_to_deploy", "ready_to_test", "done"];
+const statusOrder = [
+  "to_do",
+  "in_progress",
+  "on_hold",
+  "block",
+  "ready_to_deploy",
+  "ready_to_test",
+  "done",
+];
 
 const sortTaskItemsByStatus = (taskItems) => {
-  console.log("นี่คือ taskItems",taskItems)
-  return taskItems.sort((a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status));
+  console.log("นี่คือ taskItems", taskItems);
+  return taskItems.sort(
+    (a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status)
+  );
 };
 
 const Row = ({
@@ -271,7 +282,7 @@ const Row = ({
                   />
                   <Button
                     onClick={handleSaveClick}
-                    style={{ marginLeft: "10px", color: "#ec9bc4"}}
+                    style={{ marginLeft: "10px", color: "#ec9bc4" }}
                   >
                     Save
                   </Button>
@@ -299,7 +310,9 @@ const Row = ({
                 open={menuOpen}
                 onClose={handleMenuClose}
               >
-                <MenuItem onClick={handleEditClick}>Edit Task Group Name</MenuItem>
+                <MenuItem onClick={handleEditClick}>
+                  Edit Task Group Name
+                </MenuItem>
                 <MenuItem onClick={() => handleDeleteTaskGroup(taskGroup.id)}>
                   Delete Task Group
                 </MenuItem>
@@ -458,7 +471,16 @@ const Task = () => {
     useState(false);
   const [selectedTaskGroupToDelete, setSelectedTaskGroupToDelete] =
     useState(null);
+  // const [filterStatus, setFilterStatus] = useState("all");
+  const [filterStatus, setFilterStatus] = useState([]);
+  const [filterPriority, setFilterPriority] = useState([]);
+  const [filterOS, setFilterOS] = useState([]);
 
+  const handleFilterChange = ({ statuses, priorities, os }) => {
+    setFilterStatus(statuses);
+    setFilterPriority(priorities);
+    setFilterOS(os);
+  };
   const handleEditTask = (taskItems) => {
     if (!taskItems.users.every((user) => usersData[user.userId])) {
       console.log("User data missing, fetching data");
@@ -534,6 +556,13 @@ const Task = () => {
     setAnchorEl(null);
   };
 
+  const filteredTaskItems = taskItems.filter(
+    (item) =>
+      (filterStatus.length === 0 || filterStatus.includes(item.status)) &&
+      (filterPriority.length === 0 || filterPriority.includes(item.priority)) &&
+      (filterOS.length === 0 || filterOS.includes(item.os))
+  );
+
   const handleMenuItemClick = (action) => {
     if (action === "createTask") {
       handleOpenCreateTask();
@@ -599,15 +628,27 @@ const Task = () => {
       <Navbar />
 
       <div className="tmain-content">
-      <h1 className="task-page-title" style={{ textAlign: "center" }}>Task Page</h1>
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "20px", marginRight: "50px" }}>
-        <CreateButton
-          handleMenuClick={handleMenuClick}
-          handleMenuItemClick={handleMenuItemClick}
-          anchorEl={anchorEl}
-          menuOpen={Boolean(anchorEl)}
-          handleMenuClose={handleMenuClose}
-        />
+        <h1 className="task-page-title" style={{ textAlign: "center" }}>
+          Task Page
+        </h1>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "20px",
+            marginRight: "50px",
+          }}
+        >
+         <div style={{ marginRight: "20px" }}>
+            <TaskFilter onFilterChange={handleFilterChange} />
+          </div>
+          <CreateButton
+            handleMenuClick={handleMenuClick}
+            handleMenuItemClick={handleMenuItemClick}
+            anchorEl={anchorEl}
+            menuOpen={Boolean(anchorEl)}
+            handleMenuClose={handleMenuClose}
+          />
         </div>
         <div className="table-container">
           {openEditTask && selectedTask && (
@@ -619,7 +660,7 @@ const Task = () => {
               usersData={usersData}
             />
           )}
-       
+
           <CreateTask open={openCreateTask} onClose={handleCloseCreateTask} />
           <CreateTaskGroup
             open={openCreateTaskGroup}
@@ -633,42 +674,66 @@ const Task = () => {
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "450px", fontSize: "23px"}}
+                    sx={{
+                      fontWeight: "bold",
+                      width: "450px",
+                      fontSize: "23px",
+                    }}
                   >
                     Task Group
                   </TableCell>
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "380px", fontSize: "23px" }}
+                    sx={{
+                      fontWeight: "bold",
+                      width: "380px",
+                      fontSize: "23px",
+                    }}
                   >
                     Owner
                   </TableCell>
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "370px", fontSize: "23px" }}
+                    sx={{
+                      fontWeight: "bold",
+                      width: "370px",
+                      fontSize: "23px",
+                    }}
                   >
                     Status
                   </TableCell>
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "340px", fontSize: "23px" }}
+                    sx={{
+                      fontWeight: "bold",
+                      width: "340px",
+                      fontSize: "23px",
+                    }}
                   >
                     Start Date
                   </TableCell>
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "305px", fontSize: "23px" }}
+                    sx={{
+                      fontWeight: "bold",
+                      width: "305px",
+                      fontSize: "23px",
+                    }}
                   >
                     End Date
                   </TableCell>
                   <TableCell
                     align="center"
                     className="table-container-header"
-                    sx={{ fontWeight: "bold", width: "150px", fontSize: "23px" }}
+                    sx={{
+                      fontWeight: "bold",
+                      width: "150px",
+                      fontSize: "23px",
+                    }}
                   >
                     Priority
                   </TableCell>
@@ -681,9 +746,16 @@ const Task = () => {
               </TableHead>
               <TableBody>
                 {taskGroups.map((taskGroup) => {
-                  const filteredTaskItems = taskItems.filter(
-                    (item) => item.taskGroupId === taskGroup.id
-                  );
+                  const filteredTaskItems = taskItems
+                    .filter(
+                      (item) =>
+                        (filterStatus.length === 0 ||
+                          filterStatus.includes(item.status)) &&
+                        (filterPriority.length === 0 ||
+                          filterPriority.includes(item.priority)) &&
+                        (filterOS.length === 0 || filterOS.includes(item.os))
+                    )
+                    .filter((item) => item.taskGroupId === taskGroup.id);
                   return (
                     <Row
                       key={taskGroup.id}

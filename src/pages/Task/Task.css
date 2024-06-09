@@ -28,6 +28,7 @@ body {
   font-weight: bold;
   font-size: 18px;
   background-color: #ffffff;
+  color: #333;
 }
 
 .MuiTableCell-root {
@@ -82,10 +83,10 @@ body {
 
 .task-page-title {
   text-align: center;
-  font-size: 36px;
+  font-size: 40px;
   color: #333;
 
-  font-weight: 500;
+  font-weight: 850;
 }
 
 

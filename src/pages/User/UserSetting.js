@@ -146,12 +146,12 @@ const UserSetting = () => {
                   onLoad={() => console.log(`Image loaded: ${editedUser.image}`)}
                   onError={(e) => console.error(`Image failed to load: ${editedUser.image}`, e)}
                 />
-                <Typography variant="h5" gutterBottom marginTop={5}>
+                <Typography variant="h5" gutterBottom marginTop={5} sx={{ fontWeight:"700" }}>
                   {user.firstName} {user.lastName}
                 </Typography>
                 <Divider sx={{ my: 2, width: "100%" }} />
-                <Typography variant="h5" gutterBottom  sx={{ mb: 6 }}>
-                  Edit User Information
+                <Typography variant="h5" gutterBottom  sx={{ mb: 6, fontWeight:"700" }}>
+                  User Information
                 </Typography>
                 <form onSubmit={handleSubmit} className="user-form">
                   <TextField

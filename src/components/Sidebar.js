@@ -114,12 +114,12 @@ const Sidebar = ({ handleCreateProjectClick }) => {
        
        
           <List component="div" disablePadding>
-            <StyledListItem button component={Link} to="/project">
+            {/* <StyledListItem button component={Link} to="/project">
               <ListItemIcon>
                 <AssignmentIcon />
               </ListItemIcon>
               <ListItemText primary="Projects" />
-            </StyledListItem>
+            </StyledListItem> */}
             <StyledListItem button onClick={handleCreateProjectClick} >
               <ListItemIcon>
                 <AddIcon />

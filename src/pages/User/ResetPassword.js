@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { message } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Typography, TextField, Button, Box, Card, CardContent } from "@mui/material";
+import { Typography, TextField, Button, Box, Card, CardContent, colors } from "@mui/material";
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import { Avatar } from 'antd';
@@ -97,12 +97,14 @@ const ResetPassword = () => {
                     src={user.image}
                     sx={{ width: 100, height: 100, mb: 2 }}
                   />
-                  <Typography variant="h5" gutterBottom marginTop={5}>
+                  <Typography variant="h5" gutterBottom marginTop={5} sx={{ fontWeight:"700"}}>
                     {user.firstName} {user.lastName}
                   </Typography>
-                  <Divider sx={{ my: 2, width: "100%" }} />
+                  <Divider className="custom-divider" sx={{ my: 2, width: "100%"}} />
+
+
                   <form className="user-form" onSubmit={handleResetPassword}>
-                    <Typography variant="h5" gutterBottom  sx={{ mb: 6 }}>
+                    <Typography variant="h5" gutterBottom  sx={{ mb: 6 ,fontWeight:"700"}}>
                       Reset Password
                     </Typography>
                     <TextField

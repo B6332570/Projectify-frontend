@@ -74,7 +74,7 @@ const ResetForgetPassword = () => {
 
               <div className="passwordinputsignin">
                 <div className="passwordtext">
-                  Confirm New Password<small> (must be at least 6 characters)</small>
+                  Confirm New Password
                 </div>
                 <div className="password">
                   <input
