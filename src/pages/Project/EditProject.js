@@ -50,7 +50,7 @@ const EditProject = ({ open, onClose, project }) => {
         <Form.Item>
         <Row justify="end">
             <Col>
-              <Button type="primary" htmlType="submit" style={{ backgroundColor: '#464747', borderColor: '#4CAF50' }}>
+              <Button type="primary" htmlType="submit" style={{ backgroundColor: '#464747' }}>
                 Save
               </Button>
             </Col>
