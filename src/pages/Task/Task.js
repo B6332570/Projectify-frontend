@@ -279,6 +279,7 @@ const Row = ({
                     autoFocus
                     style={{ width: `${textFieldWidth}px`, minWidth: "350px" }}
                     inputRef={inputRef}
+                    className="edit-task-focus"
                   />
                   <Button
                     onClick={handleSaveClick}
@@ -438,9 +439,9 @@ const Row = ({
         </TableRow>
       ))}
       <Dialog open={openDeleteConfirmation} onClose={handleDeleteCancelled}>
-        <DialogTitle>Delete Task-item</DialogTitle>
+        <DialogTitle>Delete Task</DialogTitle>
         <DialogContent>
-          Are you sure you want to delete this task-item?
+          Are you sure you want to delete this task?
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteCancelled} color="primary">
@@ -629,7 +630,7 @@ const Task = () => {
 
       <div className="tmain-content">
         <h1 className="task-page-title" style={{ textAlign: "center" }}>
-          Task Page
+          Task 
         </h1>
         <div
           style={{

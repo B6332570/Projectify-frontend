@@ -20,12 +20,12 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import axios from "axios";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useTheme } from "@mui/material/styles";
-import './CreateTask.css'; // import CSS file
+import "./CreateTask.css"; // import CSS file
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem("accessToken");
@@ -99,7 +99,6 @@ const CreateTask = ({ open, onClose }) => {
           avatars[user.id] = imageUrl;
         }
         setUserAvatars(avatars);
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -155,24 +154,24 @@ const CreateTask = ({ open, onClose }) => {
         console.log("Task data submitted successfully.");
         onClose(); // ปิด Modal ทันทีหลังจากสร้าง Task สำเร็จ
         Swal.fire({
-          icon: 'success',
-          title: 'Task Created',
-          text: 'Your task has been created successfully!',
+          icon: "success",
+          title: "Task Created",
+          text: "Your task has been created successfully!",
         });
       } else {
         console.error("Failed to submit task data.");
         Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Failed to create task. Please try again.',
+          icon: "error",
+          title: "Error",
+          text: "Failed to create task. Please try again.",
         });
       }
     } catch (error) {
       console.error("Error submitting task data:", error);
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'An error occurred while creating the task. Please try again.',
+        icon: "error",
+        title: "Error",
+        text: "An error occurred while creating the task. Please try again.",
       });
     }
   };
@@ -189,29 +188,27 @@ const CreateTask = ({ open, onClose }) => {
     const {
       target: { value },
     } = event;
-    setSelectedUsers(
-      typeof value === "string" ? value.split(",") : value
-    );
+    setSelectedUsers(typeof value === "string" ? value.split(",") : value);
   };
 
   const getStatusDisplay = (status) => {
     switch (status) {
-      case 'to_do':
-        return 'To Do';
-      case 'in_progress':
-        return 'In Progress';
-      case 'on_hold':
-        return 'On Hold';
-      case 'block':
-        return 'Block';
-      case 'ready_to_deploy':
-        return 'Ready to Deploy';
-      case 'ready_to_test':
-        return 'Ready To Test';
-      case 'done':
-        return 'Done';
+      case "to_do":
+        return "To Do";
+      case "in_progress":
+        return "In Progress";
+      case "on_hold":
+        return "On Hold";
+      case "block":
+        return "Block";
+      case "ready_to_deploy":
+        return "Ready to Deploy";
+      case "ready_to_test":
+        return "Ready To Test";
+      case "done":
+        return "Done";
       default:
-        return 'Unknown';
+        return "Unknown";
     }
   };
 
@@ -237,15 +234,15 @@ const CreateTask = ({ open, onClose }) => {
           my: 16,
         }}
       >
-        <Typography variant="h4" component="h2" mb={2}>
+        {/* <Typography variant="h4" component="h2" mb={2}>
           Create New Task
-        </Typography>
+        </Typography> */}
 
-        {/* <Typography variant="h6" component="div" gutterBottom>
-            Description
+        <h1 className="create-task-page-title" style={{ textAlign: "center" }}>
+        Create New Task
+        </h1>
+
        
-          </Typography> */}
-
 
         <Grid container spacing={3} mt={4}>
           <Grid item xs={12} md={6}>
@@ -293,30 +290,17 @@ const CreateTask = ({ open, onClose }) => {
                 label="Status"
                 renderValue={(selected) => getStatusDisplay(selected)}
               >
-                <MenuItem value="to_do">
-                  To Do
-                </MenuItem>
-                <MenuItem value="in_progress">
-                  In Progress
-                </MenuItem>
-                <MenuItem value="on_hold">
-                  On Hold
-                </MenuItem>
-                <MenuItem value="block">
-                  Block
-                </MenuItem>
-                <MenuItem value="ready_to_deploy">
-                  Ready to Deploy
-                </MenuItem>
-                <MenuItem value="ready_to_test">
-                  Ready To Test
-                </MenuItem>
-                <MenuItem value="done">
-                  Done
-                </MenuItem>
+                <MenuItem value="to_do">To Do</MenuItem>
+                <MenuItem value="in_progress">In Progress</MenuItem>
+                <MenuItem value="on_hold">On Hold</MenuItem>
+                <MenuItem value="block">Block</MenuItem>
+                <MenuItem value="ready_to_deploy">Ready to Deploy</MenuItem>
+                <MenuItem value="ready_to_test">Ready To Test</MenuItem>
+                <MenuItem value="done">Done</MenuItem>
               </Select>
             </FormControl>
           </Grid>
+
           <Grid item xs={12} md={6}>
             <FormControl fullWidth variant="outlined">
               <InputLabel id="priority-label">Priority</InputLabel>
@@ -370,105 +354,102 @@ const CreateTask = ({ open, onClose }) => {
           </Grid>
         </Grid>
 
-
         <Grid container spacing={3} mt={1}>
           <Grid item xs={12} md={6}>
-        <FormControl fullWidth variant="outlined" sx={{ mt: 4 }}>
-          <InputLabel id="task-group-label">Task Group</InputLabel>
-          <Select
-            labelId="task-group-label"
-            id="task-group"
-            value={taskItem.taskGroupId}
-            onChange={(e) =>
-              setTaskItem({ ...taskItem, taskGroupId: e.target.value })
-            }
-            label="Task Group"
-          >
-            {taskGroups.map((group) => (
-              <MenuItem key={group.id} value={group.id}>
-                {group.taskGroupName}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            <FormControl fullWidth variant="outlined">
+              <InputLabel id="task-group-label">Task Group</InputLabel>
+              <Select
+                labelId="task-group-label"
+                id="task-group"
+                value={taskItem.taskGroupId}
+                onChange={(e) =>
+                  setTaskItem({ ...taskItem, taskGroupId: e.target.value })
+                }
+                label="Task Group"
+                
+              >
+                {taskGroups.map((group) => (
+                  <MenuItem key={group.id} value={group.id}>
+                    {group.taskGroupName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            </Grid>
 
-        <FormControl fullWidth variant="outlined" sx={{ mt: 4 }}>
-          <InputLabel id="users-label">Users</InputLabel>
-          <Select
-            labelId="users-label"
-            id="users"
-            multiple
-            value={selectedUsers}
-            onChange={handleChangeUsers}
-            input={
-              <OutlinedInput
-                id="select-multiple-chip"
-                label="Users"
-              />
-            }
-            renderValue={(selected) => (
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                {selected.map((userId) => {
-                  const user = users.find((u) => u.id === userId);
-                  const imageUrl = userAvatars[userId];
-                  return (
+            <Grid item xs={12} md={6}>
+            <FormControl fullWidth variant="outlined" >
+              <InputLabel id="users-label">Users</InputLabel>
+              <Select
+                labelId="users-label"
+                id="users"
+                multiple
+                value={selectedUsers}
+                onChange={handleChangeUsers}
+                input={
+                  <OutlinedInput id="select-multiple-chip" label="Users" />
+                }
+                renderValue={(selected) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((userId) => {
+                      const user = users.find((u) => u.id === userId);
+                      const imageUrl = userAvatars[userId];
+                      return (
+                        <Chip
+                          key={userId}
+                          avatar={
+                            <img
+                              crossOrigin="anonymous"
+                              alt={`${user?.username} ${user?.firstName}`}
+                              src={imageUrl}
+                              className="profile-icon"
+                            />
+                          }
+                          label={`${user?.username} ${user?.firstName}`}
+                        />
+                      );
+                    })}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {users.map((user) => (
+                  <MenuItem
+                    key={user.id}
+                    value={user.id}
+                    style={{
+                      fontWeight:
+                        selectedUsers.indexOf(user.id) === -1
+                          ? theme.typography.fontWeightRegular
+                          : theme.typography.fontWeightMedium,
+                    }}
+                  >
                     <Chip
-                      key={userId}
                       avatar={
                         <img
                           crossOrigin="anonymous"
-                          alt={`${user?.username} ${user?.firstName}`}
-                          src={imageUrl}
+                          alt={`${user.username} ${user.firstName}`}
+                          src={userAvatars[user.id]}
                           className="profile-icon"
                         />
                       }
-                      label={`${user?.username} ${user?.firstName}`}
+                      label={`${user.username} ${user.firstName}`}
                     />
-                  );
-                })}
-              </Box>
-            )}
-            MenuProps={MenuProps}
-          >
-            {users.map((user) => (
-              <MenuItem
-                key={user.id}
-                value={user.id}
-                style={{
-                  fontWeight:
-                    selectedUsers.indexOf(user.id) === -1
-                      ? theme.typography.fontWeightRegular
-                      : theme.typography.fontWeightMedium,
-                }}
-              >
-                <Chip
-                  avatar={
-                    <img
-                      crossOrigin="anonymous"
-                      alt={`${user.username} ${user.firstName}`}
-                      src={userAvatars[user.id]}
-                      className="profile-icon"
-                    />
-                  }
-                  label={`${user.username} ${user.firstName}`}
-                />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        </Grid>
-        </Grid>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            </Grid>
+          </Grid>
+       
 
         <Box mt={3} width="100%">
           <Typography variant="h6" component="div" gutterBottom>
             Description
-            <IconButton onClick={toggleExpanded}>
-              {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-            </IconButton>
+           
           </Typography>
-          <Collapse in={expanded}>
-            <Paper variant="outlined" sx={{ p: 2 }}>
+          
+            <Paper variant="outlined" sx={{ p: 2 }} className="create-task-editor-wrapper">
               <Editor
                 editorState={editorState}
                 onEditorStateChange={handleEditorChange}
@@ -486,10 +467,17 @@ const CreateTask = ({ open, onClose }) => {
                 }}
               />
             </Paper>
-          </Collapse>
+          
         </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', mt: 35 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "100%",
+            mt: 7,
+          }}
+        >
           <Button
             variant="contained"
             color="primary"
@@ -501,10 +489,10 @@ const CreateTask = ({ open, onClose }) => {
               fontSize: "16px",
               fontWeight: "bold",
               textTransform: "none",
-              borderRadius: "8px"
+              borderRadius: "8px",
             }}
           >
-            Save
+            Create
           </Button>
         </Box>
       </Box>

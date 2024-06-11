@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
-import { Divider } from "antd";
+import { Divider, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 import { Typography, TextField, Button, Box, Card, CardContent } from "@mui/material";
 import './User.css';
 import { Avatar } from 'antd';
@@ -22,12 +22,14 @@ const axiosWithAuth = () => {
 
 const UserSetting = () => {
   const [user, setUser] = useState(null);
+  const [roles, setRoles] = useState([]); // เพิ่ม state สำหรับ roles
   const [editedUser, setEditedUser] = useState({
     firstName: "",
     lastName: "",
     username: "",
     imageId: 0,
     image: "",
+    roles: [], // เปลี่ยนเป็น roles
   });
 
   useEffect(() => {
@@ -49,7 +51,20 @@ const UserSetting = () => {
           username: userResponse.username,
           imageId: userResponse.imageId || 0,
           image: mediaResponse.data.result[0].url,
+          roles: userResponse.userRoles.map(role => role.roleId), // ดึง roleId มาเก็บใน state
         });
+
+        // Fetch roles จาก backend และกรอง role ที่ไม่ต้องการออก
+        const rolesResponse = await api.get("/role");
+        let filteredRoles = rolesResponse.data.result;
+        
+        // ถ้าไม่ใช่ admin ให้กรอง role ออก
+        if (!userResponse.userRoles.some(role => role.role.role === "admin")) {
+          filteredRoles = filteredRoles.filter(role => role.id !== 3);
+        }
+
+        console.log("filteredRoles", filteredRoles);
+        setRoles(filteredRoles); // ตั้งค่า roles ที่กรองแล้ว
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -62,6 +77,13 @@ const UserSetting = () => {
     setEditedUser((prevState) => ({
       ...prevState,
       [name]: value,
+    }));
+  };
+
+  const handleRoleChange = (event) => {
+    setEditedUser((prevState) => ({
+      ...prevState,
+      roles: [event.target.value], // อัปเดต roles เป็น array ของ roleId
     }));
   };
 
@@ -102,9 +124,10 @@ const UserSetting = () => {
         firstName: editedUser.firstName || user.firstName,
         lastName: editedUser.lastName || user.lastName,
         username: editedUser.username || user.username,
-        userRoles:  user.userRoles,
+        roles: editedUser.roles, // ส่ง roles ในรูปแบบ array ของ roleId
         imageId: editedUser.imageId || user.imageId,
       };
+
       console.log("Updated user data to be sent:", updatedUserData);
       const updateUserResponse = await api.patch(`/user`, updatedUserData);
 
@@ -241,6 +264,20 @@ const UserSetting = () => {
                     />
                   </div>
 
+                  {/* เพิ่ม select สำหรับเลือก role */}
+                  <FormControl fullWidth sx={{ mb: 6 }}>
+                    <InputLabel>Role</InputLabel>
+                    <Select
+                      value={editedUser.roles[0] || ""}
+                      onChange={handleRoleChange}
+                    >
+                      {roles.map((role) => (
+                        <MenuItem key={role.id} value={role.id}>
+                          {role.role}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
               
                   <Button type="submit" variant="contained"  sx={{ backgroundColor: 'black', color: '#f6d2d2', '&:hover': { backgroundColor: '#3f3f3f' } }}>
                     Edit User Information

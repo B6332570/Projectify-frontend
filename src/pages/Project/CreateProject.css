@@ -59,3 +59,11 @@
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   border-color: #afb2ae; /* เปลี่ยนเป็นสีเขียว */
 }
+
+.modal-container {
+  z-index: 1000; /* ตั้งค่า z-index ของ modal */
+}
+
+.swal2-container {
+  z-index: 2000 !important; /* ตั้งค่า z-index ของ alert ให้สูงกว่า modal */
+}

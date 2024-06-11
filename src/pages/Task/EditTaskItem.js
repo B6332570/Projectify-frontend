@@ -22,17 +22,9 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import {
-  EditorState,
-  ContentState,
-  convertToRaw,
-  convertFromRaw,
-} from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./EditTaskItem.css"; // import CSS file
 import { useTheme } from "@mui/material/styles";
 
@@ -78,14 +70,6 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
     users: [], // Initialize users as an empty array
   });
 
-  const [editorState, setEditorState] = useState(() =>
-    taskItem && taskItem.description
-      ? EditorState.createWithContent(
-          ContentState.createFromText(taskItem.description)
-        )
-      : EditorState.createEmpty()
-  );
-
   const [expanded, setExpanded] = useState(false);
   const [descriptionHeight, setDescriptionHeight] = useState("auto");
 
@@ -130,31 +114,22 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
   useEffect(() => {
     if (!taskItem || !taskGroupId) return;
 
-    console.log("taskItem", taskItem);
     const fetchData = async () => {
       try {
         const api = axiosWithAuth();
-        // Fetch task items from the task group
         const taskItemsResponse = await api.get(
           `/task-group/${taskItem.taskGroupId}`
         );
         const taskItems = taskItemsResponse.data.result[0].taskItems;
 
-        console.log("taskItems krabb", taskItems);
-
-        // Fetch all task items including user data
         const allTaskItemsResponse = await api.get(`/task-item`);
         const allTaskItemsWithUsers = allTaskItemsResponse.data.result;
-        console.log("allTaskItemsWithUsers krabb", allTaskItemsWithUsers);
 
-        // Merge user data into task items from the task group
         const taskItemsWithUsers = taskItems.map((item) => ({
           ...item,
           users:
             allTaskItemsWithUsers.find((t) => t.id === item.id)?.users || [],
         }));
-
-        console.log("taskItemsWithUsers krabb", taskItemsWithUsers);
 
         setFilteredTaskItems(taskItemsWithUsers);
       } catch (error) {
@@ -166,20 +141,17 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
   }, [taskItem, taskGroupId]);
 
   const renderValue = (selected) => {
-    console.log("Selected IDs:", selected); // Log selected IDs
-    console.log("Users array:", users); // Log entire users array to verify data
-
     return selected
       .map((userId) => {
         const user = users.find((u) => u.id === userId);
         if (!user) {
-          console.warn("User not found for ID:", userId); // Warn if user isn't found
+          console.warn("User not found for ID:", userId);
           return null;
         }
         return `${user.username} ${user.firstName}`;
       })
       .filter(Boolean)
-      .join(", "); // Filter out any nulls and join names
+      .join(", ");
   };
 
   useEffect(() => {
@@ -197,16 +169,8 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
           : "",
         priority: taskItem.priority || "",
         users: taskItem.users || [],
-        id: taskItem.id || "", // เพิ่มการตั้งค่า id ของ taskItem ด้วย
+        id: taskItem.id || "",
       });
-
-      setEditorState(
-        taskItem.description
-          ? EditorState.createWithContent(
-              ContentState.createFromText(taskItem.description)
-            )
-          : EditorState.createEmpty()
-      );
 
       const userIds = taskItem.users?.map((user) => user.userId);
       setSelectedUserIds(userIds || []);
@@ -222,10 +186,7 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
     const {
       target: { value },
     } = event;
-    setSelectedUserIds(
-      // Assuming value is an array of user IDs or a single string of user IDs
-      typeof value === "string" ? value.split(",") : value
-    );
+    setSelectedUserIds(typeof value === "string" ? value.split(",") : value);
   };
 
   const handleCancel = () => {
@@ -233,10 +194,7 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
   };
 
   const handleTaskItemClick = (clickedTaskItem) => {
-    console.log("clickedTaskItem", clickedTaskItem);
-    // Check if clickedTaskItem exists and contains valid data
     if (clickedTaskItem && clickedTaskItem.id) {
-      // Update the state with the clicked TaskItem data
       setTimeout(() => {
         setUpdatedTaskItem({
           ...clickedTaskItem,
@@ -249,21 +207,10 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
           users: clickedTaskItem.users || [],
         });
 
-        setEditorState(
-          clickedTaskItem.description
-            ? EditorState.createWithContent(
-                ContentState.createFromText(clickedTaskItem.description)
-              )
-            : EditorState.createEmpty()
-        );
-
-        console.log("clickedTaskItem", clickedTaskItem);
-        const userIds = clickedTaskItem.users?.map((user) => user.userId); // Use optional chaining here
-        console.log("userIds ค้าบบบ", userIds);
-        setSelectedUserIds(userIds || []); // Provide a default value if userIds is undefined
-      }, 50); // ดีเลย์ 50 มิลลิวินาที
+        const userIds = clickedTaskItem.users?.map((user) => user.userId);
+        setSelectedUserIds(userIds || []);
+      }, 50);
     } else {
-      // If clickedTaskItem is not valid, reset the state or display a message
       setUpdatedTaskItem({
         taskName: "",
         description: "",
@@ -274,22 +221,13 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
         priority: "",
         users: [],
       });
-
-      setEditorState(EditorState.createEmpty());
-      // Optionally, you can display a message to indicate no TaskItem is selected
-      console.log("No valid TaskItem selected.");
     }
   };
 
   const fetchMediaObjectDetails = async (mediaObjectId) => {
     try {
-      // Assuming `axiosWithAuth` is a function that returns an Axios instance with authentication
       const api = axiosWithAuth();
       const response = await api.get(`/media-object/${mediaObjectId}`);
-      // console.log(
-      //   "Response from media object endpoint:",
-      //   response.data.result[0].url
-      // );
 
       if (!response.data.result[0] || !response.data.result[0].url) {
         throw new Error("Invalid response from media object endpoint");
@@ -297,7 +235,6 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
       return response.data.result[0].url;
     } catch (error) {
       console.error("Error fetching media object details:", error);
-      // Handle error gracefully, e.g., return a default image URL or null
       return null;
     }
   };
@@ -318,9 +255,8 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
   }, [users]);
 
   useEffect(() => {
-    // Log หรือ update state ตามความจำเป็น
     console.log("Users or selectedUserIds updated");
-  }, [users, selectedUserIds]); // Dependencies ที่สำคัญสำหรับการตอบสนองต่อการเปลี่ยนแปลง
+  }, [users, selectedUserIds]);
 
   const getPriorityIcon = (priority) => {
     let icon;
@@ -398,8 +334,8 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
           ...updatedTaskItem,
           startDate: formattedStartDate,
           endDate: formattedEndDate,
-          description: editorState.getCurrentContent().getPlainText(), // Save the editor content as plain text
-          users: selectedUserIds, // Update users with selectedUserIds
+          description: updatedTaskItem.description, // Save the description directly from the state
+          users: selectedUserIds,
         }
       );
 
@@ -409,8 +345,8 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        onClose(); // Close dialog
-        window.location.reload(); // Reload page
+        onClose();
+        window.location.reload();
       });
       onClose();
     } catch (error) {
@@ -424,89 +360,87 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
       onClose={onClose}
       fullWidth
       className="dialogPaper"
-      maxWidth={false} // ใช้ false แทน "false"
-      
+      maxWidth={false}
     >
-      <DialogContent className="dialogContent" >
+      <DialogContent className="dialogContent">
         <Grid container spacing={2}>
-        <Grid item xs={2.5}>
-  <Paper
-    style={{ 
-      height: "calc(100vh - 200px)", // กำหนดความสูงให้คงที่ตามขนาดหน้าจอ
-      padding: "16px", 
-      backgroundColor: "#ffe6e9", 
-      overflowY: "auto", // เพิ่ม overflowY เป็น auto เพื่อให้สามารถเลื่อนขึ้นลงได้
-      paddingTop: "0px", // เพิ่ม paddingTop เป็น 0 เพื่อลดช่องว่างด้านบน
-    }}
-  >
-    <Typography 
-      variant="h6" 
-      style={{ 
-        marginBottom: "16px",
-        position: "sticky",
-        top: "0",
-        fontSize: "25px",
-        backgroundColor: "#ffe6e9", // ให้สีพื้นหลังเหมือนกับ Paper
-        zIndex: 1,
-        padding: "20px 0px 1px 16px", // ให้มี padding ด้านบนและล่างเล็กน้อย
-        height: "70px", // กำหนดความสูงที่แน่นอน
-        display: "flex",
-        alignItems: "center", // จัดให้ข้อความอยู่ตรงกลางในแนวตั้ง
-        borderBottom: "1px solid #ddd", // เพิ่ม border ขอบล่าง
-      }}
-    >
-      Task List
-    </Typography>
-    {filteredTaskItems.map((item) => (
-      <div
-        key={item.id}
-        onClick={() => handleTaskItemClick(item)}
-        className="taskName"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "8px",
-          padding: "8px 12px",
-          borderRadius: "4px",
-          border: "1px solid #ddd",
-          backgroundColor: "#ffffff",
-          width: "100%",
-          height: "100px",
-          wordWrap: "break-word", // ทำให้คำยาวถูกตัดลงบรรทัดใหม่
-          overflow: "hidden", // ซ่อนข้อความที่เกินขอบเขต
-          textOverflow: "ellipsis", // แสดงเครื่องหมายจุดๆที่ท้ายข้อความยาว
-          wordBreak: "break-all", // ทำให้คำที่ยาวมากๆ ถูกตัดลงบรรทัดใหม่
-        }}
-      >
-         <span
-          style={{
-            wordWrap: "break-word", // ทำให้คำยาวถูกตัดลงบรรทัดใหม่
-            overflow: "hidden", // ซ่อนข้อความที่เกินขอบเขต
-            textOverflow: "ellipsis", // แสดงเครื่องหมายจุดๆที่ท้ายข้อความยาว
-            wordBreak: "break-all", // ทำให้คำที่ยาวมากๆ ถูกตัดลงบรรทัดใหม่
-            flex: 1, // ให้ span ใช้พื้นที่ที่เหลืออยู่
-          }}
-        >
-          {item.taskName}
-        </span>
-        <span>{getPriorityIcon(item.priority)}</span>
-      </div>
-    ))}
-  </Paper>
-</Grid>
-
+          <Grid item xs={2.5}>
+            <Paper
+              style={{
+                height: "calc(100vh - 200px)",
+                padding: "16px",
+                backgroundColor: "#ffe6e9",
+                overflowY: "auto",
+                paddingTop: "0px",
+              }}
+            >
+              <Typography
+                variant="h6"
+                style={{
+                  marginBottom: "16px",
+                  position: "sticky",
+                  top: "0",
+                  fontSize: "25px",
+                  backgroundColor: "#ffe6e9",
+                  zIndex: 1,
+                  padding: "20px 0px 1px 16px",
+                  height: "70px",
+                  display: "flex",
+                  alignItems: "center",
+                  borderBottom: "1px solid #ddd",
+                }}
+              >
+                Task List
+              </Typography>
+              {filteredTaskItems.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => handleTaskItemClick(item)}
+                  className="taskName"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "8px",
+                    padding: "8px 12px",
+                    borderRadius: "4px",
+                    border: "1px solid #ddd",
+                    backgroundColor: "#ffffff",
+                    width: "100%",
+                    height: "100px",
+                    wordWrap: "break-word",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    wordBreak: "break-all",
+                  }}
+                >
+                  <span
+                    style={{
+                      wordWrap: "break-word",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      wordBreak: "break-all",
+                      flex: 1,
+                    }}
+                  >
+                    {item.taskName}
+                  </span>
+                  <span>{getPriorityIcon(item.priority)}</span>
+                </div>
+              ))}
+            </Paper>
+          </Grid>
 
           <Grid item xs={9.5}>
             <Paper
               style={{
-                height: "calc(100vh - 200px)", // กำหนดความสูงให้คงที่ตามขนาดหน้าจอ
+                height: "calc(100vh - 200px)",
                 padding: "16px",
+               
                 overflow: "auto",
-                backgroundColor: "#ffe6e9", // เปลี่ยนสีพื้นหลังให้โปร่งแสงลง
+                backgroundColor: "#ffe6e9",
               }}
             >
-              {/* Content for the right frame goes here */}
               <div
                 style={{
                   display: "flex",
@@ -516,80 +450,96 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
               >
                 <TextField
                   name="taskName"
-                  fullWidth={false} // ไม่ใช้ fullWidth
-                  style={{ width: "1500px" }} // กำหนดความกว้างด้วย CSS inline style
+                  fullWidth={false}
+                  style={{ width: "1500px" }}
                   id="standard-basic"
                   value={updatedTaskItem.taskName}
                   onChange={handleChange}
                   variant="standard"
                   margin="normal"
-                  className="edit-task-focus" // เพิ่ม className
+                  className="edit-task-focus"
                   InputProps={{
                     style: {
-                      fontSize: "25px", // ปรับขนาดฟอนต์ของ input
+                      fontSize: "25px",
                     },
                   }}
                   sx={{
                     "& .MuiInput-underline:before": {
-                      borderBottomColor: "rgba(0, 0, 0, 0.42)", // สีปกติ
-                      borderBottomWidth: "1px", // ความหนาของเส้นปกติ
+                      borderBottomColor: "rgba(0, 0, 0, 0.42)",
+                      borderBottomWidth: "1px",
                     },
                     "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                      borderBottomColor: "rgba(0, 0, 0, 0.42)", // สีเหมือนเดิมเมื่อ hover
-                      borderBottomWidth: "1px", // ความหนาเหมือนเดิมเมื่อ hover
+                      borderBottomColor: "rgba(0, 0, 0, 0.42)",
+                      borderBottomWidth: "1px",
                     },
                     "& .MuiInput-underline:after": {
-                      borderBottomColor: "rgba(0, 0, 0, 0.42)", // สีเมื่อ focus
-                      borderBottomWidth: "1px", // ความหนาเมื่อ focus
+                      borderBottomColor: "rgba(0, 0, 0, 0.42)",
+                      borderBottomWidth: "1px",
                     },
                   }}
                 />
+
                 <Paper
                   style={{
-                    height: descriptionHeight,
+                    height: "290px",
                     padding: "16px",
                     overflow: "auto",
                     transition: "height 0.3s",
-                    
+                    // height: "calc(100vh - 290px)",
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <IconButton onClick={toggleExpanded}>
-                      {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                    </IconButton>
-                    <span>Description</span>
+                  <div
+                    style={{
+                 
+                      fontSize: "20px",
+                    }}
+                  >
+                    Description
                   </div>
-                  <Collapse in={expanded}>
-                    <Editor
-                      editorState={editorState}
-                      onEditorStateChange={setEditorState}
-                      wrapperClassName="demo-wrapper"
-                      editorClassName="demo-editor"
-                      toolbar={{
-                        inline: { inDropdown: true },
-                        list: { inDropdown: true },
-                        textAlign: { inDropdown: true },
-                        link: { inDropdown: true },
-                        history: { inDropdown: true },
-                      }}
-                    />
-                  </Collapse>
+
+                  <TextField
+                    name="description"
+                    label=""
+                    multiline
+                    rows={7}
+                    fullWidth
+                    value={updatedTaskItem.description}
+                    onChange={handleChange}
+                    variant="outlined"
+                    margin="normal"
+                    className="edit-task-focus"
+                    sx={{
+                      "& .MuiFormLabel-root.Mui-focused": {
+                        color: "#847d7d", // สีที่ต้องการ
+                      },
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "#847d7d", // สีของ border ที่ต้องการ
+                          borderWidth: "1px", // ความกว้างของ border ที่ต้องการ
+                        },
+                    }}
+                  />
                 </Paper>
 
-                {/* นี่คือ กระดาษข้อมูล TaskItem */}
                 <Paper
                   style={{
-                    height: "800px",
+                   
                     padding: "16px",
-                    overflow: "auto",
+                  
                     transition: "height 0.3s",
+                    height: "calc(100vh - 623px)",
                   }}
                 >
-                  <div style={{ marginTop: "10px", marginBottom: "30px", fontSize: "20px"}}>
+                  <div
+                    style={{
+                      marginTop: "10px",
+                      marginBottom: "30px",
+                      fontSize: "20px",
+                    }}
+                  >
                     Task Information
                   </div>
 
-                  {/* นี่คือ Status */}
                   <Grid container spacing={1} style={{ marginBottom: "30px" }}>
                     <Grid item xs={6}>
                       <TextField
@@ -614,9 +564,7 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                     </Grid>
                   </Grid>
 
-                  {/* นี่คือ Users */}
                   <div style={{ marginTop: "15px", marginBottom: "30px" }}>
-                    {/* กำหนดความกว้างที่ต้องการ */}
                     <Grid container spacing={1}>
                       <Grid item xs={6}>
                         <FormControl
@@ -648,22 +596,22 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
                                 sx={{
                                   "& .MuiOutlinedInput-notchedOutline": {
                                     borderColor: "rgba(0, 0, 0, 0.6)",
-                                    borderWidth: "1px", // Adjust border width to match other fields
+                                    borderWidth: "1px",
                                   },
                                   "&:hover .MuiOutlinedInput-notchedOutline": {
                                     borderColor: "rgba(0, 0, 0, 0.6)",
-                                    borderWidth: "1px", // Adjust border width on hover
+                                    borderWidth: "1px",
                                   },
                                   "&.Mui-focused .MuiOutlinedInput-notchedOutline":
                                     {
                                       borderColor: "rgba(0, 0, 0, 0.6)",
-                                      borderWidth: "1px", // Adjust border width when focused
+                                      borderWidth: "1px",
                                     },
                                   "& fieldset": {
-                                    borderColor: "rgba(0, 0, 0, 0.6)", // Border color for fieldset
-                                    borderWidth: "1px", // Adjust border width for fieldset
-                                    padding: "4 16px", // Adjust padding for fieldset to make it wider
-                                    right: 0, // Ensure the right edge of the fieldset aligns with other inputs
+                                    borderColor: "rgba(0, 0, 0, 0.6)",
+                                    borderWidth: "1px",
+                                    padding: "4 16px",
+                                    right: 0,
                                   },
                                 }}
                               />
@@ -815,16 +763,25 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
           </Grid>
         </Grid>
         <DialogActions className="dialogActions">
-          <Button onClick={handleCancel} 
-
-         sx={{ backgroundColor: '#f6d2d2', color: '#464747', '&:hover': { backgroundColor: '#f4c6c6' } }}>
+          <Button
+            onClick={handleCancel}
+            sx={{
+              backgroundColor: "#f6d2d2",
+              color: "#464747",
+              "&:hover": { backgroundColor: "#f4c6c6" },
+            }}
+          >
             Cancel
           </Button>
           <Button
             onClick={handleSave}
             variant="contained"
             color="primary"
-            sx={{ backgroundColor: '#464747', color: '#f6d2d2', '&:hover': { backgroundColor: '#3f3f3f' } }}
+            sx={{
+              backgroundColor: "#464747",
+              color: "#f6d2d2",
+              "&:hover": { backgroundColor: "#3f3f3f" },
+            }}
           >
             Save
           </Button>

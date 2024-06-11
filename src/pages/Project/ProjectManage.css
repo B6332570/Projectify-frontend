@@ -59,3 +59,15 @@
   font-family: 'Noto Sans Thai', sans-serif;
   color: #5d5858; /* เปลี่ยนเป็นสีที่คุณต้องการ */
 }
+
+.custom-delete-button {
+  background-color: #ff4d4f;
+  border-color: #ff4d4f;
+  color: white;
+}
+
+.custom-delete-button:hover {
+  background-color: #ff7875;
+  border-color: #ff7875;
+  color: white;
+}

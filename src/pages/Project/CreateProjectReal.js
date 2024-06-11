@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import { Modal, Box, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Modal, Box, TextField, Button, Typography } from '@mui/material';
 import './CreateProject.css'; // Import CSS file
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'; 
 import axios from 'axios'; // Import Axios for making API requests
-
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
@@ -23,20 +19,17 @@ const axiosWithAuth = () => {
   });
 };
 
-const CreateProject = ({ open, onClose }) => {
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+const CreateProject = ({ open, onClose, onCreate }) => {
   const [projectName, setProjectName] = useState('');
+  const [description, setDescription] = useState('');
   const [owner, setOwner] = useState('');
   const [user, setUsers] = useState([]); // State to store users data
-  // const [projectCreationStatus, setProjectCreationStatus] = useState(null); // State for project creation status
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const api = axiosWithAuth();
         const usersResponse = await api.get("/user");
-
-        // const users = usersResponse.data.result[0].data;
         const users = usersResponse.data.result;
         setUsers(users);
       } catch (error) {
@@ -47,12 +40,12 @@ const CreateProject = ({ open, onClose }) => {
     fetchData();
   }, []);
 
-  const handleEditorChange = (newEditorState) => {
-    setEditorState(newEditorState);
-  };
-
   const handleProjectNameChange = (event) => {
     setProjectName(event.target.value);
+  };
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
   };
 
   const handleOwnerChange = (event) => {
@@ -60,20 +53,10 @@ const CreateProject = ({ open, onClose }) => {
   };
 
   const handleSubmit = async () => {
-    if (!projectName.trim()) {
+    if (!projectName.trim() || !description.trim()) {
       MySwal.fire({
         title: 'Error',
-        text: 'Project Name is required',
-        icon: 'error',
-        showConfirmButton: true,
-      });
-      return;
-    }
-  
-    if (editorState.getCurrentContent().hasText() === false) {
-      MySwal.fire({
-        title: 'Error',
-        text: 'Description is required',
+        text: 'กรุณากรอกข้อมูลให้ถูกต้อง',
         icon: 'error',
         showConfirmButton: true,
       });
@@ -84,6 +67,7 @@ const CreateProject = ({ open, onClose }) => {
       const api = axiosWithAuth();
       const formData = {
         projectsName: projectName,
+        description: description, // Add description to form data
       };
       const projectsResponse = await api.post("/project", formData);
       
@@ -92,7 +76,7 @@ const CreateProject = ({ open, onClose }) => {
   
       if (status === "success") {
         console.log('Project data submitted successfully.');
-        onClose(); // ปิด Modal หลังจากที่โปรเจคถูกสร้างเรียบร้อยแล้ว
+        onClose(); // ปิด Modal ก่อน
         await MySwal.fire({
           title: <strong>{status}</strong>,
           showConfirmButton: false,
@@ -100,6 +84,7 @@ const CreateProject = ({ open, onClose }) => {
           icon: 'success',
           timer: 1500
         });
+        onCreate(); // Refresh หน้า
       } else {
         console.error('Failed to submit project data. Server returned status:', status);
       }
@@ -107,47 +92,84 @@ const CreateProject = ({ open, onClose }) => {
       console.error("Error post data:", error);
     }
   };
-  
-  
-  
+
+  const handleClose = () => {
+    onClose();
+  };
 
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box className="modal-container">
+      <Box className="modal-container create-project-focus">
         <div className="modal-header">
+          <Typography variant="h6">
             New Project
+          </Typography>
         </div>
-        <TextField label="Project Name" value={projectName} onChange={handleProjectNameChange} className="textfield-input" fullWidth />
-     
-        <div className="description-editor">
-          Title
-          <Editor
-            editorState={editorState}
-            onEditorStateChange={handleEditorChange}
-            toolbar={{
-              options: ['inline', 'blockType', 'list', 'textAlign', 'history'],
-              inline: {
-                options: ['bold', 'italic', 'underline'],
-              },
+        <TextField 
+          label="Project Name" 
+          value={projectName} 
+          onChange={handleProjectNameChange} 
+          style={{ marginBottom: '20px' }} 
+          fullWidth 
+          sx={{
+            '& .MuiFormLabel-root.Mui-focused': {
+              color: '#847d7d', // สีที่ต้องการ
+            },
+            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#847d7d', // สีของ border ที่ต้องการ
+              borderWidth: '2px', // ความกว้างของ border ที่ต้องการ
+            },
+          }}
+        />
+        <TextField 
+          label="Description"
+          value={description}
+          onChange={handleDescriptionChange}
+          style={{ marginBottom: '20px' }} 
+          fullWidth
+          multiline
+          rows={4}
+          sx={{
+            '& .MuiFormLabel-root.Mui-focused': {
+              color: '#847d7d', // สีที่ต้องการ
+            },
+            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#847d7d', // สีของ border ที่ต้องการ
+              borderWidth: '2px', // ความกว้างของ border ที่ต้องการ
+            },
+            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#C4C4C4', // ตั้งค่าให้เป็นสีเดียวกับปกติ
+            },
+            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#847d7d', // สีของ border ที่ต้องการเมื่อ focused
+              borderWidth: '2px', // ความกว้างของ border ที่ต้องการเมื่อ focused
+            },
+          }}
+        />
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            className="button-save" 
+            onClick={handleSubmit}
+            style={{
+              backgroundColor: "#e78080",
+              color: "#fff",
+              padding: "10px 20px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              textTransform: "none",
+              borderRadius: "8px"
             }}
-          />
+          >
+            Create
+          </Button>
         </div>
-        <Button 
-  variant="contained" 
-  color="primary" 
-  className="button-save" 
-  fullWidth 
-  onClick={handleSubmit}
-  disabled={!projectName.trim() || editorState.getCurrentContent().hasText() === false}
->
-  Create
-</Button>
-
       </Box>
     </Modal>
   );

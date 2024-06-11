@@ -28,7 +28,7 @@
   width: 100%;
   max-width: 600px; /* กำหนดขนาดสูงสุด */
   min-width: 600px; /* กำหนดขนาดต่ำสุด */
-  min-height: 1000px;
+  min-height: 1070px;
 
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -94,3 +94,23 @@
 }
 
 
+/* เพิ่มคลาสเฉพาะสำหรับระบบของคุณเอง */
+.user-select-focus [type='text']:focus,
+.user-select-focus [type='email']:focus,
+.user-select-focus [type='url']:focus,
+.user-select-focus [type='password']:focus,
+.user-select-focus [type='number']:focus,
+.user-select-focus [type='date']:focus,
+.user-select-focus [type='datetime-local']:focus,
+.user-select-focus [type='month']:focus,
+.user-select-focus [type='search']:focus,
+.user-select-focus [type='tel']:focus,
+.user-select-focus [type='time']:focus,
+.user-select-focus [type='week']:focus,
+.user-select-focus [multiple]:focus,
+.user-select-focus textarea:focus,
+.user-select-focus select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important; /* ใช้ inherit เพื่อให้สืบทอดค่า border-color จากการตั้งค่าปกติ */
+}

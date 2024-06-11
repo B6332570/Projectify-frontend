@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Box, TextField, Button, IconButton, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Modal, Box, TextField, Button, Typography } from '@mui/material';
 import './CreateProject.css'; // Import CSS file
 import axios from 'axios'; // Import Axios for making API requests
 import Swal from 'sweetalert2';
@@ -54,20 +53,10 @@ const CreateProject = ({ open, onClose, onCreate }) => {
   };
 
   const handleSubmit = async () => {
-    if (!projectName.trim()) {
+    if (!projectName.trim() || !description.trim()) {
       MySwal.fire({
         title: 'Error',
-        text: 'Project Name is required',
-        icon: 'error',
-        showConfirmButton: true,
-      });
-      return;
-    }
-  
-    if (!description.trim()) {
-      MySwal.fire({
-        title: 'Error',
-        text: 'Description is required',
+        text: 'กรุณากรอกข้อมูลให้ถูกต้อง',
         icon: 'error',
         showConfirmButton: true,
       });
@@ -110,76 +99,79 @@ const CreateProject = ({ open, onClose, onCreate }) => {
 
   return (
     <Modal
-  open={open}
-  onClose={handleClose}
-  aria-labelledby="modal-modal-title"
-  aria-describedby="modal-modal-description"
->
-  <Box className="modal-container create-project-focus">
-    <div className="modal-header">
-      <Typography variant="h6">
-        New Project
-      </Typography>
-    </div>
-    <TextField 
-      label="Project Name" 
-      value={projectName} 
-      onChange={handleProjectNameChange} 
-      style={{ marginBottom: '20px' }} 
-      fullWidth 
-     sx={{
-        '& .MuiFormLabel-root.Mui-focused': {
-          color: '#847d7d', // สีที่ต้องการ
-        },
-        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-          borderColor: '#847d7d', // สีของ border ที่ต้องการ
-          borderWidth: '2px', // ความกว้างของ border ที่ต้องการ
-        },
-        
-      
-   
-      }}
-    />
-    <TextField 
-      label="Description"
-      value={description}
-      onChange={handleDescriptionChange}
-      style={{ marginBottom: '20px' }} 
-      fullWidth
-      multiline
-      rows={4}
-      sx={{
-        '& .MuiFormLabel-root.Mui-focused': {
-          color: '#847d7d', // สีที่ต้องการ
-        },
-        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-          borderColor: '#847d7d', // สีของ border ที่ต้องการ
-          borderWidth: '2px', // ความกว้างของ border ที่ต้องการ
-        },
-        '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-          borderColor: '#C4C4C4', // ตั้งค่าให้เป็นสีเดียวกับปกติ
-        },
-        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-          borderColor: '#847d7d', // สีของ border ที่ต้องการเมื่อ focused
-          borderWidth: '2px', // ความกว้างของ border ที่ต้องการเมื่อ focused
-        },
-      }}
-      
-    />
-    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <Button 
-        variant="contained" 
-        color="primary" 
-        className="button-save" 
-        onClick={handleSubmit}
-        disabled={!projectName.trim() || !description.trim()}
-      >
-        Create
-      </Button>
-    </div>
-  </Box>
-</Modal>
-
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box className="modal-container create-project-focus">
+        <div className="modal-header">
+          <Typography variant="h6">
+            New Project
+          </Typography>
+        </div>
+        <TextField 
+          label="Project Name" 
+          value={projectName} 
+          onChange={handleProjectNameChange} 
+          style={{ marginBottom: '20px' }} 
+          fullWidth 
+          sx={{
+            '& .MuiFormLabel-root.Mui-focused': {
+              color: '#847d7d', // สีที่ต้องการ
+            },
+            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#847d7d', // สีของ border ที่ต้องการ
+              borderWidth: '2px', // ความกว้างของ border ที่ต้องการ
+            },
+          }}
+        />
+        <TextField 
+          label="Description"
+          value={description}
+          onChange={handleDescriptionChange}
+          style={{ marginBottom: '20px' }} 
+          fullWidth
+          multiline
+          rows={4}
+          sx={{
+            '& .MuiFormLabel-root.Mui-focused': {
+              color: '#847d7d', // สีที่ต้องการ
+            },
+            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#847d7d', // สีของ border ที่ต้องการ
+              borderWidth: '2px', // ความกว้างของ border ที่ต้องการ
+            },
+            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#C4C4C4', // ตั้งค่าให้เป็นสีเดียวกับปกติ
+            },
+            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#847d7d', // สีของ border ที่ต้องการเมื่อ focused
+              borderWidth: '2px', // ความกว้างของ border ที่ต้องการเมื่อ focused
+            },
+          }}
+        />
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            className="button-save" 
+            onClick={handleSubmit}
+            style={{
+              backgroundColor: "#e78080",
+              color: "#fff",
+              padding: "10px 20px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              textTransform: "none",
+              borderRadius: "8px"
+            }}
+          >
+            Create
+          </Button>
+        </div>
+      </Box>
+    </Modal>
   );
 }
 

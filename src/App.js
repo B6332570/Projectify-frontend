@@ -1,22 +1,20 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Sidebar from './components/Sidebar';
 
-/* Page*/
-import Signin from './pages/Signin/Signin'
-import Signup from './pages/Signin/Signup'
-import Project from './pages/Project/Project'
-import Task from './pages/Task/Task'
+/* Page */
+import Signin from './pages/Signin/Signin';
+import Signup from './pages/Signin/Signup';
+import Project from './pages/Project/Project';
+import Task from './pages/Task/Task';
 import ResetForgetPassword from './pages/Signin/ResetForgetPassword';
-import UserSetting from './pages/User/UserSetting'
-import ExportProject from './pages/ExportProject/ExportProject'
-import UserManage from './pages/User/UserManage'
-import ProjectManage from './pages/Project/ProjectManage'
+import UserSetting from './pages/User/UserSetting';
+import ExportProject from './pages/ExportProject/ExportProject';
+import UserManage from './pages/User/UserManage';
+import ProjectManage from './pages/Project/ProjectManage';
 import ForgetPassword from './pages/Signin/ForgetPassword';
 import ResetPassword from './pages/User/ResetPassword';
-
 
 const theme = createTheme({
   typography: {
@@ -26,11 +24,26 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'gray', // สีขอบปกติ
+          },
           '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'gray', // เปลี่ยนสีขอบที่นี่
+            borderColor: 'gray', // สีขอบเมื่อ hover
           },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'pink', // เปลี่ยนสีขอบเมื่อมีการโฟกัส
+            borderColor: 'pink', // สีขอบเมื่อ focused
+          },
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        select: {
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'gray', // สีขอบเมื่อ hover
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'pink', // สีขอบเมื่อ focused
           },
         },
       },
@@ -42,7 +55,6 @@ const theme = createTheme({
         },
       },
     },
-
     MuiTextField: {
       styleOverrides: {
         root: {
@@ -51,12 +63,11 @@ const theme = createTheme({
               borderColor: 'gray', // สีขอบปกติ
             },
             '&:hover fieldset': {
-              borderColor: 'gray', // สีขอบเมื่อเอาเมาส์ไปชี้
+              borderColor: 'gray', // สีขอบเมื่อ hover
             },
             '&.Mui-focused fieldset': {
-              borderColor: 'pink', // สีขอบเมื่อช่องมีการโฟกัส
+              borderColor: 'pink', // สีขอบเมื่อ focused
             },
-            
           },
         },
       },
@@ -65,18 +76,13 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           '&.Mui-focused': {
-            color: 'gray', // เปลี่ยนสีที่นี่
+            color: 'gray', // เปลี่ยนสีเมื่อ focused
           },
         },
       },
     },
-
-
-
   },
 });
-
-
 
 function App() {
   return (
@@ -84,20 +90,18 @@ function App() {
       <CssBaseline />
       <BrowserRouter>
         <Routes>
-      
           <Route path="/project" element={<Project />} />
           <Route path="/project/:projectId/task" element={<Task />} />
           <Route path="/project-manage" element={<ProjectManage />} />
           <Route path="/task" element={<Task />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/forget-password" element={< ForgetPassword />} />
+          <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/forgot-password/:token" element={<ResetForgetPassword />} />
           <Route path="/export-project" element={<ExportProject />} />
           <Route path="/user-manage" element={<UserManage />} />
           <Route path="/user-setting" element={<UserSetting />} />
           <Route path="/reset-password/:id" element={<ResetPassword />} />
-          
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

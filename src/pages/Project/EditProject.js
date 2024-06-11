@@ -1,6 +1,10 @@
 import React from 'react';
 import { Modal, Form, Input, Button, Row, Col } from 'antd';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 const EditProject = ({ open, onClose, project }) => {
   const [form] = Form.useForm();
@@ -15,9 +19,27 @@ const EditProject = ({ open, onClose, project }) => {
         },
       });
       console.log('Edit Project:', values);
+
       onClose();
+      
+      await MySwal.fire({
+        title: 'Success',
+        text: 'Project updated successfully',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+      // Refresh the page
+      window.location.reload();
     } catch (error) {
       console.error('Error updating project:', error);
+      MySwal.fire({
+        title: 'Error',
+        text: 'There was an error updating the project',
+        icon: 'error',
+        showConfirmButton: true,
+      });
     }
   };
 
@@ -43,12 +65,12 @@ const EditProject = ({ open, onClose, project }) => {
         </Form.Item>
         <Form.Item
           name="title"
-          label="Title"
+          label="Description"
         >
           <Input />
         </Form.Item>
         <Form.Item>
-        <Row justify="end">
+          <Row justify="end">
             <Col>
               <Button type="primary" htmlType="submit" style={{ backgroundColor: '#464747' }}>
                 Save

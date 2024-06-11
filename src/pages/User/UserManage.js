@@ -192,8 +192,15 @@ const UserManage = () => {
 
   const getRoleDisplayName = (roleId) => {
     const role = roles.find(r => r.id === roleId);
-    return role ? capitalizeFirstLetter(role.role) : "Unknown Role";
+    if (role) {
+      // Split role name by underscore, capitalize each word, and join with space
+      return role.role.split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+    }
+    return "Unknown Role";
   };
+  
 
   const filteredUsers = users.filter(user => {
     const userRoles = user.userRoles.map(role => getRoleDisplayName(role.roleId).toLowerCase());

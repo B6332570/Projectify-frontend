@@ -108,7 +108,7 @@ const ProjectManage = () => {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
-        <Button type="danger" onClick={() => showDeleteConfirm(record)}>
+        <Button type="danger" className="custom-delete-button" onClick={() => showDeleteConfirm(record)}>
           Delete
         </Button>
       ),
@@ -152,6 +152,7 @@ const ProjectManage = () => {
                 loading={loading}
                 pagination={{ pageSize: 5 , className: 'custom-pagination'}}
                 className="custom-table"
+                
               />
             </Card>
           </Col>
@@ -163,7 +164,7 @@ const ProjectManage = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         okText="Delete"
-        okButtonProps={{ type: 'danger' }}
+        okButtonProps={{ className: 'custom-delete-button' }}
         className="custom-modal"
       >
         <p>Are you sure you want to delete project {selectedProject && selectedProject.projectsName}?</p>

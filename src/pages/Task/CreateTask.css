@@ -27,4 +27,41 @@
 }
 
 
+.create-task-editor-wrapper {
+  border-width: 1px !important; /* ปรับความหนาของ border */
+  border-color: gray !important; /* เปลี่ยนสีของ border ถ้าต้องการ */
+  border-style: solid; /* เพิ่มสไตล์ border เป็น solid */
+}
 
+
+/* CreateTask.css */
+.create-task-editor-wrapper .DraftEditor-root {
+
+  height: 300px; /* หรือคุณสามารถกำหนด max-height ได้ */
+
+
+}
+
+
+
+.create-task-page-title{
+  text-align: center;
+  font-size: 40px;
+  color: #333;
+
+  font-weight: 650;
+}
+
+.create-task-editor-wrapper .rdw-editor-toolbar {
+  padding: 6px 5px 0;
+  border-radius: 2px;
+  border: 1px solid grey; /* ปรับความหนาและสีของ border ตามต้องการ */
+  display: flex;
+  justify-content: flex-start;
+  background: white;
+  flex-wrap: wrap;
+  font-size: 15px;
+  margin-bottom: 5px;
+  -webkit-user-select: none;
+  user-select: none;
+}
