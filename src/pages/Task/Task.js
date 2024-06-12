@@ -312,10 +312,10 @@ const Row = ({
                 onClose={handleMenuClose}
               >
                 <MenuItem onClick={handleEditClick}>
-                  Edit Task Group Name
+                  Edit task group
                 </MenuItem>
                 <MenuItem onClick={() => handleDeleteTaskGroup(taskGroup.id)}>
-                  Delete Task Group
+                  Delete task group
                 </MenuItem>
               </Menu>
             </div>

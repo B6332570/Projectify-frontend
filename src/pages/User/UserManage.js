@@ -225,7 +225,7 @@ const UserManage = () => {
           <div className="mx-auto mb-8 max-w-screen-sm lg:mb-16">
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"> User Management</h2>
             <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">
-              This page is dedicated to managing users, allowing for detailed viewing and deletion of user profiles.
+            This page is designed for user management, providing detailed views and options for deleting user profiles
             </p>
           </div>
           <div className="search-container">

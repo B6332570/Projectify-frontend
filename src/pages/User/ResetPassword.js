@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { message } from 'antd';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom'; // เพิ่ม Link ตรงนี้
 import { Typography, TextField, Button, Box, Card, CardContent, colors } from "@mui/material";
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
@@ -43,6 +43,7 @@ const ResetPassword = () => {
       const response = await axios.post(`http://localhost:3001/api/auth/${id}/reset-password`, { oldPassword, password });
       if (response.data.status === "success") {
         message.success('Password has been reset successfully.');
+        localStorage.removeItem("accessToken"); // ลบ accessToken ออก
         navigate('/signin');
       } else {
         message.error('Something went wrong. Please try again.');
@@ -81,118 +82,127 @@ const ResetPassword = () => {
 
   return (
     <div className="backgroundbobweb">
-    <div className="flex">
-      <Sidebar />
-      <Navbar />
-     
-        
-          {user && (
-            <Card className="user-card">
-              <CardContent>
-                <Box display="flex" alignItems="center" flexDirection="column">
-                  <Avatar
-                    crossOrigin="anonymous"
-                    size={{ xxl: 150 }}
-                    alt={user.firstName}
-                    src={user.image}
-                    sx={{ width: 100, height: 100, mb: 2 }}
-                  />
-                  <Typography variant="h5" gutterBottom marginTop={5} sx={{ fontWeight:"700"}}>
-                    {user.firstName} {user.lastName}
+      <div className="flex">
+        <Sidebar />
+        <Navbar />
+        {user && (
+          <Card className="user-card">
+            <CardContent>
+              <Box display="flex" alignItems="center" flexDirection="column">
+                <Avatar
+                  crossOrigin="anonymous"
+                  size={{ xxl: 150 }}
+                  alt={user.firstName}
+                  src={user.image}
+                  sx={{ width: 100, height: 100, mb: 2 }}
+                />
+                <Typography variant="h5" gutterBottom marginTop={5}>
+                  {user.firstName} {user.lastName}
+                </Typography>
+                <Divider className="custom-divider" sx={{ my: 2, width: "100%" }} />
+                <form className="user-form" onSubmit={handleResetPassword}>
+                  <Typography variant="h5" gutterBottom sx={{ mb: 6 }}>
+                    Reset Password
                   </Typography>
-                  <Divider className="custom-divider" sx={{ my: 2, width: "100%"}} />
-
-
-                  <form className="user-form" onSubmit={handleResetPassword}>
-                    <Typography variant="h5" gutterBottom  sx={{ mb: 6 ,fontWeight:"700"}}>
-                      Reset Password
-                    </Typography>
-                    <TextField
-                      label="Old Password"
-                      type="password"
-                      variant="outlined"
-                      required
-                      fullWidth
-                      value={oldPassword}
-                      onChange={(e) => setOldPassword(e.target.value)}
-                      sx={{
-                        mb: 6,
-                        '& .MuiOutlinedInput-root': {
-                          '& fieldset': { borderColor: '#C4C4C4' },
-                          '&:hover fieldset': { borderColor: '#C4C4C4' },
-                          '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
-                        },
-                        '& .MuiFormLabel-root': {
+                  <TextField
+                    label="Old Password"
+                    type="password"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    value={oldPassword}
+                    onChange={(e) => setOldPassword(e.target.value)}
+                    sx={{
+                      mb: 6,
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': { borderColor: '#C4C4C4' },
+                        '&:hover fieldset': { borderColor: '#C4C4C4' },
+                        '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
+                      },
+                      '& .MuiFormLabel-root': {
+                        color: '#666666',
+                        '&.Mui-focused': {
                           color: '#666666',
-                          '&.Mui-focused': {
-                            color: '#666666',
-                          },
                         },
-                      }}
-                    />
-                    <TextField
-                      label="New Password"
-                      type="password"
-                      variant="outlined"
-                      required
-                      fullWidth
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      sx={{
-                        mb: 6,
-                        '& .MuiOutlinedInput-root': {
-                          '& fieldset': { borderColor: '#C4C4C4' },
-                          '&:hover fieldset': { borderColor: '#C4C4C4' },
-                          '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
-                        },
-                        '& .MuiFormLabel-root': {
+                      },
+                    }}
+                  />
+                  <TextField
+                    label="New Password"
+                    type="password"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    sx={{
+                      mb: 6,
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': { borderColor: '#C4C4C4' },
+                        '&:hover fieldset': { borderColor: '#C4C4C4' },
+                        '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
+                      },
+                      '& .MuiFormLabel-root': {
+                        color: '#666666',
+                        '&.Mui-focused': {
                           color: '#666666',
-                          '&.Mui-focused': {
-                            color: '#666666',
-                          },
                         },
-                      }}
-                    />
-                    <TextField
-                      label="Confirm New Password"
-                      type="password"
-                      variant="outlined"
-                      required
-                      fullWidth
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      sx={{
-                        mb: 6,
-                        '& .MuiOutlinedInput-root': {
-                          '& fieldset': { borderColor: '#C4C4C4' },
-                          '&:hover fieldset': { borderColor: '#C4C4C4' },
-                          '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
-                        },
-                        '& .MuiFormLabel-root': {
+                      },
+                    }}
+                  />
+                  <TextField
+                    label="Confirm New Password"
+                    type="password"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    sx={{
+                      mb: 6,
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': { borderColor: '#C4C4C4' },
+                        '&:hover fieldset': { borderColor: '#C4C4C4' },
+                        '&.Mui-focused fieldset': { borderColor: '#a0a0a0' },
+                      },
+                      '& .MuiFormLabel-root': {
+                        color: '#666666',
+                        '&.Mui-focused': {
                           color: '#666666',
-                          '&.Mui-focused': {
-                            color: '#666666',
-                          },
                         },
-                      }}
-                     
-                     
-                    />
-                    <Button type="submit" variant="contained"  sx={{ backgroundColor: '#333333', color: '#ffffff', '&:hover': { backgroundColor: '#3f3f3f' } }} >
-                      Reset Password
-                    </Button>
-                  </form>
-                  <Button variant="contained"  onClick={() => navigate(-1)} style={{ marginTop: '20px' }} sx={{ backgroundColor: '#333333', color: '#ffffff', '&:hover': { backgroundColor: '#3f3f3f' } }}>
+                      },
+                    }}
+                  />
+              <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            style={{
+              backgroundColor: "#1F2937",
+              color: "#fff",
+              padding: "10px 20px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              textTransform: "none",
+              borderRadius: "8px",
+            }}
+            
+            
+          >
+            Reset 
+          </Button>
+                </form>
+                <Link to={-1}   className="reset-password-link"   sx ={{ marginBottom: "200px"}}>
+                
                     Back
-                  </Button>
-                </Box>
-              </CardContent>
-              
-            </Card>
-          )}
-        </div>
+             
+                </Link>
+              </Box>
+            </CardContent>
+          </Card>
+        )}
       </div>
-   
+    </div>
   );
 };
 

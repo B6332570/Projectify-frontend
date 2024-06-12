@@ -13,14 +13,14 @@
 }
 
 .ant-card.export-project-custom-card {
-  background-color: #999292; /* สีพื้นหลัง */
+  background-color: #a1b5a6; /* สีพื้นหลัง */
   
 }
 
 .ant-card-head-title {
   font-family: 'Noto Sans Thai', sans-serif;
-  font-size: 20px;
-  color: white; /* สีของข้อความ */
+  font-size: 25px;
+  color: rgb(23, 22, 22); /* สีของข้อความ */
   padding: 20px;
   
 }

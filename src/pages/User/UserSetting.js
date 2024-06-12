@@ -336,7 +336,7 @@ const UserSetting = () => {
             color="primary"
             type="submit"
             style={{
-              backgroundColor: "#464747",
+              backgroundColor: "#1F2937",
               color: "#fff",
               padding: "10px 20px",
               fontSize: "16px",

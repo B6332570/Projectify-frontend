@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { EditorState, convertToRaw } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
 import {
   Collapse,
   Modal,
@@ -21,7 +19,6 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useTheme } from "@mui/material/styles";
@@ -63,9 +60,6 @@ const CreateTask = ({ open, onClose }) => {
     taskGroupId: 1,
   });
 
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
   const [taskGroups, setTaskGroups] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -138,12 +132,8 @@ const CreateTask = ({ open, onClose }) => {
       return;
     }
     try {
-      const contentState = editorState.getCurrentContent();
-      const rawContentState = JSON.stringify(convertToRaw(contentState));
-
       const formData = {
         ...taskItem,
-        description: rawContentState,
         users: selectedUsers,
       };
 
@@ -174,10 +164,6 @@ const CreateTask = ({ open, onClose }) => {
         text: "An error occurred while creating the task. Please try again.",
       });
     }
-  };
-
-  const handleEditorChange = (state) => {
-    setEditorState(state);
   };
 
   const toggleExpanded = () => {
@@ -234,15 +220,9 @@ const CreateTask = ({ open, onClose }) => {
           my: 16,
         }}
       >
-        {/* <Typography variant="h4" component="h2" mb={2}>
-          Create New Task
-        </Typography> */}
-
         <h1 className="create-task-page-title" style={{ textAlign: "center" }}>
-        Create New Task
+          Create New Task
         </h1>
-
-       
 
         <Grid container spacing={3} mt={4}>
           <Grid item xs={12} md={6}>
@@ -366,7 +346,6 @@ const CreateTask = ({ open, onClose }) => {
                   setTaskItem({ ...taskItem, taskGroupId: e.target.value })
                 }
                 label="Task Group"
-                
               >
                 {taskGroups.map((group) => (
                   <MenuItem key={group.id} value={group.id}>
@@ -375,10 +354,10 @@ const CreateTask = ({ open, onClose }) => {
                 ))}
               </Select>
             </FormControl>
-            </Grid>
+          </Grid>
 
-            <Grid item xs={12} md={6}>
-            <FormControl fullWidth variant="outlined" >
+          <Grid item xs={12} md={6}>
+            <FormControl fullWidth variant="outlined">
               <InputLabel id="users-label">Users</InputLabel>
               <Select
                 labelId="users-label"
@@ -386,9 +365,7 @@ const CreateTask = ({ open, onClose }) => {
                 multiple
                 value={selectedUsers}
                 onChange={handleChangeUsers}
-                input={
-                  <OutlinedInput id="select-multiple-chip" label="Users" />
-                }
+                input={<OutlinedInput id="select-multiple-chip" label="Users" />}
                 renderValue={(selected) => (
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                     {selected.map((userId) => {
@@ -439,35 +416,37 @@ const CreateTask = ({ open, onClose }) => {
                 ))}
               </Select>
             </FormControl>
-            </Grid>
           </Grid>
-       
+        </Grid>
 
         <Box mt={3} width="100%">
           <Typography variant="h6" component="div" gutterBottom>
             Description
-           
           </Typography>
-          
-            <Paper variant="outlined" sx={{ p: 2 }} className="create-task-editor-wrapper">
-              <Editor
-                editorState={editorState}
-                onEditorStateChange={handleEditorChange}
-                toolbar={{
-                  options: [
-                    "inline",
-                    "blockType",
-                    "list",
-                    "textAlign",
-                    "history",
-                  ],
-                  inline: {
-                    options: ["bold", "italic", "underline"],
-                  },
-                }}
-              />
-            </Paper>
-          
+          <TextField
+           
+            value={taskItem.description}
+            onChange={(e) =>
+              setTaskItem({ ...taskItem, description: e.target.value })
+            }
+            fullWidth
+           
+            multiline
+            rows={10}
+            variant="outlined"
+                    margin="normal"
+                    className="edit-task-focus"
+                    sx={{
+                      "& .MuiFormLabel-root.Mui-focused": {
+                        color: "#847d7d", // สีที่ต้องการ
+                      },
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "#847d7d", // สีของ border ที่ต้องการ
+                          borderWidth: "1px", // ความกว้างของ border ที่ต้องการ
+                        },
+                    }}
+          />
         </Box>
 
         <Box
@@ -475,7 +454,7 @@ const CreateTask = ({ open, onClose }) => {
             display: "flex",
             justifyContent: "flex-end",
             width: "100%",
-            mt: 7,
+            mt: 21,
           }}
         >
           <Button

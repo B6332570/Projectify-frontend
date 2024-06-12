@@ -133,7 +133,7 @@ const ExportProject = () => {
           <Row gutter={[16, 16]}>
             <Col span={24}>
               <Card
-                title="Export Project Data"
+                title="Export Project"
                 bordered={false}
                 className="export-project-custom-card"
                 extra={<ExcelButton type="primary" onClick={handleExportAll}>Export All Projects</ExcelButton>}
