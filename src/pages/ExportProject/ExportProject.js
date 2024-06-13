@@ -120,9 +120,15 @@ const ExportProject = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredProjects = projects.filter((project) =>
-    project.projectsName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProjects = projects
+  .filter((project) => {
+    const ownerName = getUserNameById(project.userId).toLowerCase();
+    return (
+      project.projectsName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      ownerName.includes(searchTerm.toLowerCase())
+    );
+  })
+  .sort((a, b) => a.id - b.id);
 
   return (
     <div className="backgroundbobweb">

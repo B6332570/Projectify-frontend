@@ -492,12 +492,10 @@
   
   .login-page .MuiSelect-root {
     font-size: 16px;
-    color: #550404;
+    color: #dbdbdb;
   }
   
-  .login-page .MuiInputBase-root.MuiOutlinedInput-root {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  }
+  
 
   .custom-form-control {
     margin-top: 20px;

@@ -118,7 +118,7 @@
 .popover {
   position: absolute;
   top: 0;
-  width: 200px;
+  width: 400px;
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -130,7 +130,7 @@
 }
 
 .popover.left {
-  left: -220px; /* ปรับตำแหน่งให้ popover อยู่ทางด้านซ้าย */
+  left: -420px; /* ปรับตำแหน่งให้ popover อยู่ทางด้านซ้าย */
 }
 
 .popover.right {

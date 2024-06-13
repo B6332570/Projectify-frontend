@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import './Login.css';
 import './Signup.css';
 import { Form, message } from "antd";
-import { Modal, Box, TextField, Button, FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
+import { Modal, Box, TextField, Button, FormControl, InputLabel, Select, MenuItem, OutlinedInput } from '@mui/material';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
@@ -15,7 +15,7 @@ function Signup() {
   const [user, setUser] = useState({
     email: "",
     password: "",
-    roles: [], // เปลี่ยน role เป็น roles ที่เป็น array
+    roles: [],
     firstName: "",
     lastName: "",
     username: "",
@@ -31,7 +31,7 @@ function Signup() {
         console.log("All Role", response.data.result);
         const rolesData = Array.isArray(response.data.result) ? response.data.result : [];
         console.log("rolesData", rolesData);
-        setRoles(rolesData);
+        setRoles(rolesData.filter(role => role.role !== 'admin'));
       } catch (error) {
         console.error("Error fetching roles:", error);
         setRoles([]);
@@ -105,6 +105,20 @@ function Signup() {
     });
   };
 
+  const getRoleDisplayName = (roleId) => {
+    const role = roles.find((r) => r.id === roleId);
+    if (role) {
+      // Split role name by underscore, capitalize each word, and join with space
+      return role.role
+        .split("_")
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+    }
+    return "Unknown Role";
+  };
+
   return (
     <div className="login-page">
       <div className="backgroundbob">
@@ -113,10 +127,9 @@ function Signup() {
             <form className="signin-form" onSubmit={signup}>
               <div className="signup-div">
                 <div className="welcome">
-                <h5 className="text-3xl ml-2 p-1 font-bold drop-shadow-lg" style={{ display: 'flex', alignItems: 'center' }}>
-  
-  <b className="text-primary">Sign Up</b>
-</h5>
+                  <h5 className="text-3xl ml-2 p-1 font-bold drop-shadow-lg" style={{ display: 'flex', alignItems: 'center' }}>
+                    <b className="text-primary">Sign Up</b>
+                  </h5>
                 </div>
                 <br />
                 <div className="emailinput">
@@ -134,7 +147,7 @@ function Signup() {
                 </div>
                 <div className="passwordinput">
                   <div className="passwordtext">
-                    Password <small>(must be 6-12 characters)</small>
+                    Password <small>(must at least 6 characters)</small>
                   </div>
                   <div className="signup-input-group">
                     <input
@@ -151,7 +164,17 @@ function Signup() {
                 <div className="role-select">
                   <div className="emailtext">Role</div>
                   <FormControl className="custom-form-control" fullWidth>
-                    <InputLabel id="role-label">Select your roles</InputLabel>
+                    <InputLabel 
+                      id="role-label"
+                      sx={{
+                        color: '#6B7380', // สีในสถานะปกติ
+                        '&.Mui-focused': {
+                          color: '#6B7380', // เปลี่ยนสีเมื่อ focused
+                        },
+                      }}
+                      >
+                        Select your roles
+                      </InputLabel>
                     <Select
                       labelId="role-label"
                       id="role"
@@ -159,17 +182,26 @@ function Signup() {
                       value={user.roles}
                       onChange={handleRoleChange}
                       input={<OutlinedInput label="Select your roles" />}
+                      sx={{
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: '#ccc', // สีขอบปกติ
+                        },
+                        '&:hover .MuiOutlinedInput-notchedOutline': {
+                          borderColor: '#ccc', // สีขอบเมื่อ hover
+                        },
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                          borderColor: 'rgb(159, 159, 159);', // สีขอบเมื่อ focused
+                        },
+                      }}
                       renderValue={(selected) =>
-                        roles
-                          .filter((role) => selected.includes(role.id))
-                          .map((role) => role.role)
+                        selected
+                          .map((roleId) => getRoleDisplayName(roleId))
                           .join(', ')
                       }
                     >
                       {roles.map((role) => (
                         <MenuItem key={role.id} value={role.id}>
-                          <Checkbox checked={user.roles.includes(role.id)} />
-                          <ListItemText primary={role.role} />
+                          {getRoleDisplayName(role.id)}
                         </MenuItem>
                       ))}
                     </Select>
@@ -229,7 +261,6 @@ function Signup() {
                       type="file"
                       accept="image/*"
                       id="profileImage"
-
                       className="sigininput"
                       onChange={(e) => {
                         if (e.target.files.length > 0) {

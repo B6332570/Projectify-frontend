@@ -3,7 +3,8 @@
     width: 100%; /* กำหนดความกว้างของ input ให้เต็มกว่า parent element */
     padding: 10px; /* เพิ่มขนาด padding ให้กับ input */
     font-size: 16px; /* กำหนดขนาดตัวอักษรของ input */
-    border: 1px solid #ccc; /* เพิ่มเส้นขอบสีเทาอ่อนให้กับ input */
+
     border-radius: 5px; /* เพิ่มขอบโค้งให้กับ input */
 }
   
+

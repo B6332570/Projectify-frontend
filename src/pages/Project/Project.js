@@ -124,9 +124,8 @@ const Project = () => {
         <div className="pmain-content">
           <Navbar />
           <div className="project-content">
-       
             <div className="project-wrapper">
-            <h1 className="project-page-title">Projectify</h1>
+              <h1 className="project-page-title">Projectify</h1>
               {loading ? (
                 <Row gutter={[30, 30]}>
                   {Array.from({ length: pageSize }).map((_, index) => (
@@ -155,7 +154,9 @@ const Project = () => {
                       >
                         <div className="relative">
                           <div
-                            className={`popover ${getPopoverPosition(index)} ${dropdownOpen[project.id] ? "visible" : ""}`}
+                            className={`popover ${getPopoverPosition(index)} ${
+                              dropdownOpen[project.id] ? "visible" : ""
+                            }`}
                             id={`popover-left${project.id}`}
                             role="tooltip"
                           >
@@ -225,7 +226,9 @@ const Project = () => {
                                         <a
                                           href="#"
                                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                          onClick={() => handleAction("Forward")}
+                                          onClick={() =>
+                                            handleAction("Forward")
+                                          }
                                         >
                                           Delete
                                         </a>
@@ -253,30 +256,31 @@ const Project = () => {
                               </p>
                               <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                                 Created On:{" "}
-                                {new Date(project.createdAt).toLocaleDateString()}
+                                {new Date(
+                                  project.createdAt
+                                ).toLocaleDateString()}
                               </p>
                               <Link
-  to={`/project/${project.id}/task`}
-  className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none view-tasks-button"
->
-  View Tasks
-  <svg
-    className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-    aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 14 10"
-  >
-    <path
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M1 5h12m0 0L9 1m4 4L9 9"
-    />
-  </svg>
-</Link>
-
+                                to={`/project/${project.id}/task`}
+                                className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none view-tasks-button"
+                              >
+                                View Tasks
+                                <svg
+                                  className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 14 10"
+                                >
+                                  <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                                  />
+                                </svg>
+                              </Link>
                             </div>
                           </div>
                         </div>

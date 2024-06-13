@@ -301,6 +301,17 @@ const UserSetting = () => {
                       multiple
                       value={editedUser.roles}
                       onChange={handleRoleChange}
+                      sx={{
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: '#ccc', // สีขอบปกติ
+                        },
+                        '&:hover .MuiOutlinedInput-notchedOutline': {
+                          borderColor: '#ccc', // สีขอบเมื่อ hover
+                        },
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                          borderColor: 'rgb(159, 159, 159);', // สีขอบเมื่อ focused
+                        },
+                      }}
                       renderValue={(selected) =>
                         selected
                           .map((roleId) => getRoleDisplayName(roleId))
