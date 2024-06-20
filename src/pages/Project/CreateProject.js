@@ -78,10 +78,12 @@ const CreateProject = ({ open, onClose, onCreate }) => {
         console.log('Project data submitted successfully.');
         onClose(); // ปิด Modal ก่อน
         await MySwal.fire({
-          title: <strong>{status}</strong>,
+          title: "Project Created",
           showConfirmButton: false,
-          html: 'Create Project Successfully',
           icon: 'success',
+
+          text: 'Create Project Successfully',
+        
           timer: 1500
         });
         onCreate(); // Refresh หน้า
@@ -141,13 +143,6 @@ const CreateProject = ({ open, onClose, onCreate }) => {
             '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
               borderColor: '#847d7d', // สีของ border ที่ต้องการ
               borderWidth: '2px', // ความกว้างของ border ที่ต้องการ
-            },
-            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#C4C4C4', // ตั้งค่าให้เป็นสีเดียวกับปกติ
-            },
-            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#847d7d', // สีของ border ที่ต้องการเมื่อ focused
-              borderWidth: '2px', // ความกว้างของ border ที่ต้องการเมื่อ focused
             },
           }}
         />

@@ -279,6 +279,7 @@ const Row = ({
                     autoFocus
                     style={{ width: `${textFieldWidth}px`, minWidth: "350px" }}
                     inputRef={inputRef}
+                    className="edit-task-focus"
                   />
                   <Button
                     onClick={handleSaveClick}
@@ -311,10 +312,10 @@ const Row = ({
                 onClose={handleMenuClose}
               >
                 <MenuItem onClick={handleEditClick}>
-                  Edit Task Group Name
+                  Edit task group
                 </MenuItem>
                 <MenuItem onClick={() => handleDeleteTaskGroup(taskGroup.id)}>
-                  Delete Task Group
+                  Delete task group
                 </MenuItem>
               </Menu>
             </div>
@@ -348,6 +349,7 @@ const Row = ({
                       color: "#575858",
                       backgroundColor: "white",
                       marginTop: "8px",
+                      textTransform: 'none',
                     }}
                     onClick={() => handleEditTask(taskItem)}
                   >
@@ -438,9 +440,9 @@ const Row = ({
         </TableRow>
       ))}
       <Dialog open={openDeleteConfirmation} onClose={handleDeleteCancelled}>
-        <DialogTitle>Delete Task-item</DialogTitle>
+        <DialogTitle>Delete Task</DialogTitle>
         <DialogContent>
-          Are you sure you want to delete this task-item?
+          Are you sure you want to delete this task?
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteCancelled} color="primary">
@@ -629,7 +631,7 @@ const Task = () => {
 
       <div className="tmain-content">
         <h1 className="task-page-title" style={{ textAlign: "center" }}>
-          Task Page
+          Task 
         </h1>
         <div
           style={{
@@ -678,6 +680,7 @@ const Task = () => {
                       fontWeight: "bold",
                       width: "450px",
                       fontSize: "23px",
+                      color: "#333",
                     }}
                   >
                     Task Group
@@ -689,6 +692,7 @@ const Task = () => {
                       fontWeight: "bold",
                       width: "380px",
                       fontSize: "23px",
+                      color: "#333",
                     }}
                   >
                     Owner
@@ -700,6 +704,7 @@ const Task = () => {
                       fontWeight: "bold",
                       width: "370px",
                       fontSize: "23px",
+                      color: "#333",
                     }}
                   >
                     Status
@@ -711,6 +716,7 @@ const Task = () => {
                       fontWeight: "bold",
                       width: "340px",
                       fontSize: "23px",
+                      color: "#333",
                     }}
                   >
                     Start Date
@@ -722,6 +728,7 @@ const Task = () => {
                       fontWeight: "bold",
                       width: "305px",
                       fontSize: "23px",
+                      color: "#333",
                     }}
                   >
                     End Date
@@ -733,6 +740,7 @@ const Task = () => {
                       fontWeight: "bold",
                       width: "150px",
                       fontSize: "23px",
+                      color: "#333",
                     }}
                   >
                     Priority

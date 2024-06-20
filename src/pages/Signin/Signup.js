@@ -55,7 +55,7 @@ function Signup() {
         await MySwal.fire({
           title: <strong>{signUpResponse.data.success}</strong>,
           showConfirmButton: false,
-          html: 'Please Keep value to Sign-in',
+          html: 'You have signed up successfully.',
           icon: 'success',
           timer: 1600
         });

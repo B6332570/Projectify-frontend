@@ -165,9 +165,12 @@ const UserSetting = () => {
 
       Swal.fire({
         icon: "success",
-        title: "บันทึกสำเร็จแล้ว !!",
+        title: "Edit Successfully",
         showConfirmButton: false,
         timer: 1500,
+      }).then(() => {
+        
+        window.location.reload();
       });
     } catch (error) {
       console.error("Error updating user:", error);

@@ -139,7 +139,7 @@ const ProjectManage = () => {
           <Col span={24}>
             <Card title="Project Management" bordered={false} className="project-custom-card">
               <Input
-                placeholder="Search Project or Owner"
+                placeholder="Search"
                 value={searchTerm}
                 onChange={handleSearch}
                 style={{ marginBottom: '30px', fontSize: "18px", borderRadius: "5px"}}

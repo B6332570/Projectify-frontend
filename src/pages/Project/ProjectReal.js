@@ -124,9 +124,8 @@ const Project = () => {
         <div className="pmain-content">
           <Navbar />
           <div className="project-content">
-       
             <div className="project-wrapper">
-            <h1 className="project-page-title">Projectify</h1>
+              <h1 className="project-page-title">Projectify</h1>
               {loading ? (
                 <Row gutter={[30, 30]}>
                   {Array.from({ length: pageSize }).map((_, index) => (
@@ -155,7 +154,9 @@ const Project = () => {
                       >
                         <div className="relative">
                           <div
-                            className={`popover ${getPopoverPosition(index)} ${dropdownOpen[project.id] ? "visible" : ""}`}
+                            className={`popover ${getPopoverPosition(index)} ${
+                              dropdownOpen[project.id] ? "visible" : ""
+                            }`}
                             id={`popover-left${project.id}`}
                             role="tooltip"
                           >
@@ -221,15 +222,7 @@ const Project = () => {
                                           Edit
                                         </a>
                                       </li>
-                                      <li>
-                                        <a
-                                          href="#"
-                                          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                          onClick={() => handleAction("Forward")}
-                                        >
-                                          Delete
-                                        </a>
-                                      </li>
+                               
                                     </ul>
                                   </div>
                                 )}
@@ -253,11 +246,13 @@ const Project = () => {
                               </p>
                               <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                                 Created On:{" "}
-                                {new Date(project.createdAt).toLocaleDateString()}
+                                {new Date(
+                                  project.createdAt
+                                ).toLocaleDateString()}
                               </p>
                               <Link
                                 to={`/project/${project.id}/task`}
-                                className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none view-tasks-button"
                               >
                                 View Tasks
                                 <svg

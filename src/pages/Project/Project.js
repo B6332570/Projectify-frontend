@@ -30,6 +30,7 @@ const Project = () => {
   const [dropdownOpen, setDropdownOpen] = useState({});
   const [openEditProject, setOpenEditProject] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(''); // เพิ่ม state สำหรับการค้นหา
 
   const handleEditProjectClick = (project) => {
     setSelectedProject(project);
@@ -80,7 +81,7 @@ const Project = () => {
         const owner = users.find((user) => user.id === project.userId);
         return {
           ...project,
-          owner: owner ? owner.username : "Unknown User",
+          owner: owner ? `${owner.firstName} ${owner.lastName}` : "Unknown User",
           imageUrl: projectImages[index],
         };
       });
@@ -97,11 +98,6 @@ const Project = () => {
     setCurrentPage(page);
   };
 
-  const currentData = data.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
-
   const toggleDropdown = (id) => {
     setDropdownOpen((prevState) => ({
       ...prevState,
@@ -116,6 +112,17 @@ const Project = () => {
   const getPopoverPosition = (index) => {
     return index % 2 === 0 ? "left" : "right";
   };
+
+  // searching
+  const filteredData = data.filter(project => 
+    project.projectsName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    project.owner.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const currentData = filteredData.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   return (
     <div className="backgroundbobweb">
@@ -145,6 +152,16 @@ const Project = () => {
                 <>
                   <div className="create-project-button">
                     <CreateProjectButt onClick={handleCreateProjectClick} />
+                  </div>
+                  {/* เพิ่มช่องค้นหา */}
+                  <div className="search-container">
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      value={searchTerm}
+                      onChange={e => setSearchTerm(e.target.value)}
+                      className="search-input"
+                    />
                   </div>
                   <Row gutter={[30, 30]}>
                     {currentData.map((project, index) => (
@@ -222,17 +239,6 @@ const Project = () => {
                                           Edit
                                         </a>
                                       </li>
-                                      <li>
-                                        <a
-                                          href="#"
-                                          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                          onClick={() =>
-                                            handleAction("Forward")
-                                          }
-                                        >
-                                          Delete
-                                        </a>
-                                      </li>
                                     </ul>
                                   </div>
                                 )}
@@ -290,7 +296,7 @@ const Project = () => {
                   <Pagination
                     current={currentPage}
                     pageSize={pageSize}
-                    total={data.length}
+                    total={filteredData.length}
                     onChange={handlePageChange}
                     className="custom-pagination"
                   />

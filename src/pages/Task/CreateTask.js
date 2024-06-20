@@ -21,6 +21,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import { useTheme } from "@mui/material/styles";
 import "./CreateTask.css"; // import CSS file
 
@@ -147,6 +148,10 @@ const CreateTask = ({ open, onClose }) => {
           icon: "success",
           title: "Task Created",
           text: "Your task has been created successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          window.location.reload(); // reload หน้าเว็ป
         });
       } else {
         console.error("Failed to submit task data.");
@@ -197,6 +202,8 @@ const CreateTask = ({ open, onClose }) => {
         return "Unknown";
     }
   };
+
+  
 
   return (
     <Modal
@@ -293,9 +300,36 @@ const CreateTask = ({ open, onClose }) => {
                 }
                 label="Priority"
               >
-                <MenuItem value="high">High</MenuItem>
-                <MenuItem value="medium">Medium</MenuItem>
-                <MenuItem value="low">Low</MenuItem>
+                <MenuItem value="low">
+                          <ReportProblemIcon
+                            style={{
+                              marginRight: "8px",
+                              color: "69B16C",
+                              verticalAlign: "middle",
+                            }}
+                          />
+                          Low
+                        </MenuItem>
+                        <MenuItem value="medium">
+                          <ReportProblemIcon
+                            style={{
+                              marginRight: "8px",
+                              color: "EFAD25",
+                              verticalAlign: "middle",
+                            }}
+                          />
+                          Medium
+                        </MenuItem>
+                        <MenuItem value="high">
+                          <ReportProblemIcon
+                            style={{
+                              marginRight: "8px",
+                              color: "F16E70",
+                              verticalAlign: "middle",
+                            }}
+                          />
+                          High
+                        </MenuItem>
               </Select>
             </FormControl>
           </Grid>

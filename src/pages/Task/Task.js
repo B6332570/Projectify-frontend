@@ -63,11 +63,15 @@ const statusOrder = [
 ];
 
 const sortTaskItemsByStatus = (taskItems) => {
-  console.log("นี่คือ taskItems", taskItems);
-  return taskItems.sort(
-    (a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status)
-  );
+  return taskItems.sort((a, b) => {
+    if (statusOrder.indexOf(a.status) !== statusOrder.indexOf(b.status)) {
+      return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
+    }
+    // ถ้า status เหมือนกัน ให้เรียงตาม startDate
+    return new Date(a.startDate) - new Date(b.startDate);
+  });
 };
+
 
 const Row = ({
   row,
@@ -349,6 +353,7 @@ const Row = ({
                       color: "#575858",
                       backgroundColor: "white",
                       marginTop: "8px",
+                      textTransform: 'none',
                     }}
                     onClick={() => handleEditTask(taskItem)}
                   >

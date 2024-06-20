@@ -341,7 +341,7 @@ const EditTaskItem = ({ taskItem, onClose, taskGroupId }) => {
 
       MySwal.fire({
         icon: "success",
-        title: "Task Updated Successfully! คราบบบ",
+        title: "Task Updated Successfully!",
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {

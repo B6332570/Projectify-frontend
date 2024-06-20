@@ -52,7 +52,7 @@ function Signin() {
         await MySwal.fire({
           title: <strong >{response.data.message}</strong>,
           showConfirmButton: false,
-          html: "Login Successfully",
+          html: "You have signed in successfully.",
           icon: "success",
           timer: 1500,
         });

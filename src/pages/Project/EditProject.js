@@ -67,7 +67,10 @@ const EditProject = ({ open, onClose, project }) => {
           name="title"
           label="Description"
         >
-          <Input />
+           <Input.TextArea
+            rows={10} // เพิ่มจำนวนแถวที่ต้องการ
+       
+          />
         </Form.Item>
         <Form.Item>
           <Row justify="end">
